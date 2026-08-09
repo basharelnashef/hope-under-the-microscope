@@ -1,40 +1,98 @@
 ---
 title: "HOPE Under the Microscope"
-description: "A finite 12-part paper breakdown with executable evidence."
+description: "A claim-by-claim audit of HOPE v1 with derivations, executable checks, and checksum-authenticated evidence."
 toc: false
 page-layout: full
 ---
 
-## One paper, twelve focused checks
+:::: {.hope-hero}
+## HOPE has a promising functional-neuron idea. Several downstream conclusions require stronger conditions.
 
-This is an independent executable audit of HOPE v1, with bounded diagnostics
-and a proposed corrected reference design. Each part has one readable technical
-breakdown and one exact code package at the frozen `v1.0.0`
-release.
+An independent executable audit of HOPE v1, connecting twelve major claims to
+derivations, bounded counterexamples, tests, checksum-authenticated outputs,
+and a proposed repair, HOPE-R.
+
+::: {.hero-actions}
+[See the claim map](#executive-claim-map){.btn .btn-primary}
+[Reproduce one result](https://github.com/basharelnashef/hope-under-the-microscope/blob/v1.0.0/REPRODUCING.md){.btn .btn-outline-primary}
+[Explore HOPE-R](parts/12-corrected-hope/index.qmd){.btn .btn-outline-primary}
+:::
+
+<small>Source audited: [arXiv:2607.21366v1](https://arxiv.org/abs/2607.21366v1), submitted 23 July 2026. Last source-version check: 10 August 2026; arXiv listed v1 only.</small>
+::::
+
+## Three conclusions to orient the reader
+
+1. **The functional-neuron idea survives an important invariance test.** Exact
+   positive rescaling can change isolated parameters by orders of magnitude
+   while preserving the complete local function and its fixed-distribution
+   norm. A score that changes has measured parameterization, not functional
+   contribution. [`verified_fact` · Part 1](parts/01-neuron-not-filter/index.qmd)
+
+2. **Pairwise validity does not guarantee one global Hilbert geometry.** The
+   fixed Part 5 witness makes every isolated pair legal while the assembled
+   three-neuron Gram table is indefinite. A scalable pair cache therefore
+   needs a separate global consistency contract. [`counterexample` · Part 5](parts/05-one-hilbert-space/index.qmd)
+
+3. **The identified contracts can be made explicit and executable.** HOPE-R
+   combines one calibrated geometry, physical merge semantics, dependency
+   invalidation, live resource accounting, block eligibility, and complete
+   DEFT state ownership. Its local fixtures pass; trained-benchmark value
+   remains an experiment. [`proposed_repair` · Part 12](parts/12-corrected-hope/index.qmd)
 
 The project does not claim an exact reproduction of the paper's ResNet-50 on
-ImageNet or complete DEFT experiments. Evidence labels distinguish paper
-claims, verified facts, counterexamples, independent inferences, and proposed
-repairs.
+ImageNet or complete DEFT experiments. The three conclusions above are entry
+points, not substitutes for their stated assumptions and evidence boundaries.
 
-Questions, corrections, reproducibility reports, and proposals are welcome:
-[email Bashar](mailto:elnashefb@gmail.com) or use the
-[contact and contribution page](contact.qmd).
+## One claim at a time, with a public evidence trail
 
-| Part | Question | Detailed page | Code |
+Every substantive conclusion follows the same traceable path:
+
+> paper location → isolated claim → evidence label → derivation or witness →
+> executable check → checksum-authenticated result
+
+The labels distinguish `paper_claim`, `verified_fact`, `counterexample`,
+`independent_inference`, `proposed_repair`, and `open_question`. A
+counterexample is limited to the claim and domain it reaches, while a proposed
+repair remains explicitly separate from the paper.
+
+## Four reader paths
+
+| Reader | Best first step | Then |
+|---|---|---|
+| Five-minute reader | [Read the three conclusions above](#three-conclusions-to-orient-the-reader) | [Scan the executive claim map](#executive-claim-map) |
+| Technical reader | Follow [Parts 1](parts/01-neuron-not-filter/index.qmd) → [5](parts/05-one-hilbert-space/index.qmd) → [7](parts/07-zero-cost-merge/index.qmd) → [12](parts/12-corrected-hope/index.qmd) | Move from core strength to global obstruction, physical consequence, and repair |
+| Reproducer | [Follow the environment and verification guide](https://github.com/basharelnashef/hope-under-the-microscope/blob/v1.0.0/REPRODUCING.md) | [Inspect the frozen v1.0.0 release](https://github.com/basharelnashef/hope-under-the-microscope/releases/tag/v1.0.0) |
+| Reviewer or original author | Locate the statement in the [claim map](#executive-claim-map) and article source anchors | [Submit a focused correction or alternative interpretation](https://github.com/basharelnashef/hope-under-the-microscope/issues/new?template=correction.yml) |
+
+::: {.callout-note}
+## Verified v1.0.0 facts
+
+One `make test` invocation executes **252 tests** across twelve part-specific
+runs and one cross-part run. `make verify-results` authenticates **95 files**:
+80 CSV/JSON results and 15 editorial PNGs. The counts are per invocation, not
+the sum of repeated CI matrix jobs.
+:::
+
+## Executive claim map
+
+The labels below describe the primary audit outcome, not every record in the
+part. Each article contains its complete claim-level evidence matrix.
+
+| Part | Question and executive result | Primary evidence | Read and reproduce |
 |---:|---|---|---|
-| 1 | **A neuron is not a filter**<br>Why positive rescaling can move the parameters by orders of magnitude while leaving the local function unchanged. | [Read the detailed breakdown](parts/01-neuron-not-filter/index.qmd) | [Code + reproducibility](https://github.com/basharelnashef/hope-under-the-microscope/tree/v1.0.0/experiments/audits/part01_positive_rescaling) |
-| 2 | **The closed-form capacity inside HOPE**<br>A truncated Gaussian moment, its exact boundaries, and the simpler familiar scores contained inside it. | [Read the detailed breakdown](parts/02-closed-form-capacity/index.qmd) | [Code + reproducibility](https://github.com/basharelnashef/hope-under-the-microscope/tree/v1.0.0/experiments/audits/part02_capacity) |
-| 3 | **What data-free actually means**<br>BatchNorm stores marginal moments, but a usable data-free surrogate still adds assumptions about missing joint structure. | [Read the detailed breakdown](parts/03-data-free-meaning/index.qmd) | [Code + reproducibility](https://github.com/basharelnashef/hope-under-the-microscope/tree/v1.0.0/experiments/audits/part03_data_free) |
-| 4 | **When pure maximum entropy is unbounded**<br>Projection constraints that do not span the input space leave unseen directions through which entropy can escape. | [Read the detailed breakdown](parts/04-maximum-entropy/index.qmd) | [Code + reproducibility](https://github.com/basharelnashef/hope-under-the-microscope/tree/v1.0.0/experiments/audits/part04_maximum_entropy) |
-| 5 | **When valid pairs do not form a Hilbert space**<br>Every two-neuron similarity can be locally legal while the assembled global Gram table is impossible. | [Read the detailed breakdown](parts/05-one-hilbert-space/index.qmd) | [Code + reproducibility](https://github.com/basharelnashef/hope-under-the-microscope/tree/v1.0.0/experiments/audits/part05_global_psd) |
-| 6 | **What the axioms derive, and what they do not**<br>The derivation contains a theorem, a changed objective, a bound, and a useful but non-unique design choice. | [Read the detailed breakdown](parts/06-axioms/index.qmd) | [Code + reproducibility](https://github.com/basharelnashef/hope-under-the-microscope/tree/v1.0.0/experiments/audits/part06_axioms) |
-| 7 | **The zero-cost merge that removes one copy**<br>A correct projection can still price a duplicated-coordinate transition instead of the physical one-parent transition that is executed. | [Read the detailed breakdown](parts/07-zero-cost-merge/index.qmd) | [Code + reproducibility](https://github.com/basharelnashef/hope-under-the-microscope/tree/v1.0.0/experiments/audits/part07_merge_semantics) |
-| 8 | **Residual-block eviction: topology and a conditional Gaussian stress test**<br>Figure 3 places the identity input after a ReLU; conditional Gaussian fixtures expose score sensitivity without identifying actual ResNet statistics. | [Read the detailed breakdown](parts/08-residual-eviction/index.qmd) | [Code + reproducibility](https://github.com/basharelnashef/hope-under-the-microscope/tree/v1.0.0/experiments/audits/part08_block_eviction) |
-| 9 | **Constant time per candidate is not a constant-time optimizer**<br>A cached scalar lookup can be constant-time even though enumeration, trajectory scans, memory, and dependency refresh are not. | [Read the detailed breakdown](parts/09-constant-time/index.qmd) | [Code + reproducibility](https://github.com/basharelnashef/hope-under-the-microscope/tree/v1.0.0/experiments/audits/part09_constant_time) |
-| 10 | **DEFT has multiple definitions of core**<br>Destination-gated gradients can freeze a narrow route while the complete source-owned neuron and BatchNorm state still move. | [Read the detailed breakdown](parts/10-deft-core/index.qmd) | [Code + reproducibility](https://github.com/basharelnashef/hope-under-the-microscope/tree/v1.0.0/experiments/audits/part10_deft_core) |
-| 11 | **What the experiments establish**<br>The reported results are useful proofs of concept, but they do not yet isolate the method's mechanisms or provide an exact reproduction target. | [Read the detailed breakdown](parts/11-experimental-evidence/index.qmd) | [Code + reproducibility](https://github.com/basharelnashef/hope-under-the-microscope/tree/v1.0.0/experiments/audits/part11_experimental_evidence) |
-| 12 | **Building a corrected HOPE**<br>HOPE-R keeps the functional-neuron idea while replacing incompatible geometry, merge, cache, block, and DEFT contracts with one runnable reference design. | [Read the detailed breakdown](parts/12-corrected-hope/index.qmd) | [Code + reproducibility](https://github.com/basharelnashef/hope-under-the-microscope/tree/v1.0.0/experiments/audits/part12_corrected_hope) |
+| 1 | **Is the functional neuron rescaling invariant?**<br>Exact positive rescaling preserves the complete local function while isolated tensor scores can change. | `verified_fact` · `independent_inference` | [Article](parts/01-neuron-not-filter/index.qmd) · [Package](https://github.com/basharelnashef/hope-under-the-microscope/tree/v1.0.0/experiments/audits/part01_positive_rescaling) |
+| 2 | **What is inside the closed-form capacity?**<br>The biased-ReLU self-kernel is correct under the stated Gaussian marginal; its zero-shift limit exposes a simple product-score baseline. | `verified_fact` · `independent_inference` | [Article](parts/02-closed-form-capacity/index.qmd) · [Package](https://github.com/basharelnashef/hope-under-the-microscope/tree/v1.0.0/experiments/audits/part02_capacity) |
+| 3 | **What does “data-free” assume?**<br>BatchNorm marginals do not identify a joint law; the method uses a checkpoint-carried, analytically completed model whose ranking impact remains empirical. | `verified_fact` · `independent_inference` · `open_question` | [Article](parts/03-data-free-meaning/index.qmd) · [Package](https://github.com/basharelnashef/hope-under-the-microscope/tree/v1.0.0/experiments/audits/part03_data_free) |
+| 4 | **When is pure maximum entropy bounded?**<br>It is unbounded when feasible constraints leave an unseen direction; identity precision instead defines a reference-relative problem. | `verified_fact` · `independent_inference` · `proposed_repair` | [Article](parts/04-maximum-entropy/index.qmd) · [Package](https://github.com/basharelnashef/hope-under-the-microscope/tree/v1.0.0/experiments/audits/part04_maximum_entropy) |
+| 5 | **Do valid pairs define one global geometry?**<br>Every pair in a fixed witness can be valid while the assembled global Gram table is indefinite. | `counterexample` · `proposed_repair` · `open_question` | [Article](parts/05-one-hilbert-space/index.qmd) · [Package](https://github.com/basharelnashef/hope-under-the-microscope/tree/v1.0.0/experiments/audits/part05_global_psd) |
+| 6 | **Is the endpoint score uniquely forced by the axioms?**<br>It is motivated and bounded on a chosen path, but not unique once path additivity is relaxed. | `verified_fact` · `counterexample` · `proposed_repair` | [Article](parts/06-axioms/index.qmd) · [Package](https://github.com/basharelnashef/hope-under-the-microscope/tree/v1.0.0/experiments/audits/part06_axioms) |
+| 7 | **Does abstract zero cost match the physical merge?**<br>The priced duplicated-coordinate transition can be zero for exact twins while the executed one-parent transition is nonzero. | `counterexample` · `proposed_repair` | [Article](parts/07-zero-cost-merge/index.qmd) · [Package](https://github.com/basharelnashef/hope-under-the-microscope/tree/v1.0.0/experiments/audits/part07_merge_semantics) |
+| 8 | **Which residual blocks can be priced by the stated boundary?**<br>Eviction depends on the actual graph boundary; conditional Gaussian fixtures show sensitivity but do not identify trained ResNet statistics. | `verified_fact` · `counterexample` · `proposed_repair` | [Article](parts/08-residual-eviction/index.qmd) · [Package](https://github.com/basharelnashef/hope-under-the-microscope/tree/v1.0.0/experiments/audits/part08_block_eviction) |
+| 9 | **What is actually constant-time?**<br>One cached lookup can be constant-time while enumeration, trajectory work, memory, dependency refresh, and live payoff are not. | `verified_fact` · `counterexample` · `proposed_repair` | [Article](parts/09-constant-time/index.qmd) · [Package](https://github.com/basharelnashef/hope-under-the-microscope/tree/v1.0.0/experiments/audits/part09_constant_time) |
+| 10 | **What does DEFT protect?**<br>It protects a narrow route, not the complete operator; outgoing state, BatchNorm buffers, and reusable-slot lifecycle need separate contracts. | `verified_fact` · `counterexample` · `proposed_repair` | [Article](parts/10-deft-core/index.qmd) · [Package](https://github.com/basharelnashef/hope-under-the-microscope/tree/v1.0.0/experiments/audits/part10_deft_core) |
+| 11 | **What do the published experiments establish?**<br>They provide proof-of-concept evidence, but missing protocol and uncertainty definitions prevent an exact reproduction target or universal superiority claim. | `verified_fact` · `independent_inference` · `open_question` | [Article](parts/11-experimental-evidence/index.qmd) · [Package](https://github.com/basharelnashef/hope-under-the-microscope/tree/v1.0.0/experiments/audits/part11_experimental_evidence) |
+| 12 | **Can the affected components be made explicit and runnable?**<br>HOPE-R executes the repaired local contracts on deterministic fixtures; trained accuracy, convergence, and systems performance remain unverified. | `proposed_repair` · `verified_fact` · `independent_inference` | [Article](parts/12-corrected-hope/index.qmd) · [Package](https://github.com/basharelnashef/hope-under-the-microscope/tree/v1.0.0/experiments/audits/part12_corrected_hope) |
 
 ## Reproduce the complete frozen package
 
@@ -48,3 +106,12 @@ sha256sum --check artifacts/SHA256SUMS
 
 [Browse the complete repository](https://github.com/basharelnashef/hope-under-the-microscope) or start with
 [Part 1](parts/01-neuron-not-filter/index.qmd).
+
+## Correct, reproduce, or extend
+
+Technical disagreement is welcome when it identifies the affected claim and
+supplies a derivation, source, command, or minimal example. Use the
+[correction form](https://github.com/basharelnashef/hope-under-the-microscope/issues/new?template=correction.yml),
+[proposal form](https://github.com/basharelnashef/hope-under-the-microscope/issues/new?template=proposal.yml),
+or [contact page](contact.qmd) to choose the appropriate public or private
+channel.

@@ -5,6 +5,51 @@
   width: min(100%, 800px);
 }
 
+.hope-hero {
+  background: linear-gradient(135deg, rgba(39, 128, 227, 0.11), rgba(153, 84, 187, 0.08));
+  border: 1px solid rgba(39, 128, 227, 0.22);
+  border-radius: 1rem;
+  margin: 0.5rem 0 2rem;
+  padding: clamp(1.25rem, 3vw, 2.25rem);
+}
+
+.hope-hero h2 {
+  font-size: clamp(1.65rem, 3.4vw, 2.5rem);
+  font-weight: 600;
+  line-height: 1.15;
+  margin-bottom: 1rem;
+}
+
+.hope-hero > p {
+  font-size: 1.12rem;
+  max-width: 74ch;
+}
+
+.hope-hero small {
+  color: var(--bs-secondary-color);
+  display: block;
+  margin-top: 1rem;
+}
+
+.hero-actions,
+.hero-actions p {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+}
+
+.hero-actions {
+  margin: 1.25rem 0 0.5rem;
+}
+
+.hero-actions p {
+  margin: 0;
+}
+
+.hero-actions .btn {
+  margin: 0;
+}
+
 .visual-abstract img,
 img.visual-abstract {
   border: 1px solid rgba(0, 0, 0, 0.1);
@@ -55,5 +100,16 @@ main.content span.math.display {
 @media (max-width: 767px) {
   .table {
     font-size: 0.84rem;
+  }
+
+  .hero-actions,
+  .hero-actions p {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .hero-actions .btn {
+    text-align: center;
+    width: 100%;
   }
 }

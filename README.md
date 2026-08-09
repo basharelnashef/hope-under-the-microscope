@@ -1,8 +1,8 @@
 # HOPE Under the Microscope
 
-An independent, executable 12-part audit of *Hilbert Operator for Progressive
-Encoding (HOPE)*, with bounded diagnostics and a proposed corrected reference
-design.
+An independent, executable, claim-by-claim audit of *Hilbert Operator for
+Progressive Encoding (HOPE)*, with bounded diagnostics and a proposed corrected
+reference design.
 
 - [Read the 12-part site](https://basharelnashef.github.io/hope-under-the-microscope/)
 - [Download the compiled report](downloads/hope-under-the-microscope.pdf)
@@ -10,6 +10,47 @@ design.
 
 This is not author code and does not claim an exact reproduction of the
 paper's ResNet-50/ImageNet or complete DEFT experiments.
+
+## Three conclusions to orient the reader
+
+1. Exact positive rescaling can change isolated parameters by orders of
+   magnitude while preserving the complete local function and its
+   fixed-distribution norm. [Part 1](https://basharelnashef.github.io/hope-under-the-microscope/parts/01-neuron-not-filter/)
+2. Every isolated pair in a fixed three-neuron witness can be valid while the
+   assembled Gram table is indefinite. [Part 5](https://basharelnashef.github.io/hope-under-the-microscope/parts/05-one-hilbert-space/)
+3. HOPE-R makes the proposed geometry, merge, graph, resource, block, and DEFT
+   contracts executable on deterministic fixtures; trained-benchmark value
+   remains open. [Part 12](https://basharelnashef.github.io/hope-under-the-microscope/parts/12-corrected-hope/)
+
+## The audit architecture
+
+Every substantive conclusion follows the same public evidence path:
+
+> paper location → isolated claim → evidence label → derivation or witness →
+> executable check → checksum-authenticated result
+
+The labels keep `paper_claim`, `verified_fact`, `counterexample`,
+`independent_inference`, `proposed_repair`, and `open_question` separate. A
+counterexample refutes only the claim and domain it actually reaches; a
+proposed repair is never presented as part of the paper.
+
+## Start from your role
+
+| Reader | Start here |
+|---|---|
+| Paper reader or reviewer | [Executive claim map](https://basharelnashef.github.io/hope-under-the-microscope/#executive-claim-map) |
+| Mathematical reviewer | [Part 1](https://basharelnashef.github.io/hope-under-the-microscope/parts/01-neuron-not-filter/) or [Part 5](https://basharelnashef.github.io/hope-under-the-microscope/parts/05-one-hilbert-space/) |
+| Research-software reviewer | [`REPRODUCING.md`](REPRODUCING.md) and the [v1.0.0 release](https://github.com/basharelnashef/hope-under-the-microscope/releases/tag/v1.0.0) |
+| Compression or continual-learning researcher | [Part 11](https://basharelnashef.github.io/hope-under-the-microscope/parts/11-experimental-evidence/) followed by [Part 12](https://basharelnashef.github.io/hope-under-the-microscope/parts/12-corrected-hope/) |
+| Critical reader or prospective contributor | [Correction form](https://github.com/basharelnashef/hope-under-the-microscope/issues/new?template=correction.yml) or [proposal form](https://github.com/basharelnashef/hope-under-the-microscope/issues/new?template=proposal.yml) |
+
+## Verified release facts
+
+The current public release is **v1.0.0**. On one fresh local invocation,
+`make test` executes **252 tests** across twelve part-specific runs and one
+cross-part run. `make verify-results` authenticates **95 published files**:
+80 CSV/JSON result files and 15 editorial PNGs. These are per-run counts, not
+the sum of repeated CI matrix jobs.
 
 ## The 12 parts
 
@@ -47,10 +88,10 @@ boundaries.
 
 Email [Bashar Elnashef](mailto:elnashefb@gmail.com) at
 [`elnashefb@gmail.com`](mailto:elnashefb@gmail.com) with questions,
-corrections, reproducibility reports, or proposals. Public problems can be
-reported through the
-[issue tracker](https://github.com/basharelnashef/hope-under-the-microscope/issues),
-and code or documentation contributions are covered by
+corrections, reproducibility reports, or proposals. Use the focused public
+forms for a [correction or reproducibility problem](https://github.com/basharelnashef/hope-under-the-microscope/issues/new?template=correction.yml)
+or a [new check or extension](https://github.com/basharelnashef/hope-under-the-microscope/issues/new?template=proposal.yml).
+Code and documentation contributions are covered by
 [`CONTRIBUTING.md`](CONTRIBUTING.md).
 
 ## Citation

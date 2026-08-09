@@ -8,10 +8,11 @@ are welcome.
 - **Questions or private context:** email
   [Bashar Elnashef](mailto:elnashefb@gmail.com) at `elnashefb@gmail.com`.
 - **Corrections and reproducible problems:** open a
-  [GitHub issue](https://github.com/basharelnashef/hope-under-the-microscope/issues)
+  [focused correction report](https://github.com/basharelnashef/hope-under-the-microscope/issues/new?template=correction.yml)
   so the evidence and resolution remain visible.
-- **Proposals and extensions:** start with an issue or email before investing
-  in a large implementation.
+- **Proposals and extensions:** use the
+  [proposal form](https://github.com/basharelnashef/hope-under-the-microscope/issues/new?template=proposal.yml)
+  or email before investing in a large implementation.
 - **Code, tests, documentation, or figures:** open a pull request against
   `main`.
 - **Sensitive reports:** follow [`SECURITY.md`](SECURITY.md) and use email

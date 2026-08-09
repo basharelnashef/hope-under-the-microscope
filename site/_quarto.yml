@@ -12,7 +12,7 @@ website:
   title: "HOPE Under the Microscope"
   favicon: favicon.svg
   site-url: "https://basharelnashef.github.io/hope-under-the-microscope"
-  description: "A 12-part independent executable audit of HOPE v1."
+  description: "A claim-by-claim audit of HOPE v1 with derivations, executable checks, and checksum-authenticated evidence."
   open-graph: true
   search: true
   page-navigation: true
@@ -28,7 +28,7 @@ website:
         href: parts/index.qmd
       - text: Citation
         href: citation.qmd
-      - text: Contact
+      - text: Participate
         href: contact.qmd
       - text: About
         href: about.qmd

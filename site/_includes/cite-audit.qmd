@@ -26,7 +26,9 @@ claims.
 
 Email [Bashar Elnashef](mailto:elnashefb@gmail.com) at
 [`elnashefb@gmail.com`](mailto:elnashefb@gmail.com) with questions,
-corrections, reproducibility reports, or proposals. For public problems and
-code or documentation contributions, use the
-[issue tracker](https://github.com/basharelnashef/hope-under-the-microscope/issues)
-and [contribution guide](https://github.com/basharelnashef/hope-under-the-microscope/blob/v1.0.0/CONTRIBUTING.md).
+corrections, reproducibility reports, or proposals. For public problems, use
+the [correction form](https://github.com/basharelnashef/hope-under-the-microscope/issues/new?template=correction.yml).
+For new checks or extensions, use the
+[proposal form](https://github.com/basharelnashef/hope-under-the-microscope/issues/new?template=proposal.yml).
+Code and documentation contributions follow the
+[current contribution guide](https://github.com/basharelnashef/hope-under-the-microscope/blob/main/CONTRIBUTING.md).

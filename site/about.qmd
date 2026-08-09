@@ -17,6 +17,19 @@ The repository's [artifact checksum index](https://github.com/basharelnashef/hop
 authenticates the result files, and figures used by the articles are stored
 with the site.
 
+The public version identifiers agree across the release tag, Python package,
+citations, website, and report: the current release is `v1.0.0`. One complete
+test invocation runs 252 tests, and the checksum target authenticates 80
+CSV/JSON result files plus 15 editorial PNGs.
+
+## How to read a conclusion
+
+Each substantive check identifies the paper location, isolates the claim being
+tested, assigns an evidence label, shows the derivation or finite witness, and
+links to the executable check and authenticated result. The six labels keep
+paper claims, verified facts, counterexamples, independent inferences,
+proposed repairs, and open questions distinct.
+
 ## Corrections and contact
 
 Published by [Bashar](https://scholar.google.com/citations?user=tHNUc5wAAAAJ).

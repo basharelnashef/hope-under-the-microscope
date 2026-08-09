@@ -24,6 +24,11 @@ all 15 static editorial PNGs exactly as published; it does not
 require regenerated floating-point result files to be byte-identical across
 platforms.
 
+For the frozen `v1.0.0` package, one `make test` invocation runs 252 tests:
+twelve part-specific unittest runs plus one cross-part run. This is the
+per-invocation total; the CI matrix repeats the same suite in multiple Python
+and NumPy environments. `make verify-results` checks 95 files in total.
+
 ## Running an individual part
 
 Every directory under `experiments/audits/` contains its own scope statement,
@@ -68,8 +73,8 @@ The generated `_site` directory is intentionally not versioned.
 
 ## Questions and reproducibility reports
 
-For a public, reproducible problem, open a
-[GitHub issue](https://github.com/basharelnashef/hope-under-the-microscope/issues)
+For a public, reproducible problem, use the
+[correction form](https://github.com/basharelnashef/hope-under-the-microscope/issues/new?template=correction.yml)
 with the command, environment, observed output, and expected result. Questions
 or reports containing private context can be sent to
 [Bashar Elnashef](mailto:elnashefb@gmail.com). See

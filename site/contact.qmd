@@ -7,6 +7,13 @@ toc: true
 Questions, corrections, reproducibility reports, proposals, and contributions
 are welcome.
 
+| What you want to do | Recommended route |
+|---|---|
+| Correct a claim, equation, result, file, or page | [Open the correction form](https://github.com/basharelnashef/hope-under-the-microscope/issues/new?template=correction.yml) |
+| Propose a new check, experiment, or HOPE-R extension | [Open the proposal form](https://github.com/basharelnashef/hope-under-the-microscope/issues/new?template=proposal.yml) |
+| Submit a focused implementation or documentation change | [Read the contribution guide](https://github.com/basharelnashef/hope-under-the-microscope/blob/main/CONTRIBUTING.md) |
+| Share private or sensitive context | [Email Bashar](mailto:elnashefb@gmail.com) |
+
 ::: {.callout-note}
 ## Email
 
@@ -17,7 +24,7 @@ Contact [Bashar Elnashef](mailto:elnashefb@gmail.com) at
 ## Corrections and reproducible problems
 
 For a public, reproducible problem, open a
-[GitHub issue](https://github.com/basharelnashef/hope-under-the-microscope/issues).
+[focused correction report](https://github.com/basharelnashef/hope-under-the-microscope/issues/new?template=correction.yml).
 Include the affected part, equation, claim, result, or URL; what you observed;
 what you expected; and the smallest supporting example or source.
 
@@ -28,13 +35,14 @@ information, or private datasets.
 ## Proposals and extensions
 
 Ideas for new checks, stronger experiments, alternative derivations, or
-extensions to HOPE-R can begin by email or in an issue. For a substantial code
-change, discussing the scope first helps keep the paper-literal audit separate
-from proposed repairs.
+extensions to HOPE-R can begin by email or through the
+[proposal form](https://github.com/basharelnashef/hope-under-the-microscope/issues/new?template=proposal.yml).
+For a substantial code change, discussing the scope first helps keep the
+paper-literal audit separate from proposed repairs.
 
 ## Code and documentation contributions
 
 Pull requests are welcome for focused changes to code, tests, documentation,
 or figures. Read the
-[contribution guide](https://github.com/basharelnashef/hope-under-the-microscope/blob/v1.0.0/CONTRIBUTING.md)
+[current contribution guide](https://github.com/basharelnashef/hope-under-the-microscope/blob/main/CONTRIBUTING.md)
 for the test commands, evidence requirements, and licensing boundaries.
