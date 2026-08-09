@@ -1,0 +1,40 @@
+---
+title: "Contact and contribute"
+description: "Ask questions, report corrections, propose extensions, or contribute to HOPE Under the Microscope."
+toc: true
+---
+
+Questions, corrections, reproducibility reports, proposals, and contributions
+are welcome.
+
+::: {.callout-note}
+## Email
+
+Contact [Bashar Elnashef](mailto:elnashefb@gmail.com) at
+[`elnashefb@gmail.com`](mailto:elnashefb@gmail.com).
+:::
+
+## Corrections and reproducible problems
+
+For a public, reproducible problem, open a
+[GitHub issue](https://github.com/basharelnashef/hope-under-the-microscope/issues).
+Include the affected part, equation, claim, result, or URL; what you observed;
+what you expected; and the smallest supporting example or source.
+
+If the report contains private context or you are unsure whether it should be
+public, use email first. Do not send credentials, confidential employer
+information, or private datasets.
+
+## Proposals and extensions
+
+Ideas for new checks, stronger experiments, alternative derivations, or
+extensions to HOPE-R can begin by email or in an issue. For a substantial code
+change, discussing the scope first helps keep the paper-literal audit separate
+from proposed repairs.
+
+## Code and documentation contributions
+
+Pull requests are welcome for focused changes to code, tests, documentation,
+or figures. Read the
+[contribution guide](https://github.com/basharelnashef/hope-under-the-microscope/blob/v1.0.0/CONTRIBUTING.md)
+for the test commands, evidence requirements, and licensing boundaries.

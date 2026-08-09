@@ -1,0 +1,3 @@
+epoch,target_validation_accuracy,source_validation_accuracy,h_score,selected_by_target_rule,selected_by_h_rule,paper_result,evidence_label,claim_id,passed
+1,80.0,80.0,80.0,False,True,False,verified_fact,P11-CHECKPOINT-RULE-CONFLICT,True
+2,90.0,10.0,18.0,True,False,False,verified_fact,P11-CHECKPOINT-RULE-CONFLICT,True

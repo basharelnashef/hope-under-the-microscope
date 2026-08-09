@@ -1,0 +1,6 @@
+interpretation_id,paper_defines_interpretation,compatible_with_notation,sampling_unit_known,inferential_use_allowed,reported_test,formal_significance_supported,audit_conclusion,evidence_label,claim_id,passed
+standard_deviation_over_20_scenarios,False,True,False,False,False,False,possible interpretation only; do not infer significance,verified_fact,P11-UNCERTAINTY-UNDEFINED,True
+standard_deviation_over_4_trial_means,False,True,False,False,False,False,possible interpretation only; do not infer significance,verified_fact,P11-UNCERTAINTY-UNDEFINED,True
+standard_error_over_20_scenarios,False,True,False,False,False,False,possible interpretation only; do not infer significance,verified_fact,P11-UNCERTAINTY-UNDEFINED,True
+standard_error_over_4_trial_means,False,True,False,False,False,False,possible interpretation only; do not infer significance,verified_fact,P11-UNCERTAINTY-UNDEFINED,True
+confidence_interval_half_width,False,True,False,False,False,False,possible interpretation only; do not infer significance,verified_fact,P11-UNCERTAINTY-UNDEFINED,True

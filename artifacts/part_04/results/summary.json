@@ -1,0 +1,876 @@
+{
+  "audit_id": "part04_maximum_entropy_rank_audit",
+  "checks": {
+    "duplicate_nullity": {
+      "expected_maximum": 1.0,
+      "expected_minimum": 1.0,
+      "passed": true,
+      "units": "nullity",
+      "value": 1.0
+    },
+    "duplicate_rank": {
+      "expected_maximum": 1.0,
+      "expected_minimum": 1.0,
+      "passed": true,
+      "units": "rank",
+      "value": 1.0
+    },
+    "escape_logdet_gain": {
+      "expected_maximum": 20.0,
+      "expected_minimum": 10.0,
+      "passed": true,
+      "units": "log determinant",
+      "value": 13.815511557963774
+    },
+    "escape_max_constraint_residual": {
+      "expected_maximum": 8e-12,
+      "expected_minimum": 0.0,
+      "passed": true,
+      "units": "variance",
+      "value": 0.0
+    },
+    "escape_max_determinant_lemma_error": {
+      "expected_maximum": 8e-12,
+      "expected_minimum": 0.0,
+      "passed": true,
+      "units": "log determinant",
+      "value": 0.0
+    },
+    "full_span_maximum_error": {
+      "expected_maximum": 8e-12,
+      "expected_minimum": 0.0,
+      "passed": true,
+      "units": "log determinant",
+      "value": 0.0
+    },
+    "full_span_observed_maximum_off_diagonal": {
+      "expected_maximum": 0.0,
+      "expected_minimum": 0.0,
+      "passed": true,
+      "units": "covariance",
+      "value": 0.0
+    },
+    "infeasible_linear_residual": {
+      "expected_maximum": 0.51,
+      "expected_minimum": 0.49,
+      "passed": true,
+      "units": "variance",
+      "value": 0.5000000000000002
+    },
+    "pair_appendix_correlation_error": {
+      "expected_maximum": 8e-12,
+      "expected_minimum": 0.0,
+      "passed": true,
+      "units": "correlation",
+      "value": 1.1102230246251565e-16
+    },
+    "pair_objective_advantage_error": {
+      "expected_maximum": 8e-12,
+      "expected_minimum": 0.0,
+      "passed": true,
+      "units": "log determinant",
+      "value": 3.3306690738754696e-16
+    },
+    "pair_pure_correlation_abs": {
+      "expected_maximum": 8e-12,
+      "expected_minimum": 0.0,
+      "passed": true,
+      "units": "correlation",
+      "value": 3.821054855117038e-17
+    },
+    "pair_rank_domain_rejection_count": {
+      "expected_maximum": 3.0,
+      "expected_minimum": 3.0,
+      "passed": true,
+      "units": "operations",
+      "value": 3.0
+    },
+    "seeded_case_count": {
+      "expected_maximum": 6.0,
+      "expected_minimum": 6.0,
+      "passed": true,
+      "units": "cases",
+      "value": 6.0
+    },
+    "seeded_failure_count": {
+      "expected_maximum": 0.0,
+      "expected_minimum": 0.0,
+      "passed": true,
+      "units": "cases",
+      "value": 0.0
+    },
+    "tau_correlation_range": {
+      "expected_maximum": 0.9,
+      "expected_minimum": 0.75,
+      "passed": true,
+      "units": "correlation",
+      "value": 0.8232599168595268
+    },
+    "tau_max_constraint_residual": {
+      "expected_maximum": 8e-12,
+      "expected_minimum": 0.0,
+      "passed": true,
+      "units": "variance",
+      "value": 1.5543122344752192e-15
+    },
+    "tau_max_stationarity_residual": {
+      "expected_maximum": 2e-11,
+      "expected_minimum": 0.0,
+      "passed": true,
+      "units": "precision",
+      "value": 2.220446049250313e-16
+    }
+  },
+  "claim_ids": [
+    "P04-PURE-MAXENT-FORMULATION",
+    "P04-NONSPANNING-UNBOUNDED",
+    "P04-FULL-SPAN-BOUNDARY",
+    "P04-LOCAL-IDENTITY-PRECISION",
+    "P04-PAIR-RANK-DOMAIN",
+    "P04-IDENTITY-PRIOR-INTERPRETATION",
+    "P04-RELATIVE-ENTROPY-REPAIR",
+    "P04-PRIOR-SCALE-SENSITIVITY"
+  ],
+  "config": {
+    "dtype": "float64",
+    "duplicate_escape_amounts": [
+      0.0,
+      1.0,
+      1000.0
+    ],
+    "escape_amounts": [
+      0.0,
+      1.0,
+      10.0,
+      1000.0,
+      1000000.0
+    ],
+    "full_span_off_diagonals": [
+      -1.999,
+      -1.5,
+      -0.5,
+      0.0,
+      0.5,
+      1.5,
+      1.999
+    ],
+    "seed": 20260803,
+    "seeded_cases": [
+      {
+        "dimension": 3,
+        "rank": 1
+      },
+      {
+        "dimension": 3,
+        "rank": 2
+      },
+      {
+        "dimension": 3,
+        "rank": 3
+      },
+      {
+        "dimension": 5,
+        "rank": 2
+      },
+      {
+        "dimension": 5,
+        "rank": 4
+      },
+      {
+        "dimension": 5,
+        "rank": 5
+      }
+    ],
+    "seeded_escape_amount": 10000.0,
+    "tau_grid": [
+      0.5,
+      0.75,
+      1.0,
+      2.0,
+      4.0,
+      10.0
+    ],
+    "tolerances": {
+      "bound_atol": 8e-12,
+      "constraint_atol": 8e-12,
+      "determinant_lemma_atol": 8e-12,
+      "infeasible_residual_minimum": 0.49,
+      "pair_atol": 8e-12,
+      "stationarity_atol": 2e-11,
+      "trace_atol": 8e-12
+    }
+  },
+  "config_sha256": "5862e4acba9abd8e013f1255eccfe35d15d789dc23061abf75ec7ae4c566781c",
+  "cosine_half_pair": {
+    "appendix_correlation": 0.5000000000000001,
+    "appendix_logdet": 0.0,
+    "appendix_stationarity_residual": 0.0,
+    "case_id": "cosine_half_pair",
+    "description": "Two unit directions separated by 60 degrees with cosine one half.",
+    "evidence_label": "counterexample",
+    "expected_objective_advantage": 0.28768207245178085,
+    "methods": [
+      {
+        "case_id": "cosine_half_pair",
+        "constraint_residual": 2.220446049250313e-16,
+        "correlation": -3.821054855117038e-17,
+        "evidence_label": "counterexample",
+        "logdet": 0.2876820724517812,
+        "method": "pure_local_maximum_entropy",
+        "passed": true,
+        "projection_variance_1": 1.0,
+        "projection_variance_2": 1.0000000000000002
+      },
+      {
+        "case_id": "cosine_half_pair",
+        "constraint_residual": 1.1102230246251565e-16,
+        "correlation": 0.5000000000000001,
+        "evidence_label": "paper_claim",
+        "logdet": 0.0,
+        "method": "appendix_identity_precision_tau_1",
+        "passed": true,
+        "projection_variance_1": 1.0,
+        "projection_variance_2": 0.9999999999999999
+      }
+    ],
+    "passed": true,
+    "pure_correlation": -3.821054855117038e-17,
+    "pure_logdet": 0.2876820724517812,
+    "pure_objective_advantage": 0.2876820724517812,
+    "pure_stationarity_residual": 1.1102230246251565e-16,
+    "raw_correlation": 0.5000000000000001,
+    "target_variances": [
+      1.0,
+      1.0
+    ]
+  },
+  "duplicate_count_vs_rank": {
+    "all_cases_passed": true,
+    "base_logdet": 0.0,
+    "case_id": "duplicate_columns_m2_d2",
+    "constraint_count": 2,
+    "count_equals_dimension": true,
+    "dimension": 2,
+    "evidence_label": "counterexample",
+    "final_logdet": 6.90875477931522,
+    "interpretation": "Constraint count equals ambient dimension, but rank one leaves one unseen direction.",
+    "logdet_gain": 6.90875477931522,
+    "max_constraint_residual": 0.0,
+    "max_determinant_lemma_error": 0.0,
+    "null_direction": [
+      0.0,
+      1.0
+    ],
+    "nullity": 1,
+    "orthogonality_residual": 0.0,
+    "path": [
+      {
+        "case_id": "duplicate_columns_m2_d2",
+        "constraint_count": 2,
+        "determinant_lemma_error": 0.0,
+        "dimension": 2,
+        "logdet": 0.0,
+        "max_constraint_residual": 0.0,
+        "max_eigenvalue": 1.0,
+        "min_eigenvalue": 1.0,
+        "nullity": 1,
+        "passed": true,
+        "rank": 1,
+        "t": 0.0
+      },
+      {
+        "case_id": "duplicate_columns_m2_d2",
+        "constraint_count": 2,
+        "determinant_lemma_error": 0.0,
+        "dimension": 2,
+        "logdet": 0.6931471805599453,
+        "max_constraint_residual": 0.0,
+        "max_eigenvalue": 2.0,
+        "min_eigenvalue": 1.0,
+        "nullity": 1,
+        "passed": true,
+        "rank": 1,
+        "t": 1.0
+      },
+      {
+        "case_id": "duplicate_columns_m2_d2",
+        "constraint_count": 2,
+        "determinant_lemma_error": 0.0,
+        "dimension": 2,
+        "logdet": 6.90875477931522,
+        "max_constraint_residual": 0.0,
+        "max_eigenvalue": 1001.0,
+        "min_eigenvalue": 1.0,
+        "nullity": 1,
+        "passed": true,
+        "rank": 1,
+        "t": 1000.0
+      }
+    ],
+    "rank": 1,
+    "rank_tolerance": 6.280369834735101e-16,
+    "singular_values": [
+      1.4142135623730951,
+      0.0
+    ],
+    "target_variances": [
+      1.0,
+      1.0
+    ]
+  },
+  "full_span_control": {
+    "all_cases_passed": true,
+    "case_id": "full_span_identity_d2",
+    "constraint_count": 2,
+    "dimension": 2,
+    "evidence_label": "verified_fact",
+    "exact_fixture_maximum_logdet": 1.3862943611198906,
+    "nullity": 0,
+    "observed_maximum_logdet": 1.3862943611198906,
+    "observed_maximum_off_diagonal": 0.0,
+    "path": [
+      {
+        "case_id": "full_span_identity_d2",
+        "is_unique_fixture_maximum": false,
+        "logdet": -5.521710949117657,
+        "min_eigenvalue": 0.0007999279769536072,
+        "off_diagonal": -1.999,
+        "passed": true,
+        "trace_logdet_upper_bound": 1.8325814637483102,
+        "trace_value": 5.0
+      },
+      {
+        "case_id": "full_span_identity_d2",
+        "is_unique_fixture_maximum": false,
+        "logdet": 0.5596157879354225,
+        "min_eigenvalue": 0.3786796564403574,
+        "off_diagonal": -1.5,
+        "passed": true,
+        "trace_logdet_upper_bound": 1.8325814637483102,
+        "trace_value": 5.0
+      },
+      {
+        "case_id": "full_span_identity_d2",
+        "is_unique_fixture_maximum": false,
+        "logdet": 1.3217558399823195,
+        "min_eigenvalue": 0.9188611699158102,
+        "off_diagonal": -0.5,
+        "passed": true,
+        "trace_logdet_upper_bound": 1.8325814637483102,
+        "trace_value": 5.0
+      },
+      {
+        "case_id": "full_span_identity_d2",
+        "is_unique_fixture_maximum": true,
+        "logdet": 1.3862943611198906,
+        "min_eigenvalue": 1.0,
+        "off_diagonal": 0.0,
+        "passed": true,
+        "trace_logdet_upper_bound": 1.8325814637483102,
+        "trace_value": 5.0
+      },
+      {
+        "case_id": "full_span_identity_d2",
+        "is_unique_fixture_maximum": false,
+        "logdet": 1.3217558399823195,
+        "min_eigenvalue": 0.9188611699158102,
+        "off_diagonal": 0.5,
+        "passed": true,
+        "trace_logdet_upper_bound": 1.8325814637483102,
+        "trace_value": 5.0
+      },
+      {
+        "case_id": "full_span_identity_d2",
+        "is_unique_fixture_maximum": false,
+        "logdet": 0.5596157879354225,
+        "min_eigenvalue": 0.3786796564403574,
+        "off_diagonal": 1.5,
+        "passed": true,
+        "trace_logdet_upper_bound": 1.8325814637483102,
+        "trace_value": 5.0
+      },
+      {
+        "case_id": "full_span_identity_d2",
+        "is_unique_fixture_maximum": false,
+        "logdet": -5.521710949117657,
+        "min_eigenvalue": 0.0007999279769536072,
+        "off_diagonal": 1.999,
+        "passed": true,
+        "trace_logdet_upper_bound": 1.8325814637483102,
+        "trace_value": 5.0
+      }
+    ],
+    "rank": 2,
+    "rank_tolerance": 4.440892098500626e-16,
+    "singular_values": [
+      1.0,
+      1.0
+    ],
+    "target_variances": [
+      1.0,
+      4.0
+    ],
+    "trace_logdet_upper_bound": 1.8325814637483102
+  },
+  "infeasible_control": {
+    "case_id": "incompatible_duplicate_constraints",
+    "classification": "infeasible",
+    "constraint_count": 2,
+    "dimension": 2,
+    "evidence_label": "verified_fact",
+    "minimum_linear_constraint_residual": 0.5000000000000002,
+    "nullity": 1,
+    "passed": true,
+    "rank": 1,
+    "rank_tolerance": 6.280369834735101e-16,
+    "singular_values": [
+      1.4142135623730951,
+      0.0
+    ],
+    "target_variances": [
+      1.0,
+      2.0
+    ],
+    "unboundedness_claim_applied": false
+  },
+  "method_origins": {
+    "appendix_identity_precision": {
+      "description": "Unit-identity precision and warped pair correlation printed in Appendix E.3.1.",
+      "evidence_label": "paper_claim",
+      "namespace": "hope_repro.paper_literal.maximum_entropy"
+    },
+    "pure_maximum_entropy": {
+      "description": "Section 4 log-determinant objective and identity-free stationarity shape.",
+      "evidence_label": "paper_claim",
+      "namespace": "hope_repro.paper_literal.maximum_entropy"
+    },
+    "rank_analysis": {
+      "description": "Independent finite-dimensional rank proof and deterministic fixtures.",
+      "evidence_label": "verified_fact",
+      "namespace": "experiments.audits.part04_maximum_entropy"
+    },
+    "relative_entropy_reference": {
+      "description": "Explicit KL projection against N(0, tau^2 I), not a paper-reported method.",
+      "evidence_label": "proposed_repair",
+      "namespace": "hope_repro.proposed_repairs.relative_entropy"
+    }
+  },
+  "pair_rank_domain": {
+    "case_id": "collinear_active_pair",
+    "constraint_count": 2,
+    "dimension": 2,
+    "evidence_label": "verified_fact",
+    "linear_constraint_residual": 8.881784197001252e-16,
+    "nullity": 1,
+    "passed": true,
+    "rank": 1,
+    "rank_tolerance": 9.930136612989092e-16,
+    "raw_correlation_magnitude": 1.0,
+    "rejected_operations": [
+      "pure_two_dimensional_pair_solver",
+      "appendix_eq80_eq81_formula",
+      "relative_entropy_pair_solver"
+    ],
+    "rejection_count": 3,
+    "required_rejection_count": 3,
+    "singular_values": [
+      2.23606797749979,
+      0.0
+    ],
+    "target_variances": [
+      1.0,
+      4.0
+    ]
+  },
+  "paper": {
+    "anchors": [
+      "Section 4, PDF pages 6-7",
+      "Appendix E.3.1 and Proposition E.3, PDF page 54",
+      "Eqs. 80-81, PDF page 54",
+      "Eq. 82, PDF page 55"
+    ],
+    "arxiv_id": "2607.21366",
+    "local_pdf": {
+      "bytes": 1089944,
+      "filename": "2607.21366v1.pdf",
+      "sha256": "8106a86c0c72aee05b0fbcc5e13095edc03fe725538b1bfa5c50c18ea806067b",
+      "status": "verified"
+    },
+    "pdf_filename": "2607.21366v1.pdf",
+    "pdf_sha256": "8106a86c0c72aee05b0fbcc5e13095edc03fe725538b1bfa5c50c18ea806067b",
+    "title": "Hilbert Operator for Progressive Encoding (HOPE): A Mathematical Framework for Deconstructing Learned Representations in Deep Networks",
+    "version": "v1"
+  },
+  "passed": true,
+  "rank_deficient_escape": {
+    "all_cases_passed": true,
+    "base_logdet": 1.3862943611198906,
+    "case_id": "rank_deficient_r2_d3",
+    "constraint_count": 2,
+    "dimension": 3,
+    "evidence_label": "counterexample",
+    "final_logdet": 15.201805919083665,
+    "logdet_gain": 13.815511557963774,
+    "max_constraint_residual": 0.0,
+    "max_determinant_lemma_error": 0.0,
+    "null_direction": [
+      0.0,
+      0.0,
+      1.0
+    ],
+    "nullity": 1,
+    "orthogonality_residual": 0.0,
+    "path": [
+      {
+        "case_id": "rank_deficient_r2_d3",
+        "constraint_count": 2,
+        "determinant_lemma_error": 0.0,
+        "dimension": 3,
+        "logdet": 1.3862943611198906,
+        "max_constraint_residual": 0.0,
+        "max_eigenvalue": 4.0,
+        "min_eigenvalue": 1.0,
+        "nullity": 1,
+        "passed": true,
+        "rank": 2,
+        "t": 0.0
+      },
+      {
+        "case_id": "rank_deficient_r2_d3",
+        "constraint_count": 2,
+        "determinant_lemma_error": 0.0,
+        "dimension": 3,
+        "logdet": 2.0794415416798357,
+        "max_constraint_residual": 0.0,
+        "max_eigenvalue": 4.0,
+        "min_eigenvalue": 1.0,
+        "nullity": 1,
+        "passed": true,
+        "rank": 2,
+        "t": 1.0
+      },
+      {
+        "case_id": "rank_deficient_r2_d3",
+        "constraint_count": 2,
+        "determinant_lemma_error": 0.0,
+        "dimension": 3,
+        "logdet": 3.7841896339182615,
+        "max_constraint_residual": 0.0,
+        "max_eigenvalue": 11.0,
+        "min_eigenvalue": 1.0,
+        "nullity": 1,
+        "passed": true,
+        "rank": 2,
+        "t": 10.0
+      },
+      {
+        "case_id": "rank_deficient_r2_d3",
+        "constraint_count": 2,
+        "determinant_lemma_error": 0.0,
+        "dimension": 3,
+        "logdet": 8.295049140435111,
+        "max_constraint_residual": 0.0,
+        "max_eigenvalue": 1001.0,
+        "min_eigenvalue": 1.0,
+        "nullity": 1,
+        "passed": true,
+        "rank": 2,
+        "t": 1000.0
+      },
+      {
+        "case_id": "rank_deficient_r2_d3",
+        "constraint_count": 2,
+        "determinant_lemma_error": 0.0,
+        "dimension": 3,
+        "logdet": 15.201805919083665,
+        "max_constraint_residual": 0.0,
+        "max_eigenvalue": 1000001.0,
+        "min_eigenvalue": 1.0,
+        "nullity": 1,
+        "passed": true,
+        "rank": 2,
+        "t": 1000000.0
+      }
+    ],
+    "rank": 2,
+    "rank_tolerance": 6.661338147750939e-16,
+    "singular_values": [
+      1.0,
+      1.0
+    ],
+    "target_variances": [
+      1.0,
+      4.0
+    ]
+  },
+  "reproduction_scope": {
+    "analysis_role": "counterexample_and_boundary_verification",
+    "checkpoint_or_dataset_used": false,
+    "excludes": [
+      "trained-network behavior",
+      "paper compression metrics",
+      "global pair-kernel positive semidefiniteness",
+      "merge or pruning action quality"
+    ],
+    "includes": [
+      "pure log-determinant rank boundary",
+      "positive-definite nullspace escape paths",
+      "full-spanning bounded control",
+      "infeasible duplicate constraint control",
+      "cosine-one-half local pair objective comparison",
+      "collinear pair rank-domain rejection",
+      "explicit isotropic-reference scale sensitivity"
+    ],
+    "paper_experiment_reproduced": false,
+    "reproduction_scope": "independent_mathematical_audit"
+  },
+  "schema_version": 1,
+  "seeded_rank_cases": {
+    "all_cases_passed": true,
+    "case_count": 6,
+    "cases": [
+      {
+        "base_logdet": 0.01148254765712764,
+        "case_id": "seeded_d3_r1",
+        "classification": "unbounded_feasible_ray",
+        "constraint_count": 1,
+        "determinant_or_bound_residual": 7.283063041541027e-13,
+        "dimension": 3,
+        "max_constraint_residual": 0.0,
+        "nullity": 2,
+        "passed": true,
+        "rank": 1,
+        "rank_tolerance": 4.996003610813204e-16,
+        "seed": 20260803,
+        "singular_values": [
+          0.75
+        ],
+        "target_variances": [
+          0.5138843105472101
+        ],
+        "test_logdet": 9.478427653835947
+      },
+      {
+        "base_logdet": 0.4166517269251093,
+        "case_id": "seeded_d3_r2",
+        "classification": "unbounded_feasible_ray",
+        "constraint_count": 2,
+        "determinant_or_bound_residual": 4.973799150320701e-14,
+        "dimension": 3,
+        "max_constraint_residual": 0.0,
+        "nullity": 1,
+        "passed": true,
+        "rank": 2,
+        "rank_tolerance": 8.326672684688676e-16,
+        "seed": 20260904,
+        "singular_values": [
+          1.2500000000000002,
+          0.7500000000000002
+        ],
+        "target_variances": [
+          1.6699570106806123,
+          2.553687525622955
+        ],
+        "test_logdet": 10.128514097296101
+      },
+      {
+        "base_logdet": 0.31773900985490733,
+        "case_id": "seeded_d3_r3",
+        "classification": "bounded_full_span",
+        "constraint_count": 3,
+        "determinant_or_bound_residual": 0.0,
+        "dimension": 3,
+        "max_constraint_residual": 0.0,
+        "nullity": 0,
+        "passed": true,
+        "rank": 3,
+        "rank_tolerance": 8.326672684688676e-16,
+        "seed": 20261005,
+        "singular_values": [
+          1.2500000000000002,
+          1.0000000000000004,
+          0.7500000000000002
+        ],
+        "target_variances": [
+          0.3148281120271762,
+          1.4591301233036877,
+          3.2340005020356863
+        ],
+        "test_logdet": 0.31773900985490733
+      },
+      {
+        "base_logdet": 0.8973991063136858,
+        "case_id": "seeded_d5_r2",
+        "classification": "unbounded_feasible_ray",
+        "constraint_count": 2,
+        "determinant_or_bound_residual": 4.618527782440651e-14,
+        "dimension": 5,
+        "max_constraint_residual": 0.0,
+        "nullity": 3,
+        "passed": true,
+        "rank": 2,
+        "rank_tolerance": 1.3877787807814459e-15,
+        "seed": 20261106,
+        "singular_values": [
+          1.2500000000000002,
+          0.75
+        ],
+        "target_variances": [
+          1.4980041989792512,
+          1.1176131920644556
+        ],
+        "test_logdet": 9.975676255629319
+      },
+      {
+        "base_logdet": 1.761130092928159,
+        "case_id": "seeded_d5_r4",
+        "classification": "unbounded_feasible_ray",
+        "constraint_count": 4,
+        "determinant_or_bound_residual": 9.64561763794336e-13,
+        "dimension": 5,
+        "max_constraint_residual": 0.0,
+        "nullity": 1,
+        "passed": true,
+        "rank": 4,
+        "rank_tolerance": 1.3877787807814457e-15,
+        "seed": 20261207,
+        "singular_values": [
+          1.25,
+          1.0833333333333335,
+          0.9166666666666665,
+          0.7500000000000002
+        ],
+        "target_variances": [
+          1.0192560103343846,
+          1.4234366906101055,
+          5.587943541577005,
+          1.46930588305365
+        ],
+        "test_logdet": 11.301636839514785
+      },
+      {
+        "base_logdet": 0.7495307907324745,
+        "case_id": "seeded_d5_r5",
+        "classification": "bounded_full_span",
+        "constraint_count": 5,
+        "determinant_or_bound_residual": 0.0,
+        "dimension": 5,
+        "max_constraint_residual": 0.0,
+        "nullity": 0,
+        "passed": true,
+        "rank": 5,
+        "rank_tolerance": 1.3877787807814455e-15,
+        "seed": 20261308,
+        "singular_values": [
+          1.2499999999999998,
+          1.125,
+          1.0000000000000002,
+          0.8749999999999996,
+          0.7500000000000001
+        ],
+        "target_variances": [
+          0.7048380796090881,
+          2.014307868129327,
+          1.4824004590903541,
+          0.7436966625679576,
+          1.3624731575161044
+        ],
+        "test_logdet": 0.7495307907324745
+      }
+    ],
+    "evidence_label": "verified_fact",
+    "failure_count": 0,
+    "full_span_case_count": 2,
+    "rank_deficient_case_count": 4,
+    "seed": 20260803
+  },
+  "status": "passed",
+  "tau_scale_sweep": {
+    "all_cases_passed": true,
+    "case_id": "cosine_half_pair",
+    "cases": [
+      {
+        "case_id": "cosine_half_pair",
+        "constraint_residual": 1.5543122344752192e-15,
+        "correlation": 0.8299262872562317,
+        "kappa": 2.6666666666666665,
+        "kl_to_reference": 1.1736849928118165,
+        "logdet": -0.87956557322999,
+        "passed": true,
+        "stationarity_residual": 0.0,
+        "tau": 0.5
+      },
+      {
+        "case_id": "cosine_half_pair",
+        "constraint_residual": 4.440892098500626e-16,
+        "correlation": 0.6634721866757661,
+        "kappa": 1.1851851851851851,
+        "kl_to_reference": 0.15491147380337456,
+        "logdet": -0.29248530953420776,
+        "passed": true,
+        "stationarity_residual": 2.220446049250313e-16,
+        "tau": 0.75
+      },
+      {
+        "case_id": "cosine_half_pair",
+        "constraint_residual": 1.1102230246251565e-16,
+        "correlation": 0.5000000000000001,
+        "kappa": 0.6666666666666666,
+        "kl_to_reference": 0.0,
+        "logdet": 0.0,
+        "passed": true,
+        "stationarity_residual": 0.0,
+        "tau": 1.0
+      },
+      {
+        "case_id": "cosine_half_pair",
+        "constraint_residual": 2.220446049250313e-16,
+        "correlation": 0.16227766016837944,
+        "kappa": 0.16666666666666666,
+        "kl_to_reference": 0.5620838765346095,
+        "logdet": 0.2609950824477691,
+        "passed": true,
+        "stationarity_residual": 2.220446049250313e-16,
+        "tau": 2.0
+      },
+      {
+        "case_id": "cosine_half_pair",
+        "constraint_residual": 2.220446049250313e-16,
+        "correlation": 0.0415945787922955,
+        "kappa": 0.041666666666666664,
+        "kl_to_reference": 1.7112137155735114,
+        "logdet": 0.2859504650998481,
+        "passed": true,
+        "stationarity_residual": 0.0,
+        "tau": 4.0
+      },
+      {
+        "case_id": "cosine_half_pair",
+        "constraint_residual": 0.0,
+        "correlation": 0.006666370396704897,
+        "kappa": 0.006666666666666666,
+        "kl_to_reference": 3.47464026136711,
+        "logdet": 0.2876376309700068,
+        "passed": true,
+        "stationarity_residual": 0.0,
+        "tau": 10.0
+      }
+    ],
+    "correlation_maximum": 0.8299262872562317,
+    "correlation_minimum": 0.006666370396704897,
+    "correlation_range": 0.8232599168595268,
+    "evidence_label": "proposed_repair",
+    "max_constraint_residual": 1.5543122344752192e-15,
+    "max_stationarity_residual": 2.220446049250313e-16,
+    "strictly_decreasing_with_tau": true,
+    "tau_grid": [
+      0.5,
+      0.75,
+      1.0,
+      2.0,
+      4.0,
+      10.0
+    ],
+    "tau_one_correlation": 0.5000000000000001
+  }
+}

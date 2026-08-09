@@ -1,0 +1,19 @@
+rule_id,paper_anchor,layer,neuron,capacity,trajectory_n,trajectory_e_b,trajectory_cost,trajectory_step,terminal_survivor,threshold_kind,threshold,assignment,evidence_label,claim_id,passed
+eq24_27_trajectory_cost,"Eqs. 24-27, PDF pages 21-22",A,A0,1.0,3.0,10.0,0.3,1,False,global trajectory cost,0.75,slack,paper_claim,P10-TRAJECTORY-PARTITION,True
+eq24_27_trajectory_cost,"Eqs. 24-27, PDF pages 21-22",A,A1,2.0,2.0,8.0,0.5,2,False,global trajectory cost,0.75,slack,paper_claim,P10-TRAJECTORY-PARTITION,True
+eq24_27_trajectory_cost,"Eqs. 24-27, PDF pages 21-22",A,A2,8.0,not_recorded,not_recorded,not_recorded,terminal,True,global trajectory cost,0.75,unassigned,paper_claim,P10-TRAJECTORY-PARTITION,True
+eq24_27_trajectory_cost,"Eqs. 24-27, PDF pages 21-22",B,B0,3.0,3.0,9.0,1.0,3,False,global trajectory cost,0.75,core,paper_claim,P10-TRAJECTORY-PARTITION,True
+eq24_27_trajectory_cost,"Eqs. 24-27, PDF pages 21-22",B,B1,4.0,2.0,5.0,1.6,4,False,global trajectory cost,0.75,core,paper_claim,P10-TRAJECTORY-PARTITION,True
+eq24_27_trajectory_cost,"Eqs. 24-27, PDF pages 21-22",B,B2,5.0,not_recorded,not_recorded,not_recorded,terminal,True,global trajectory cost,0.75,unassigned,paper_claim,P10-TRAJECTORY-PARTITION,True
+definition_h1_layer_capacity,"Definition H.1, PDF page 63",A,A0,1.0,3.0,10.0,0.3,1,False,per-layer current capacity,2.0,slack,paper_claim,P10-LAYER-THRESHOLD-PARTITION,True
+definition_h1_layer_capacity,"Definition H.1, PDF page 63",A,A1,2.0,2.0,8.0,0.5,2,False,per-layer current capacity,2.0,slack,paper_claim,P10-LAYER-THRESHOLD-PARTITION,True
+definition_h1_layer_capacity,"Definition H.1, PDF page 63",A,A2,8.0,not_recorded,not_recorded,not_recorded,terminal,True,per-layer current capacity,2.0,core,paper_claim,P10-LAYER-THRESHOLD-PARTITION,True
+definition_h1_layer_capacity,"Definition H.1, PDF page 63",B,B0,3.0,3.0,9.0,1.0,3,False,per-layer current capacity,4.0,slack,paper_claim,P10-LAYER-THRESHOLD-PARTITION,True
+definition_h1_layer_capacity,"Definition H.1, PDF page 63",B,B1,4.0,2.0,5.0,1.6,4,False,per-layer current capacity,4.0,slack,paper_claim,P10-LAYER-THRESHOLD-PARTITION,True
+definition_h1_layer_capacity,"Definition H.1, PDF page 63",B,B2,5.0,not_recorded,not_recorded,not_recorded,terminal,True,per-layer current capacity,4.0,core,paper_claim,P10-LAYER-THRESHOLD-PARTITION,True
+algorithm3_global_capacity,"Algorithm 3 lines 1-9, PDF page 70",A,A0,1.0,3.0,10.0,0.3,1,False,global current capacity,3.5,slack,paper_claim,P10-CURRENT-CAPACITY-PARTITION,True
+algorithm3_global_capacity,"Algorithm 3 lines 1-9, PDF page 70",A,A1,2.0,2.0,8.0,0.5,2,False,global current capacity,3.5,slack,paper_claim,P10-CURRENT-CAPACITY-PARTITION,True
+algorithm3_global_capacity,"Algorithm 3 lines 1-9, PDF page 70",A,A2,8.0,not_recorded,not_recorded,not_recorded,terminal,True,global current capacity,3.5,core,paper_claim,P10-CURRENT-CAPACITY-PARTITION,True
+algorithm3_global_capacity,"Algorithm 3 lines 1-9, PDF page 70",B,B0,3.0,3.0,9.0,1.0,3,False,global current capacity,3.5,slack,paper_claim,P10-CURRENT-CAPACITY-PARTITION,True
+algorithm3_global_capacity,"Algorithm 3 lines 1-9, PDF page 70",B,B1,4.0,2.0,5.0,1.6,4,False,global current capacity,3.5,core,paper_claim,P10-CURRENT-CAPACITY-PARTITION,True
+algorithm3_global_capacity,"Algorithm 3 lines 1-9, PDF page 70",B,B2,5.0,not_recorded,not_recorded,not_recorded,terminal,True,global current capacity,3.5,core,paper_claim,P10-CURRENT-CAPACITY-PARTITION,True

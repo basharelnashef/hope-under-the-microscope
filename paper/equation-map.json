@@ -1,0 +1,390 @@
+{
+  "part_01": [
+    {
+      "anchor": "Eq. 1",
+      "topic": "Folded BatchNorm effective affine parameters"
+    },
+    {
+      "anchor": "Eq. 2",
+      "topic": "Vector-valued functional neuron"
+    },
+    {
+      "anchor": "Eq. 3",
+      "topic": "Biased ReLU self-kernel"
+    },
+    {
+      "anchor": "Eqs. 30-33",
+      "topic": "Rank-one Hilbert-Schmidt representation"
+    },
+    {
+      "anchor": "Eqs. 73-75",
+      "topic": "Functional capacity factorization"
+    },
+    {
+      "anchor": "Eqs. 77-79",
+      "topic": "Gaussian marginal and ReLU second moment"
+    }
+  ],
+  "part_02": [
+    {
+      "anchor": "Section 5, PDF pages 7-9",
+      "topic": "Hilbert norm, self-kernel framing, and closed-form statement"
+    },
+    {
+      "anchor": "Eq. 3, PDF page 9",
+      "topic": "Biased ReLU self-kernel in the main text"
+    },
+    {
+      "anchor": "Eq. 6, PDF page 13",
+      "topic": "Within-layer pruning cost"
+    },
+    {
+      "anchor": "Section 11.1, PDF page 20",
+      "topic": "Reported compression baselines"
+    },
+    {
+      "anchor": "Eqs. 73-75, PDF page 52",
+      "topic": "Kernel, factored inner product, and capacity"
+    },
+    {
+      "anchor": "Eqs. 77-78, PDF page 52",
+      "topic": "Finite-epsilon variance and negligible-epsilon marginal"
+    },
+    {
+      "anchor": "Eq. 79 and Theorem E.2, PDF page 53",
+      "topic": "Positive-variance ReLU self-kernel derivation"
+    }
+  ],
+  "part_03": [
+    {
+      "anchor": "Footnote 1, PDF page 2",
+      "topic": "Data-free scope for BatchNorm networks and calibration requirement without BatchNorm"
+    },
+    {
+      "anchor": "Section 4, PDF pages 6-7",
+      "topic": "Gaussianity argument, BatchNorm constraints, pseudoinverse mean, and maximum-entropy surrogate"
+    },
+    {
+      "anchor": "Appendix E.1, PDF page 52",
+      "topic": "Preactivation Gaussian premise and the column-space step used by Eq. 76"
+    },
+    {
+      "anchor": "Eqs. 76-78, PDF page 52",
+      "topic": "Surrogate preactivation mean, finite-epsilon variance, and negligible-epsilon Gaussian marginal"
+    },
+    {
+      "anchor": "Realizing Empirical Constraints in Practice, PDF page 53",
+      "topic": "Calibration extension for networks without global BatchNorm statistics"
+    },
+    {
+      "anchor": "Eq. 83, PDF page 55",
+      "topic": "Exact biased Gaussian ReLU pair moment used by the checkpoint diagnostic"
+    }
+  ],
+  "part_04": [
+    {
+      "anchor": "Section 4 Optimal Surrogate, PDF pages 6-7",
+      "topic": "BatchNorm projection constraints and the stated pure log-determinant covariance program"
+    },
+    {
+      "anchor": "Section 4 Optimal Surrogate, PDF page 7",
+      "topic": "Conceptual inverse weighted-outer-product covariance expression"
+    },
+    {
+      "anchor": "Appendix E.3.1, PDF page 54",
+      "topic": "Local pairwise surrogate and identity-plus-weight-outer-products precision matrix"
+    },
+    {
+      "anchor": "Proposition E.3 and Eqs. 80-81, PDF page 54",
+      "topic": "Pairwise warped correlation and blending constant"
+    },
+    {
+      "anchor": "Eq. 82, PDF page 55",
+      "topic": "Resulting bivariate Gaussian preactivation law"
+    }
+  ],
+  "part_05": [
+    {
+      "anchor": "Section 5 and Eqs. 4-5, PDF pages 7-9",
+      "topic": "Common Hilbert-space framing and scalable ReLU cross-kernel"
+    },
+    {
+      "anchor": "Appendix A, Eq. 30 and Proposition A.1, PDF page 35",
+      "topic": "Expectation inner product under one shared surrogate distribution"
+    },
+    {
+      "anchor": "Eq. 73, PDF page 52",
+      "topic": "Activation kernel defined as one expectation under P_X"
+    },
+    {
+      "anchor": "Appendix E.3.1 and Proposition E.3, PDF page 54",
+      "topic": "Local pairwise surrogate and pair-specific warped correlation"
+    },
+    {
+      "anchor": "Eqs. 80-83, PDF pages 54-55",
+      "topic": "Pairwise correlation warp and exact biased bivariate ReLU moment"
+    },
+    {
+      "anchor": "Eqs. 84-85, PDF page 56",
+      "topic": "Normalized zero-bias ReLU approximation used in the global Gram audit"
+    }
+  ],
+  "part_06": [
+    {
+      "anchor": "Sections 6.1-6.2, PDF pages 10-12",
+      "topic": "Continuous capacity-drain model, geometric-speed redefinition, endpoint bound, explicit Axiom 3 relaxation, and live-width normalization"
+    },
+    {
+      "anchor": "Eq. 6, PDF page 13",
+      "topic": "Final paper-literal pruning and merging proxy definitions"
+    },
+    {
+      "anchor": "Lemma C.1, PDF pages 42-43",
+      "topic": "Claimed uniqueness of summed layer capacity under the stated identity, separability, monotonicity, continuity, and partition conditions"
+    },
+    {
+      "anchor": "Theorem C.2 and Eq. 43, PDF pages 43-44",
+      "topic": "Capacity-drain integral with a positive scale-invariant factor and the additional lower-bound step used for extinction"
+    },
+    {
+      "anchor": "Eq. 44, PDF page 44",
+      "topic": "Definition of relative geometric projection cost from state-space speed"
+    },
+    {
+      "anchor": "Lemma C.3 and Eqs. 45-46, PDF pages 44-45",
+      "topic": "Existential high-correlation condition for the straight-path capacity lower bound"
+    },
+    {
+      "anchor": "Theorem C.4 and Eqs. 47-48, PDF pages 45-46",
+      "topic": "Conditional straight-path upper bound by terminal capacity and endpoint distance"
+    },
+    {
+      "anchor": "Proposition C.5, PDF page 46",
+      "topic": "Magnitude-neutrality and extinction checks for the bounded proxy"
+    },
+    {
+      "anchor": "Corollary C.6 and Eq. 49, PDF page 47",
+      "topic": "Locality of the endpoint projection expression"
+    },
+    {
+      "anchor": "Proposition C.11 and Eqs. 58-61, PDF page 50",
+      "topic": "Lp-style operator partition calculation and the p equals one conclusion"
+    }
+  ],
+  "part_07": [
+    {
+      "anchor": "Eq. 6 and Eq. 8, PDF page 13",
+      "topic": "Duplicated-parent merge numerator, one-parent terminal capacity, and nested parent optimization"
+    },
+    {
+      "anchor": "Eqs. 9-11, PDF page 14",
+      "topic": "Realizable unit parent direction, approximate eigen direction, and exact phase check"
+    },
+    {
+      "anchor": "Eqs. 12-15, PDF page 15",
+      "topic": "Printed normalized parent scale and balanced input-output physical realization"
+    },
+    {
+      "anchor": "Eqs. 16-18, PDF page 16",
+      "topic": "Effective parameter combination and BatchNorm parameter recovery"
+    },
+    {
+      "anchor": "Eq. 86, PDF page 57",
+      "topic": "Aggregate tuple mapping defined as the sum of constituent operators"
+    },
+    {
+      "anchor": "Proposition H.4 and Eqs. 116-118, PDF pages 66-67",
+      "topic": "Child-to-parent projection error reused as a claimed merge-distortion contribution"
+    },
+    {
+      "anchor": "Algorithm 2, PDF page 69",
+      "topic": "One child purged while the other child vessel retains the synthesized parent"
+    }
+  ],
+  "part_08": [
+    {
+      "anchor": "Figure 3, PDF page 16",
+      "topic": "Post-activation ResNet V1 block with Y equal to X plus F(X) and terminal output Z equal to ReLU(Y)"
+    },
+    {
+      "anchor": "Eqs. 19-20, PDF page 17",
+      "topic": "Residual-branch eviction score formed by summing local internal-layer bounds and dividing by identity capacity"
+    },
+    {
+      "anchor": "Proposition C.11 and Eqs. 58-61, PDF page 50",
+      "topic": "Additive operator-tuple partition result and its distinction from sequential composition"
+    },
+    {
+      "anchor": "Eq. 79 and Theorem E.2, PDF page 53",
+      "topic": "Biased Gaussian ReLU self-moment used by the independently proposed post-ReLU denominator"
+    },
+    {
+      "anchor": "Appendix F.1-F.2 and Eqs. 86-92, PDF pages 56-57",
+      "topic": "Residual-path eviction motivation and the explicit composition-versus-addition restriction for sequential layers"
+    },
+    {
+      "anchor": "Eqs. 93-97, PDF page 58",
+      "topic": "Local layer-plus-identity bound, coordinate identity operators, and unrectified Gaussian identity moment"
+    },
+    {
+      "anchor": "Eq. 98 and Appendix F.3, PDF page 59",
+      "topic": "Non-residual historical-capacity heuristic, outside the Part 8 identity-shortcut repair domain"
+    }
+  ],
+  "part_09": [
+    {
+      "anchor": "Section 9 and Eq. 21, PDF page 18",
+      "topic": "Global binary rate-distortion planning problem and continuous-knapsack relaxation"
+    },
+    {
+      "anchor": "Eqs. 22-23, PDF page 19",
+      "topic": "Receding-horizon minimum distortion-rate action and static initial parameter payoff"
+    },
+    {
+      "anchor": "Section 10 and Footnote 8, PDF pages 19-20",
+      "topic": "Explicit distinction between constant scalar candidate evaluation and quadratic global merge scan"
+    },
+    {
+      "anchor": "Appendix B.2 and Eqs. 36-37, PDF pages 38-39",
+      "topic": "Static granular and block parameter-footprint definitions"
+    },
+    {
+      "anchor": "Appendix B.3 and Eqs. 38-39, PDF pages 39-40",
+      "topic": "Uniform static-to-live payoff scaling premise and claimed ranking equivalence"
+    },
+    {
+      "anchor": "Appendix B.4 and Eq. 40, PDF page 40",
+      "topic": "Decoupled pair geometry cache, constant scalar repricing, and contradictory O(1) global-scan wording"
+    },
+    {
+      "anchor": "Algorithm 1, PDF page 68",
+      "topic": "Nested global candidate enumeration, same-layer parent refresh, and zero-downstream-recalculation claim"
+    },
+    {
+      "anchor": "Algorithm 2, PDF page 69",
+      "topic": "Physical pruning and merging operations that remove a channel or child vessel"
+    }
+  ],
+  "part_10": [
+    {
+      "anchor": "Eq. 2, PDF page 5",
+      "topic": "Functional-neuron definition including the complete outgoing weight vector"
+    },
+    {
+      "anchor": "Section 11.2.2 and Eqs. 24-27, PDF pages 21-22",
+      "topic": "Global percentile of trajectory-dependent pruning costs and the resulting elasticity rule"
+    },
+    {
+      "anchor": "Figure 4 and Eqs. 28-29, PDF pages 22-23",
+      "topic": "Released-child narrative, slack-to-core structural mask, and destination-elasticity gradient scaling"
+    },
+    {
+      "anchor": "Appendix G.5, PDF pages 61-62",
+      "topic": "Source-specific head graft, slack mask, and restoration of source BatchNorm moving statistics"
+    },
+    {
+      "anchor": "Eq. 102, Definition H.1, and Eqs. 103-105, PDF pages 62-64",
+      "topic": "Per-layer current-capacity partition, destination-owned parameters, and merged-vessel release axiom"
+    },
+    {
+      "anchor": "Assumption 1, Theorems H.1-H.2, and Eqs. 106-114, PDF pages 64-66",
+      "topic": "Scoped structural routing assumptions, initialization shock, and dynamic-decoupling proof"
+    },
+    {
+      "anchor": "Proposition H.4 and Eqs. 116-118, PDF pages 66-67",
+      "topic": "Claimed release of merged child vessels and cumulative local distortion accounting"
+    },
+    {
+      "anchor": "Algorithm 2, PDF page 69",
+      "topic": "Active-layer purge of one merged child and clearing of evicted structure; tensor-storage semantics remain unspecified"
+    },
+    {
+      "anchor": "Algorithm 3, PDF page 70",
+      "topic": "Global current-capacity percentile after merging, source-data checkpointing, and freed-vessel classification"
+    }
+  ],
+  "part_11": [
+    {
+      "anchor": "Section 9 and Eq. 21, PDF page 18",
+      "topic": "Released-parameter budget contrasted with Section 11.1 active-neuron density"
+    },
+    {
+      "anchor": "Section 11.1, PDF page 20",
+      "topic": "Unnumbered ResNet-50 ImageNet compression raster, active-neuron-density axis, and three magnitude baselines"
+    },
+    {
+      "anchor": "Sections 11.2.3-11.2.4 and Tables 1-2, PDF pages 23-24",
+      "topic": "Cross-domain task summary, baseline descriptions, displayed target and source accuracies, and displayed H-scores"
+    },
+    {
+      "anchor": "Appendix G.1-G.3, PDF pages 59-60",
+      "topic": "Trial and task construction, train-validation split, preprocessing, VGG-style architecture, and source and target training regimens"
+    },
+    {
+      "anchor": "Appendix G.4 and Eqs. 99-100, PDF page 61",
+      "topic": "Per-example empirical diagonal Fisher definition and backbone-only EWC penalty"
+    },
+    {
+      "anchor": "Appendix G.5 and Eq. 101, PDF page 61",
+      "topic": "Validation H-score definition, Task 0 hyperparameter selection, target tuning cap, and method-specific search grids"
+    },
+    {
+      "anchor": "Appendix G.5, PDF page 62",
+      "topic": "Peak-target-validation checkpoint rule, final test evaluation, source-head graft, slack mask, and restored source BatchNorm state"
+    },
+    {
+      "anchor": "Algorithm 3, PDF page 70",
+      "topic": "Source-validation requirement, global current-capacity partition, task-conditional source evaluation, and peak-validation-H-score checkpoint rule"
+    }
+  ],
+  "part_12": [
+    {
+      "anchor": "Eqs. 1-5, PDF pages 5-9",
+      "topic": "Folded BatchNorm functional neuron, common-distribution kernel definition, and paper-literal approximate pair kernel"
+    },
+    {
+      "anchor": "Eq. 6 and Eqs. 7-18, PDF pages 13-16",
+      "topic": "Duplicated-coordinate merge objective, parent direction and scale, and physical parameter recovery contrasted with the executed sum-map repair"
+    },
+    {
+      "anchor": "Eqs. 19-20, PDF page 17",
+      "topic": "Paper-literal residual-block eviction score and the boundary for fail-closed corrected eligibility"
+    },
+    {
+      "anchor": "Eqs. 21-23, PDF pages 18-19",
+      "topic": "Global candidate planning, exhaustive minimum-rate selection, and static parameter payoff contrasted with explicit live resource accounting"
+    },
+    {
+      "anchor": "Eqs. 24-29, PDF pages 21-23",
+      "topic": "Trajectory partition, released-vessel narrative, structural mask, and destination-owned elasticity contrasted with one corrected fixed-width state machine"
+    },
+    {
+      "anchor": "Eq. 30 and Proposition A.1, PDF page 35",
+      "topic": "Expectation inner product under one shared distribution and the positive-semidefinite common-Gram guarantee"
+    },
+    {
+      "anchor": "Appendix B.2-B.4 and Eqs. 36-40, PDF pages 38-40",
+      "topic": "Static parameter payoff, claimed ranking equivalence, pair cache, and constant per-candidate scalar arithmetic"
+    },
+    {
+      "anchor": "Eqs. 73-85, PDF pages 52-56",
+      "topic": "Self-kernel, pair-local surrogate, exact biased pair moment, and zero-bias approximation used as paper-literal comparison branches"
+    },
+    {
+      "anchor": "Eq. 86, PDF page 57",
+      "topic": "Aggregate tuple map as a sum of functional contributions, defining the corrected physical merge target"
+    },
+    {
+      "anchor": "Eqs. 93-97, PDF page 58",
+      "topic": "Identity-shortcut decomposition and moment assumptions used to restrict corrected block handling"
+    },
+    {
+      "anchor": "Definition H.1 and Eqs. 102-118, PDF pages 62-67",
+      "topic": "Layer-local partition, routing assumptions, core drift claims, and released-vessel semantics used to specify corrected ownership"
+    },
+    {
+      "anchor": "Algorithms 1-3, PDF pages 68-70",
+      "topic": "Physical surgery, intra-layer refresh, child purge, global current-capacity partition, and task-conditional evaluation contrasted with HOPE-R"
+    }
+  ]
+}

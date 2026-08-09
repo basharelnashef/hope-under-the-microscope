@@ -1,0 +1,5 @@
+fixture_id,task_id,target_accuracy,source_accuracy,task_h,mean_target,mean_source,harmonic_of_means,mean_of_task_h,aggregation_gap,evidence_label,claim_id,passed
+balanced,task_1,50.0,50.0,50.0,50.0,50.0,50.0,50.0,0.0,verified_fact,P11-HSCORE-AGGREGATION-GAP,True
+balanced,task_2,50.0,50.0,50.0,50.0,50.0,50.0,50.0,0.0,verified_fact,P11-HSCORE-AGGREGATION-GAP,True
+crossed,task_1,90.0,10.0,18.0,50.0,50.0,50.0,18.0,32.0,verified_fact,P11-HSCORE-AGGREGATION-GAP,True
+crossed,task_2,10.0,90.0,18.0,50.0,50.0,50.0,18.0,32.0,verified_fact,P11-HSCORE-AGGREGATION-GAP,True

@@ -1,0 +1,311 @@
+{
+  "audit_id": "part09_constant_time_audit",
+  "check_count": 20,
+  "checks": {
+    "candidate_formula_error_count": {
+      "maximum": 0.0,
+      "minimum": 0.0,
+      "passed": true,
+      "units": "count",
+      "value": 0.0
+    },
+    "dependency_refresh_max_error": {
+      "maximum": 0.0,
+      "minimum": 0.0,
+      "passed": true,
+      "units": "absolute",
+      "value": 0.0
+    },
+    "evidence_class_mismatch_count": {
+      "maximum": 0.0,
+      "minimum": 0.0,
+      "passed": true,
+      "units": "count",
+      "value": 0.0
+    },
+    "largest_width_cache_reduction_factor": {
+      "maximum": 109.0,
+      "minimum": 108.0,
+      "passed": true,
+      "units": "work_ratio",
+      "value": 108.63995272171333
+    },
+    "largest_width_empirical_exponent": {
+      "maximum": 3.005,
+      "minimum": 2.995,
+      "passed": true,
+      "units": "log2_ratio",
+      "value": 3.0000002579740146
+    },
+    "memory_formula_error_count": {
+      "maximum": 0.0,
+      "minimum": 0.0,
+      "passed": true,
+      "units": "count",
+      "value": 0.0
+    },
+    "nonfinite_count": {
+      "maximum": 0.0,
+      "minimum": 0.0,
+      "passed": true,
+      "units": "count",
+      "value": 0.0
+    },
+    "operation_formula_error_count": {
+      "maximum": 0.0,
+      "minimum": 0.0,
+      "passed": true,
+      "units": "count",
+      "value": 0.0
+    },
+    "payoff_expected_flip_count": {
+      "maximum": 1.0,
+      "minimum": 1.0,
+      "passed": true,
+      "units": "count",
+      "value": 1.0
+    },
+    "payoff_unexpected_flip_count": {
+      "maximum": 0.0,
+      "minimum": 0.0,
+      "passed": true,
+      "units": "count",
+      "value": 0.0
+    },
+    "predecessor_capacity_change_count": {
+      "maximum": 3.0,
+      "minimum": 3.0,
+      "passed": true,
+      "units": "count",
+      "value": 3.0
+    },
+    "ranking_fixture_alpha_spread": {
+      "maximum": 2.3,
+      "minimum": 2.0,
+      "passed": true,
+      "units": "ratio",
+      "value": 2.1904761904761907
+    },
+    "row_failure_count": {
+      "maximum": 0.0,
+      "minimum": 0.0,
+      "passed": true,
+      "units": "count",
+      "value": 0.0
+    },
+    "stale_best_pair_mismatch_count": {
+      "maximum": 1.0,
+      "minimum": 1.0,
+      "passed": true,
+      "units": "count",
+      "value": 1.0
+    },
+    "stale_pair_value_count": {
+      "maximum": 3.0,
+      "minimum": 3.0,
+      "passed": true,
+      "units": "count",
+      "value": 3.0
+    },
+    "successor_pair_change_count": {
+      "maximum": 3.0,
+      "minimum": 3.0,
+      "passed": true,
+      "units": "count",
+      "value": 3.0
+    },
+    "successor_variance_change_count": {
+      "maximum": 3.0,
+      "minimum": 3.0,
+      "passed": true,
+      "units": "count",
+      "value": 3.0
+    },
+    "width4096_pair_entries": {
+      "maximum": 8386560.0,
+      "minimum": 8386560.0,
+      "passed": true,
+      "units": "pairs",
+      "value": 8386560.0
+    },
+    "width4096_raw_cache_mib": {
+      "maximum": 192.1,
+      "minimum": 191.9,
+      "passed": true,
+      "units": "MiB",
+      "value": 191.953125
+    },
+    "width4096_trajectory_merge_evaluations": {
+      "maximum": 11453245440.0,
+      "minimum": 11453245440.0,
+      "passed": true,
+      "units": "evaluations",
+      "value": 11453245440.0
+    }
+  },
+  "claim_classes": {
+    "P09-ADJACENT-INVALIDATION": "counterexample",
+    "P09-CACHE-MEMORY": "verified_fact",
+    "P09-END-TO-END-BOUNDARY": "independent_inference",
+    "P09-GLOBAL-SCAN-SCOPE": "verified_fact",
+    "P09-PER-CANDIDATE-CACHE": "paper_claim",
+    "P09-REFRESH-REPAIR": "proposed_repair",
+    "P09-SELECTION-AND-PAYOFF": "paper_claim",
+    "P09-STATIC-PAYOFF-FLIP": "counterexample",
+    "P09-TRAJECTORY-CUBIC": "verified_fact"
+  },
+  "claim_ids": [
+    "P09-SELECTION-AND-PAYOFF",
+    "P09-PER-CANDIDATE-CACHE",
+    "P09-GLOBAL-SCAN-SCOPE",
+    "P09-TRAJECTORY-CUBIC",
+    "P09-CACHE-MEMORY",
+    "P09-ADJACENT-INVALIDATION",
+    "P09-REFRESH-REPAIR",
+    "P09-STATIC-PAYOFF-FLIP",
+    "P09-END-TO-END-BOUNDARY"
+  ],
+  "complexity_boundary": {
+    "complete_one_layer_trajectory": "Theta(N^3) cached merge-score evaluations",
+    "one_layer_scan": "Theta(m^2) merge candidates at live width m",
+    "pair_cache": "Theta(N^2) entries",
+    "pair_initialization": "Theta(N^2(d+c)) coordinate work",
+    "single_cached_candidate": "O(1) scalar arithmetic after geometry initialization",
+    "wall_clock_claim": false
+  },
+  "config": {
+    "cache_scalar_model": {
+      "bytes_per_scalar": 8,
+      "excluded": [
+        "pair_indices",
+        "container_overhead",
+        "allocator_overhead"
+      ],
+      "included": [
+        "a",
+        "b",
+        "warped_correlation"
+      ],
+      "scalars_per_pair": 3
+    },
+    "float_dtype": "float64",
+    "full_mode": false,
+    "operation_count_dimensions": {
+      "incoming": 64,
+      "outgoing": 64
+    },
+    "random_sampling": false,
+    "removed_channel": 1,
+    "trajectory": "one layer, one merge per action, live widths N through 2",
+    "wall_clock_benchmark": false,
+    "widths": [
+      8,
+      16,
+      32,
+      64,
+      128,
+      256,
+      512,
+      1024,
+      2048,
+      4096
+    ]
+  },
+  "config_sha256": "5c223ecd9c471dc1358378e65a07f05853bd7c115dfc23ef1ee1b3fb31c8922c",
+  "largest_fixture": {
+    "pair_entries": 8386560,
+    "raw_three_float64_cache_mib": 191.953125,
+    "trajectory_merge_evaluations": 11453245440,
+    "width": 4096
+  },
+  "method_origins": {
+    "cached_scalar_lookup": {
+      "claim_id": "P09-PER-CANDIDATE-CACHE",
+      "evidence_label": "paper_claim",
+      "origin": "HOPE v1 Section 10, Footnote 8, Appendix B.4, and Algorithm 1 line 13",
+      "scope": "one already enumerated candidate with cached geometry and live residual capacity"
+    },
+    "dependency_fixture": {
+      "claim_id": "P09-ADJACENT-INVALIDATION",
+      "evidence_label": "counterexample",
+      "origin": "independent deterministic 1x1 Conv-BN-ReLU-Conv channel-surgery fixture",
+      "scope": "structural invalidation, not trained-network prevalence or accuracy"
+    },
+    "dependency_refresh": {
+      "claim_id": "P09-REFRESH-REPAIR",
+      "evidence_label": "proposed_repair",
+      "origin": "independent dependency-aware recomputation policy",
+      "scope": "the declared feed-forward fixture with fully resolved consumers"
+    },
+    "live_payoff_comparison": {
+      "claim_id": "P09-STATIC-PAYOFF-FLIP",
+      "evidence_label": "counterexample",
+      "origin": "independent exact parameter-count fixtures",
+      "scope": "refutes a general uniform static-to-live scaling factor"
+    },
+    "trajectory_count": {
+      "claim_id": "P09-TRAJECTORY-CUBIC",
+      "evidence_label": "verified_fact",
+      "origin": "exact finite sums over a declared one-layer merge trajectory",
+      "scope": "one candidate removed per action from width N through width 1"
+    }
+  },
+  "paper": {
+    "anchors": [
+      "Sections 9-10 and Eqs. 21-23, PDF pages 18-20",
+      "Appendix B.2-B.4 and Eqs. 36-40, PDF pages 38-40",
+      "Algorithms 1-2, PDF pages 68-69"
+    ],
+    "arxiv_id": "2607.21366",
+    "pdf_sha256": "8106a86c0c72aee05b0fbcc5e13095edc03fe725538b1bfa5c50c18ea806067b",
+    "version": "v1"
+  },
+  "passed": true,
+  "passing_check_count": 20,
+  "payoff_fixture": {
+    "alpha_spread": 2.1904761904761907,
+    "fixture_id": "nonuniform_alpha_flip",
+    "live_first": "B",
+    "static_first": "A"
+  },
+  "refresh_fixture": {
+    "before_best_pair": "1-2",
+    "dependency_refresh_after_best_pair": "0-2",
+    "full_after_best_pair": "0-2",
+    "paper_local_after_best_pair": "1-2"
+  },
+  "reproduction_scope": {
+    "checkpoint_or_dataset_used": false,
+    "claim_boundary": "The audit counts the declared workload and proves invalidation on fixed fixtures. It does not claim a hardware runtime or frequency on trained models.",
+    "excludes": [
+      "trained-network timing, scaling prevalence, accuracy, or loss",
+      "GPU or accelerator wall-clock benchmarks",
+      "Python object, allocator, priority-queue, or index overhead in cache byte counts",
+      "a complete corrected optimizer implementation",
+      "Parts 10 through 12"
+    ],
+    "includes": [
+      "paper source map for Sections 9-10, Eqs. 21-23 and 36-42, and Algorithms 1-2",
+      "exact candidate, scan, refresh, and cache-memory counts",
+      "deterministic operation-count comparison of full recomputation and decoupled caching",
+      "deterministic 1x1 convolution dependency and stale-ranking fixture",
+      "dependency-aware refresh comparison against full recomputation",
+      "static-versus-live payoff ranking reversal and controls"
+    ],
+    "paper_experiment_reproduced": false,
+    "random_sampling_used": false,
+    "reproduction_scope": "independent_complexity_and_dependency_fixture_audit",
+    "wall_clock_benchmark_used": false
+  },
+  "row_counts": {
+    "cache_memory": 10,
+    "candidate_counts": 10,
+    "dependency_invalidation": 9,
+    "operation_counts": 10,
+    "payoff_rankings": 6,
+    "refresh_comparison": 3,
+    "source_map": 10
+  },
+  "schema_version": 1,
+  "status": "passed"
+}

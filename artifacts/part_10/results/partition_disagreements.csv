@@ -1,0 +1,4 @@
+rule_a,rule_b,comparison_scope,disagreement_count,disagreement_neurons,evidence_label,claim_id,passed
+eq24_27_trajectory_cost,definition_h1_layer_capacity,common four-neuron recorded-trajectory domain,2,B0|B1,verified_fact,DEFT-PARTITION-MISMATCH,True
+eq24_27_trajectory_cost,algorithm3_global_capacity,common four-neuron recorded-trajectory domain,1,B0,verified_fact,DEFT-PARTITION-MISMATCH,True
+definition_h1_layer_capacity,algorithm3_global_capacity,all six neurons assigned by both current-capacity rules,1,B1,verified_fact,DEFT-PARTITION-MISMATCH,True

@@ -1,0 +1,11 @@
+step_id,sequence,paper_anchor,priced_or_executed_object,formula_or_action,result,evidence_label,claim_id,passed
+duplicated_target,1,"Eq. 6 and Eq. 8, PDF page 13",priced,"[f_i,f_j] -> [f_p,f_p]",the numerator contains two child-to-parent residuals,paper_claim,P07-DUPLICATED-TARGET,True
+paper_scale,2,"Eq. 12, PDF page 15",priced,s* equals (a+b E_rem) divided by (2 E_rem+b),the scale minimizes the duplicated-coordinate normalized objective,paper_claim,P07-DUPLICATED-TARGET,True
+physical_parent,3,"Eqs. 15-18, PDF pages 15-16",realized,recover one physical parent,the realization reproduces the selected one-parent operator,verified_fact,P07-PHYSICAL-FORWARD-TWIN,True
+aggregate_sum,4,"Eq. 86, PDF page 57",executed,F(Phi)=sum_i f_i,the local aggregate before surgery is f_i+f_j,verified_fact,P07-EXECUTED-SUM-TRANSITION,True
+delete_child,5,"Algorithm 2 lines 12-14, PDF page 69",executed,retain parent in child i vessel and purge child j,the local aggregate after surgery contains one parent,verified_fact,P07-EXECUTED-SUM-TRANSITION,True
+exact_twins,6,"Eq. 6, Eq. 12, Eq. 86, Algorithm 2",comparison,"[f,f] -> [f,f] -> [f,0]",reported distance is zero but executed sum error is ||f||,counterexample,MERGE-TWIN-COUNTEREXAMPLE,True
+correlation_gap,7,bounded independent fixtures,comparison,"D_executed over D_reported under fixed rho, output alignment, and E_rem",the ratio grows from about 4.50 to 31.69 on the declared aligned grid,counterexample,P07-CORRELATION-GAP,True
+normalized_repair,8,independent derivation,repair,s equals (b E_rem+||f_i+f_j||^2) divided by (E_rem+b),minimizes the normalized physical sum residual for fixed psi,proposed_repair,P07-NORMALIZED-SUM-REPAIR,True
+unnormalized_repair,9,independent derivation,repair,s=b,minimizes the unnormalized physical sum residual for fixed psi,proposed_repair,MERGE-SUM-REPAIR,True
+h4_delta,10,"Proposition H.4 and Eqs. 116-118, PDF pages 66-67",downstream claim,delta_k=min_fp sqrt(sum_m ||f_m-f_p||^2),"the displayed delta is the duplicated-coordinate error, not the executed aggregate residual",independent_inference,P07-H4-DISTORTION-GAP,True

@@ -1,0 +1,5 @@
+mode,batch_index,batch_mean,batch_variance,running_mean_before,running_mean_after,running_variance_before,running_variance_after,trainable_parameter_change_norm,source_probe_rmse_before,source_probe_rmse_after,buffers_updated,evidence_label,claim_id,passed
+live_training_buffers,1,4.0,4.0,0.0,2.0,1.0,2.5,0.0,0.0,1.3000196384124931,True,counterexample,P10-BN-BUFFER-DRIFT,True
+live_training_buffers,2,6.0,9.0,2.0,4.0,2.5,5.75,0.0,1.3000196384124931,1.7346960857596274,True,counterexample,P10-BN-BUFFER-DRIFT,True
+frozen_buffer_control,1,4.0,4.0,0.0,0.0,1.0,1.0,0.0,0.0,0.0,False,proposed_repair,P10-BN-STATE-REPAIR,True
+frozen_buffer_control,2,6.0,9.0,0.0,0.0,1.0,1.0,0.0,0.0,0.0,False,proposed_repair,P10-BN-STATE-REPAIR,True

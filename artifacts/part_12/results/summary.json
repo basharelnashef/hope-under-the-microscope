@@ -1,0 +1,352 @@
+{
+  "schema_version": 2,
+  "audit_id": "part12_corrected_hope",
+  "status": "passed",
+  "passed": true,
+  "fixture_version": "hope_r_deterministic_v1",
+  "paper": {
+    "arxiv_id": "2607.21366",
+    "version": "v1",
+    "pdf_filename": "2607.21366v1.pdf",
+    "pdf_sha256": "8106a86c0c72aee05b0fbcc5e13095edc03fe725538b1bfa5c50c18ea806067b",
+    "pdf_bytes": 1089944,
+    "pdf_supplied": false,
+    "pages": 70
+  },
+  "config": {
+    "full_mode": false,
+    "fixture_version": "hope_r_deterministic_v1",
+    "numeric_engine": "NumPy float64 and Python finite scalar checks",
+    "angular_samples": 128,
+    "calibration_measure": "part12_weighted_fixture",
+    "calibration_example_count": 9,
+    "calibration_raw_weights": [
+      1.0,
+      2.0,
+      1.0,
+      3.0,
+      2.0,
+      1.0,
+      4.0,
+      2.0,
+      3.0
+    ],
+    "graph_fixture": "stem_to_mid_to_left_and_right_complete_fanout",
+    "deft_fixture": "two_fixed_width_layers_with_stable_slot_ids",
+    "random_sampling": false
+  },
+  "config_sha256": "23c84a8d1c50b04232d740de701b2169eadb5e022f438a8d78ddcd94c81ae510",
+  "method_origins": {
+    "calibrated_common_geometry": {
+      "namespace": "hope_repro.proposed_repairs.hope_r.common",
+      "evidence_label": "proposed_repair",
+      "claim_id": "P12-CALIBRATED-COMMON-MEASURE",
+      "scope": "one fixed weighted synthetic calibration measure"
+    },
+    "physical_sum_map_merge": {
+      "namespace": "hope_repro.proposed_repairs.hope_r.merge",
+      "evidence_label": "proposed_repair",
+      "claim_id": "P12-SUM-MAP-MERGE",
+      "scope": "deterministic augmented-span search and measured local residual"
+    },
+    "graph_and_resource_contract": {
+      "namespace": "hope_repro.proposed_repairs.hope_r.graph",
+      "evidence_label": "proposed_repair",
+      "claim_id": "P12-DEPENDENCY-CLOSURE",
+      "scope": "resolved supported abstract channel graph and exact declared counts"
+    },
+    "fixed_width_deft_contract": {
+      "namespace": "hope_repro.proposed_repairs.hope_r.deft",
+      "evidence_label": "proposed_repair",
+      "claim_id": "P12-FIXED-WIDTH-DEFT",
+      "scope": "fixed deterministic slots masks optimizer state and BN ownership"
+    }
+  },
+  "reproduction_scope": {
+    "reproduction_scope": "deterministic_local_hope_r_contract_audit",
+    "paper_experiment_reproduced": false,
+    "checkpoint_or_dataset_used": false,
+    "trained_result_generated": false,
+    "wall_clock_benchmark_used": false,
+    "random_sampling_used": false,
+    "includes": [
+      "fixed float64 calibration geometry",
+      "physical one-parent merge residuals",
+      "explicit graph dependency and resource counts",
+      "fixed-width state and ownership transitions",
+      "local deterministic ablations"
+    ],
+    "excludes": [
+      "paper experiment execution",
+      "checkpoint or benchmark data access",
+      "accuracy loss convergence or prevalence measurement",
+      "latency measurement",
+      "universal function preservation or compression superiority"
+    ],
+    "claim_boundary": "The fixtures establish local algebra graph state and accounting contracts only. They do not establish a trained-network outcome."
+  },
+  "output_filenames": [
+    "summary.json",
+    "design_contract.csv",
+    "common_gram_cases.csv",
+    "merge_cases.csv",
+    "invalidation_cases.csv",
+    "resource_accounting.csv",
+    "block_eligibility.csv",
+    "deft_transitions.csv",
+    "integration_ablations.csv",
+    "source_map.csv"
+  ],
+  "row_counts": {
+    "design_contract": 12,
+    "common_gram_cases": 10,
+    "merge_cases": 3,
+    "invalidation_cases": 21,
+    "resource_accounting": 16,
+    "block_eligibility": 8,
+    "deft_transitions": 17,
+    "integration_ablations": 5,
+    "source_map": 12
+  },
+  "csv_passing_row_counts": {
+    "design_contract": 12,
+    "common_gram_cases": 10,
+    "merge_cases": 3,
+    "invalidation_cases": 21,
+    "resource_accounting": 16,
+    "block_eligibility": 8,
+    "deft_transitions": 17,
+    "integration_ablations": 5,
+    "source_map": 12
+  },
+  "check_count": 26,
+  "passing_check_count": 26,
+  "claim_ids": [
+    "P12-CALIBRATED-COMMON-MEASURE",
+    "P12-COMMON-GRAM-PSD",
+    "P12-KERNEL-BOUNDARY-CONTRACT",
+    "P12-SUM-MAP-MERGE",
+    "P12-TWIN-PRESERVATION",
+    "P12-DEPENDENCY-CLOSURE",
+    "P12-REFRESH-EQUIVALENCE",
+    "P12-LIVE-RESOURCE-ACCOUNTING",
+    "P12-BLOCK-ELIGIBILITY",
+    "P12-FIXED-WIDTH-DEFT",
+    "P12-CORE-STATE-INVARIANCE",
+    "P12-GUARANTEE-SCOPE"
+  ],
+  "claim_classes": {
+    "P12-CALIBRATED-COMMON-MEASURE": "proposed_repair",
+    "P12-COMMON-GRAM-PSD": "verified_fact",
+    "P12-KERNEL-BOUNDARY-CONTRACT": "proposed_repair",
+    "P12-SUM-MAP-MERGE": "proposed_repair",
+    "P12-TWIN-PRESERVATION": "verified_fact",
+    "P12-DEPENDENCY-CLOSURE": "proposed_repair",
+    "P12-REFRESH-EQUIVALENCE": "verified_fact",
+    "P12-LIVE-RESOURCE-ACCOUNTING": "proposed_repair",
+    "P12-BLOCK-ELIGIBILITY": "proposed_repair",
+    "P12-FIXED-WIDTH-DEFT": "proposed_repair",
+    "P12-CORE-STATE-INVARIANCE": "verified_fact",
+    "P12-GUARANTEE-SCOPE": "independent_inference"
+  },
+  "headline_metrics": {
+    "common_gram_minimum_eigenvalue": 0.08168052937955,
+    "zero_bias_twin_absolute_residual": 0.0,
+    "biased_twin_absolute_residual": 3.3013233998736706e-16,
+    "noncollinear_absolute_residual": 0.719667789793448,
+    "dependency_key_count": 25,
+    "complete_refresh_value_mismatch_count": 0,
+    "local_only_stale_value_count": 20,
+    "oracle_missing_key_count": 0,
+    "oracle_extra_key_count": 0,
+    "independent_cache_universe_count": 37,
+    "live_parameter_payoff": 10,
+    "initial_static_parameter_payoff": 22,
+    "maximum_masked_parameter_drift": 0.0,
+    "dual_track_source_buffer_drift": 0.0
+  },
+  "checks": {
+    "nonfinite_count": {
+      "value": 0.0,
+      "minimum": 0.0,
+      "maximum": 0.0,
+      "units": "values",
+      "passed": true
+    },
+    "row_failure_count": {
+      "value": 0.0,
+      "minimum": 0.0,
+      "maximum": 0.0,
+      "units": "rows",
+      "passed": true
+    },
+    "evidence_class_mismatch_count": {
+      "value": 0.0,
+      "minimum": 0.0,
+      "maximum": 0.0,
+      "units": "rows",
+      "passed": true
+    },
+    "common_gram_minimum_eigenvalue": {
+      "value": 0.08168052937955,
+      "minimum": -1e-12,
+      "maximum": 100.0,
+      "units": "activation_squared",
+      "passed": true
+    },
+    "common_gram_symmetry_error": {
+      "value": 0.0,
+      "minimum": 0.0,
+      "maximum": 1e-12,
+      "units": "absolute",
+      "passed": true
+    },
+    "bn_fold_max_error": {
+      "value": 0.0,
+      "minimum": 0.0,
+      "maximum": 1e-12,
+      "units": "absolute",
+      "passed": true
+    },
+    "kernel_zero_scale_error": {
+      "value": 0.0,
+      "minimum": 0.0,
+      "maximum": 0.0,
+      "units": "absolute",
+      "passed": true
+    },
+    "maximum_twin_residual": {
+      "value": 3.3013233998736706e-16,
+      "minimum": 0.0,
+      "maximum": 1e-12,
+      "units": "weighted_l2",
+      "passed": true
+    },
+    "noncollinear_residual": {
+      "value": 0.719667789793448,
+      "minimum": 0.1,
+      "maximum": 100.0,
+      "units": "weighted_l2",
+      "passed": true
+    },
+    "dependency_key_count": {
+      "value": 25.0,
+      "minimum": 25.0,
+      "maximum": 25.0,
+      "units": "keys",
+      "passed": true
+    },
+    "complete_refresh_value_mismatch_count": {
+      "value": 0.0,
+      "minimum": 0.0,
+      "maximum": 0.0,
+      "units": "cache_values",
+      "passed": true
+    },
+    "local_only_stale_value_count": {
+      "value": 20.0,
+      "minimum": 20.0,
+      "maximum": 20.0,
+      "units": "cache_values",
+      "passed": true
+    },
+    "oracle_missing_key_count": {
+      "value": 0.0,
+      "minimum": 0.0,
+      "maximum": 0.0,
+      "units": "keys",
+      "passed": true
+    },
+    "oracle_extra_key_count": {
+      "value": 0.0,
+      "minimum": 0.0,
+      "maximum": 0.0,
+      "units": "keys",
+      "passed": true
+    },
+    "independent_cache_universe_count": {
+      "value": 37.0,
+      "minimum": 37.0,
+      "maximum": 37.0,
+      "units": "keys",
+      "passed": true
+    },
+    "live_parameter_payoff": {
+      "value": 10.0,
+      "minimum": 10.0,
+      "maximum": 10.0,
+      "units": "parameters",
+      "passed": true
+    },
+    "initial_static_parameter_payoff": {
+      "value": 22.0,
+      "minimum": 22.0,
+      "maximum": 22.0,
+      "units": "parameters",
+      "passed": true
+    },
+    "current_candidate_count": {
+      "value": 13.0,
+      "minimum": 13.0,
+      "maximum": 13.0,
+      "units": "evaluations",
+      "passed": true
+    },
+    "trajectory_candidate_evaluations": {
+      "value": 24.0,
+      "minimum": 24.0,
+      "maximum": 24.0,
+      "units": "evaluations",
+      "passed": true
+    },
+    "eligible_block_count": {
+      "value": 1.0,
+      "minimum": 1.0,
+      "maximum": 1.0,
+      "units": "blocks",
+      "passed": true
+    },
+    "block_rejection_case_count": {
+      "value": 6.0,
+      "minimum": 6.0,
+      "maximum": 6.0,
+      "units": "cases",
+      "passed": true
+    },
+    "fixed_width_delta": {
+      "value": 0.0,
+      "minimum": 0.0,
+      "maximum": 0.0,
+      "units": "slots",
+      "passed": true
+    },
+    "stable_slot_identity_count": {
+      "value": 1.0,
+      "minimum": 1.0,
+      "maximum": 1.0,
+      "units": "fixtures",
+      "passed": true
+    },
+    "maximum_masked_parameter_drift": {
+      "value": 0.0,
+      "minimum": 0.0,
+      "maximum": 0.0,
+      "units": "absolute",
+      "passed": true
+    },
+    "dual_track_source_buffer_drift": {
+      "value": 0.0,
+      "minimum": 0.0,
+      "maximum": 0.0,
+      "units": "absolute",
+      "passed": true
+    },
+    "integration_ablation_pass_count": {
+      "value": 5.0,
+      "minimum": 5.0,
+      "maximum": 5.0,
+      "units": "ablations",
+      "passed": true
+    }
+  }
+}

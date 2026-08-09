@@ -1,0 +1,72 @@
+{
+  "bn_buffer_estimation": "estimated from the same seeded input positions",
+  "diagnostics": {
+    "max_bn_effective_bias_error": 0.0,
+    "max_bn_effective_in_ratio_error": 2.220446049250313e-16,
+    "max_empirical_capacity_invariance_error": 2.220446049250313e-16,
+    "max_finite_epsilon_capacity_ratio_error": 2.220446049250313e-16,
+    "max_naive_bn_empirical_capacity_ratio_change": 0.26355605736005316,
+    "max_naive_bn_output_relative_l2_change": 0.2674560503807917,
+    "max_output_relative_l2_error": 2.417975574857303e-16,
+    "max_paper_approx_capacity_ratio_error_corrected_bn": 0.3897720953698218
+  },
+  "dtype": "float64",
+  "edge_cases": {
+    "bias_only": {
+      "analytic_capacity": 3.102124354538824,
+      "empirical_capacity": 3.102124354538824,
+      "outgoing_l2": 2.5851036287823534,
+      "raw_l1": 0.0
+    },
+    "disconnected": {
+      "analytic_capacity": 0.0,
+      "empirical_capacity": 0.0,
+      "outgoing_l2": 0.0,
+      "raw_l1": 7.303268089532644
+    }
+  },
+  "input_distribution": "seeded standard Gaussian in 9 dimensions",
+  "paper_anchors": [
+    "Eq. 1",
+    "Eq. 2",
+    "Eq. 3",
+    "Eqs. 30-33",
+    "Eqs. 73-75",
+    "Eq. 77",
+    "Eq. 79"
+  ],
+  "reference_capacities": {
+    "empirical": 2.912545977450133,
+    "finite_epsilon_gaussian_surrogate": 2.927046401205762,
+    "paper_epsilon_free_gaussian_surrogate": 2.9270478035583434
+  },
+  "samples": 8192,
+  "scales": [
+    0.001,
+    0.0017782794100389228,
+    0.0031622776601683794,
+    0.005623413251903491,
+    0.01,
+    0.01778279410038923,
+    0.03162277660168379,
+    0.056234132519034905,
+    0.1,
+    0.1778279410038923,
+    0.31622776601683794,
+    0.5623413251903491,
+    1.0,
+    1.7782794100389228,
+    3.1622776601683795,
+    5.62341325190349,
+    10.0,
+    17.78279410038923,
+    31.622776601683793,
+    56.23413251903491,
+    100.0,
+    177.82794100389228,
+    316.2277660168379,
+    562.341325190349,
+    1000.0
+  ],
+  "seed": 7
+}

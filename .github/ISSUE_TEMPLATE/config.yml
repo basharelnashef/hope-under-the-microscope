@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Private question or context
+    url: https://basharelnashef.github.io/hope-under-the-microscope/contact.html
+    about: Use the public contact page to email Bashar instead of opening a public issue.
+  - name: Contribution guide
+    url: https://github.com/basharelnashef/hope-under-the-microscope/blob/main/CONTRIBUTING.md
+    about: Read the evidence, testing, and licensing guidance before contributing.

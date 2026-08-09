@@ -1,0 +1,30 @@
+cff-version: 1.2.0
+message: "If you use this independent reproduction project, cite this repository and the original HOPE paper."
+title: "HOPE Under the Microscope: Independent Reproduction, Audit, and Extensions"
+type: software
+version: 1.0.0
+license: Apache-2.0
+abstract: >-
+  An independent executable audit of HOPE v1. The software component described
+  by this record is licensed under Apache-2.0. Articles, figures, published
+  result artifacts, and the compiled report are licensed under CC-BY-4.0; see
+  LICENSES.md for the exact file-level mapping.
+authors:
+  - family-names: "Elnashef"
+    given-names: "Bashar"
+    email: "elnashefb@gmail.com"
+    website: "https://scholar.google.com/citations?user=tHNUc5wAAAAJ"
+date-released: 2026-08-09
+repository-code: "https://github.com/basharelnashef/hope-under-the-microscope"
+references:
+  - type: article
+    title: "Hilbert Operator for Progressive Encoding (HOPE): A Mathematical Framework for Deconstructing Learned Representations in Deep Networks"
+    authors:
+      - family-names: Mobahi
+        given-names: Hossein
+      - family-names: Bartlett
+        given-names: Peter L.
+    year: 2026
+    identifiers:
+      - type: url
+        value: "https://arxiv.org/abs/2607.21366v1"

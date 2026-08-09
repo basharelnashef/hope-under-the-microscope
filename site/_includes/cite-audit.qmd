@@ -1,0 +1,32 @@
+## Cite this audit
+
+If this article or its executable evidence is useful in your work, please cite
+the complete twelve-part audit:
+
+> Elnashef, Bashar. *HOPE Under the Microscope: Independent Reproduction,
+> Audit, and Extensions*. Version 1.0.0, 2026.
+
+```bibtex
+@software{elnashef2026hope,
+  author  = {Elnashef, Bashar},
+  title   = {{HOPE} Under the Microscope: Independent Reproduction, Audit, and Extensions},
+  year    = {2026},
+  version = {1.0.0},
+  url     = {https://github.com/basharelnashef/hope-under-the-microscope},
+  note    = {Independent executable 12-part audit of HOPE v1}
+}
+```
+
+Machine-readable records: [CITATION.cff](https://github.com/basharelnashef/hope-under-the-microscope/blob/v1.0.0/CITATION.cff)
+and [CITATION.bib](https://github.com/basharelnashef/hope-under-the-microscope/blob/v1.0.0/CITATION.bib).
+Please cite the original HOPE paper separately when referring to its method or
+claims.
+
+## Questions, corrections, and contributions
+
+Email [Bashar Elnashef](mailto:elnashefb@gmail.com) at
+[`elnashefb@gmail.com`](mailto:elnashefb@gmail.com) with questions,
+corrections, reproducibility reports, or proposals. For public problems and
+code or documentation contributions, use the
+[issue tracker](https://github.com/basharelnashef/hope-under-the-microscope/issues)
+and [contribution guide](https://github.com/basharelnashef/hope-under-the-microscope/blob/v1.0.0/CONTRIBUTING.md).

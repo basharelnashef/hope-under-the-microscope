@@ -1,0 +1,586 @@
+---
+title: "What data-free actually means"
+description: "BatchNorm stores marginal moments, but a usable data-free surrogate still adds assumptions about missing joint structure."
+part: 3
+toc: true
+execute:
+  enabled: false
+---
+
+::: {.callout-note appearance="simple"}
+## Code and reproducibility
+
+This page is paired with the immutable `v1.0.0` release.
+
+- [Exact audit package](https://github.com/basharelnashef/hope-under-the-microscope/tree/v1.0.0/experiments/audits/part03_data_free)
+- [Focused tests](https://github.com/basharelnashef/hope-under-the-microscope/blob/v1.0.0/experiments/audits/part03_data_free/test_run.py)
+- [Artifact checksums](https://github.com/basharelnashef/hope-under-the-microscope/blob/v1.0.0/artifacts/SHA256SUMS)
+- [Evidence: `layer_summary.csv`](https://github.com/basharelnashef/hope-under-the-microscope/blob/v1.0.0/artifacts/part_03/results/layer_summary.csv)
+- [Evidence: `pair_summary.csv`](https://github.com/basharelnashef/hope-under-the-microscope/blob/v1.0.0/artifacts/part_03/results/pair_summary.csv)
+
+From the repository root:
+
+```bash
+python -m unittest discover -s experiments/audits/part03_data_free -p 'test_*.py' -v
+```
+
+Scope: The included results support a bounded checkpoint study. A fresh
+dataset-backed run requires external checkpoint, data, and software
+dependencies that are not included in this release.
+
+:::
+
+*Part 3 of HOPE Under the Microscope*
+
+A data-free method still needs a model of the data.
+
+In HOPE, some of that model is already inside a trained BatchNorm checkpoint.
+Each normalized channel carries a running mean and variance accumulated during
+training. Those numbers are real information about the signals the network
+once saw.
+
+But they are not the whole distribution. They do not record how channels move
+together. They do not record skewness, heavy tails, multimodality, spatial
+dependence, or class-conditional structure. And they do not prove that a
+trained feature direction is Gaussian.
+
+HOPE bridges that gap with a Gaussian surrogate. This is the right place to be
+precise about the phrase "data-free":
+
+> Data-free is not assumption-free. The checkpoint supplies per-channel
+> running means and variances; the surrogate supplies the unobserved
+> distributional structure needed by the analytical kernel.
+
+That distinction does not make the surrogate useless. It tells us what must be
+tested.
+
+This article is bound to
+[arXiv:2607.21366v1](https://arxiv.org/abs/2607.21366v1). The exact 70-page
+PDF fingerprint is recorded in the
+[paper manifest](https://github.com/basharelnashef/hope-under-the-microscope/blob/v1.0.0/paper/manifest.json).
+The exact anchors are physical PDF pages 2, 6, 7, 52, 53, and 55; Eq. 83 on
+page 55 supplies the exact biased pair moment used by the diagnostic. The
+paper traceability summary above separates the paper's statements from the
+algebra and diagnostics developed here.
+
+## Evidence labels used here
+
+This article uses four labels deliberately:
+
+- `paper_claim`: what the paper says.
+- `verified_fact`: algebra proved independently here, or a checkpoint fact
+  backed by a frozen audit.
+- `independent_inference`: our interpretation of stated premises.
+- `open_question`: something neither the source nor the current evidence
+  resolves.
+
+The empirical checkpoint audit is frozen. Its measurements are a
+`verified_fact` about one declared VGG-8 checkpoint and sample, not a universal
+Gaussian-fit verdict.
+
+## The strongest fair reading of HOPE's idea
+
+`paper_claim` - HOPE needs expectations such as
+
+$$
+K(i,j)=
+\mathbb E\left[
+\operatorname{ReLU}(Y_i)\operatorname{ReLU}(Y_j)
+\right]
+$$
+
+to compare the functions computed by neurons. If the original training data
+are unavailable, those expectations cannot be evaluated directly over the
+true layer-input distribution.
+
+The paper's answer is not to pretend that no distribution is needed. Section
+4 explicitly says the true input law is inaccessible and constructs a
+surrogate. For a BatchNorm network, the checkpoint already contains empirical
+constraints on each raw preactivation. HOPE uses those constraints to choose a
+continuous Gaussian model, then evaluates the required ReLU moments
+analytically.
+
+This is an appealing computational exchange:
+
+```text
+stored moments + distributional model -> analytical expectations
+```
+
+It avoids repeatedly passing a dataset through the network during progressive
+encoding. It also makes the assumptions inspectable. That is stronger than a
+black-box score, provided we keep the stored evidence and the added model
+separate.
+
+On PDF page 2, the paper calls the method data-free for networks with
+BatchNorm. Footnote 1 immediately gives the scope qualifier: architectures
+without BatchNorm require a one-time calibration pass on a small data batch.
+So even in the paper's own terminology, "data-free" describes the evaluation
+procedure available for a particular kind of checkpoint. It does not mean
+that the checkpoint contains no trace of its training distribution, and it
+does not mean distribution-free.
+
+## What BatchNorm actually stores
+
+Consider one layer. Flatten the input patch to a vector
+$X\in\mathbb R^n$, and collect the current raw channel weights as rows of
+$W\in\mathbb R^{c\times n}$. In the bias-free model used for this
+derivation, the raw preactivation vector is
+
+$$
+Z=WX.
+$$
+
+For each channel $i$, BatchNorm keeps a running mean $\mu_i$ and running
+variance $\sigma_i^2$. In an idealized stationary setting where those
+values equal exact moments under the same current map,
+
+$$
+\mu_i=\mathbb E[w_i^\top X],
+\qquad
+\sigma_i^2=\operatorname{Var}(w_i^\top X).
+$$
+
+Equivalently, with input mean $m_X$ and covariance $\Sigma_X$,
+
+$$
+Wm_X=\mu_{\mathrm{BN}},
+\qquad
+w_i^\top\Sigma_Xw_i=\sigma_i^2.
+$$
+
+`paper_claim` - These are the constraints that Section 4 uses to construct one
+shared surrogate for a layer.
+
+They are useful. The mean constraint locates the center as seen through each
+trained filter. The variance constraint measures the scale of each raw
+projection. After the learned BatchNorm affine transformation, those moments
+lead to the effective preactivation parameters used in the self-kernel.
+
+But notice the shape of the information: one mean and one variance per scalar
+projection. BatchNorm observes a collection of one-dimensional shadows.
+
+## What BatchNorm does not store
+
+Suppose two channels have centered raw preactivations $Z_i$ and $Z_j$.
+Knowing
+
+$$
+\mathbb E[Z_i],\quad \operatorname{Var}(Z_i),\quad
+\mathbb E[Z_j],\quad \operatorname{Var}(Z_j)
+$$
+
+does not give
+
+$$
+\operatorname{Cov}(Z_i,Z_j).
+$$
+
+Nor does it determine the joint distribution. Separate marginals can be
+coupled in many ways.
+
+`verified_fact` - Let $U$ and $V$ be independent standard normal random
+variables. Compare three pairs:
+
+$$
+(U,U),\qquad (U,-U),\qquad (U,V).
+$$
+
+Every coordinate in all three pairs is standard normal. Each channel
+therefore has the same mean, variance, and ReLU self-energy:
+
+$$
+\mathbb E[\operatorname{ReLU}(U)^2]=\frac12.
+$$
+
+Yet the ReLU cross-moment is
+
+$$
+\frac12,\qquad 0,\qquad \frac{1}{2\pi},
+$$
+
+respectively. Identical one-dimensional marginals can support maximally
+aligned, anti-aligned, or independent pair behavior.
+
+This is not a claim that any of those three toy couplings is the trained
+network's joint distribution. It is a proof of non-identifiability: separate
+channel statistics alone cannot tell us which dependence is present.
+
+That boundary matters because HOPE uses both kinds of quantities:
+
+- The self-kernel $K(i,i)$ depends only on one channel's marginal.
+- The pair kernel $K(i,j)$ depends on a joint law.
+
+BatchNorm can support the first more directly than the second.
+
+## A marginal Gaussian is enough for the self-kernel
+
+After BatchNorm and its learned affine transform, write
+
+$$
+Y_i=
+\frac{\gamma_i}{\sqrt{\sigma_i^2+\epsilon}}
+(w_i^\top X-\mu_i)+\beta_i.
+$$
+
+If the stored moments agree with the moments of the current raw projection,
+then
+
+$$
+\mathbb E[Y_i]=\beta_i
+$$
+
+and
+
+$$
+\operatorname{Var}(Y_i)=
+\gamma_i^2
+\frac{\sigma_i^2}{\sigma_i^2+\epsilon}.
+$$
+
+`paper_claim` - Eq. 77 prints the finite-epsilon variance. The text then takes
+epsilon to be negligible and Eq. 78 writes
+
+$$
+Y_i\sim\mathcal N(\beta_i,\gamma_i^2).
+$$
+
+Under that scalar Gaussian premise, the ReLU self-kernel is a
+one-dimensional truncated-normal moment. Appendix E.2 evaluates it in closed
+form:
+
+$$
+K(i,i)=
+(\gamma_i^2+\beta_i^2)
+\Phi\left(\frac{\beta_i}{|\gamma_i|}\right)
++
+\beta_i|\gamma_i|
+\phi\left(\frac{\beta_i}{|\gamma_i|}\right).
+$$
+
+Part 2 independently verified this identity under its stated marginal model.
+Part 3 asks the upstream question: how well does that marginal model describe
+captured checkpoint preactivations?
+
+The distinction is important. A poor empirical fit would not make the integral
+wrong. It would show that its premise is a poor approximation for the
+evaluated channel and sample. A close fit would support the approximation in
+that bounded setting, not establish a universal theorem.
+
+## A pair kernel needs dependence too
+
+The cross-kernel is
+
+$$
+K(i,j)=
+\mathbb E[
+\operatorname{ReLU}(Y_i)
+\operatorname{ReLU}(Y_j)
+].
+$$
+
+Even if both scalar marginals are exactly Gaussian, this expectation remains
+undetermined until their dependence is specified. Under a bivariate Gaussian
+model, a correlation parameter completes the pair law. But BatchNorm does not
+store that correlation.
+
+`paper_claim` - Section 4 proposes a shared maximum-entropy covariance under
+the per-channel variance constraints, then says that practical pairwise
+operations bypass the full high-dimensional covariance. Appendix E develops
+the pair construction.
+
+Part 3 stops at the information boundary: the dependence is reconstructed, not
+read directly from separate BatchNorm buffers. Whether the entropy problem is
+well-posed belongs to Part 4. Whether separately constructed pair kernels form
+one global positive-semidefinite Gram matrix belongs to Part 5.
+
+This separation prevents one valid criticism from being stretched into a
+different claim. "BatchNorm does not identify the joint law" is exact. "The
+paper's selected joint surrogate is wrong on every network" is not established.
+
+## What the Gaussianity argument does and does not prove
+
+`paper_claim` - On PDF page 6, HOPE gives a two-step motivation.
+
+First, a neuron observes a high-dimensional input through a scalar weighted
+sum. The paper invokes the Central Limit Theorem and the Diaconis-Freedman
+effect to argue that high-fan-in preactivations become Gaussian. It adds that
+although ReLU disrupts Gaussianity, later high-dimensional linear maps smooth
+the signal back toward Gaussian preactivations.
+
+Second, it chooses a multivariate Gaussian input surrogate because every
+linear combination of a multivariate Gaussian is Gaussian. In the
+"Post-ReLU Support Paradox" box, it argues that the kernel depends only on a
+two-dimensional preactivation slice, so replacing the nonnegative ambient
+post-ReLU support can remain asymptotically accurate.
+
+This is a coherent motivation. It is not itself a measurement; the frozen
+checkpoint audit below supplies one bounded empirical test.
+
+`independent_inference` - Central-limit intuition has conditions. Contributions
+must not be dominated by a small number of terms, and their dependence must be
+controlled. Typical-projection results concern most or randomly oriented
+directions under their hypotheses. A trained filter is not drawn independently
+of the data. Optimization selects directions that detect structure.
+
+Modern convolutional layers add concrete reasons to measure rather than
+assume:
+
+- a receptive field can be small;
+- neighboring spatial values can be strongly correlated;
+- post-ReLU inputs can be sparse and asymmetric;
+- a few weights can dominate a projection;
+- mixtures of classes or activation regimes can remain multimodal;
+- early, middle, and late layers need not behave alike.
+
+None of these bullets proves non-Gaussianity. Together they explain why an
+asymptotic story should be checked in the actual trained directions used by
+the method.
+
+`open_question` - For a fixed checkpoint and sample, which channels are close
+enough to the Gaussian surrogate for the resulting kernel estimates, and
+which are not?
+
+## Eq. 76: the width objection that does not work
+
+The review history matters here because an initially tempting criticism was
+wrong.
+
+On PDF page 7, HOPE defines the layer surrogate mean as
+
+$$
+\widehat\mu_X=W^+\mu_{\mathrm{BN}}.
+$$
+
+Appendix E.1 then uses
+
+$$
+W\widehat\mu_X=WW^+\mu_{\mathrm{BN}}=\mu_{\mathrm{BN}}
+$$
+
+to obtain Eq. 76.
+
+The equality holds exactly when $\mu_{\mathrm{BN}}$ lies in the column space of
+$W$, because $WW^+$ is the orthogonal projector onto that space.
+
+It can look as if an expanding layer, with more output channels than input
+coordinates, should make an arbitrary $\mu_{\mathrm{BN}}$ miss that subspace. But
+the relevant vector is not arbitrary. Under the same bias-free linear model,
+
+$$
+\mu_{\mathrm{BN}}=\mathbb E[WX]=W\mathbb E[X].
+$$
+
+It is therefore in the column space by construction, independent of whether
+the layer expands or contracts.
+
+`verified_fact` - Width alone does not break Eq. 76.
+
+That conclusion must survive every rewrite of Part 3. A synthetic
+counterexample that samples $W$ and $\mu_{\mathrm{BN}}$ independently violates
+the premise it claims to test.
+
+Real checkpoints can still depart from the ideal equality. Running statistics
+are exponential moving averages accumulated while weights change. A raw
+affine bias might be omitted from the equation. The extraction graph might not
+match the algebra. Convolutional spatial aggregation can import a stationarity
+approximation. Numerical conditioning also matters.
+
+Those are hypotheses about causes, not automatic findings. The audit should
+measure the normalized projection residual
+
+$$
+R_\mu=
+\frac{\lVert(I-WW^+)\mu_{\mathrm{BN}}\rVert_2}
+{\max(\lVert\mu_{\mathrm{BN}}\rVert_2,\tau)}
+$$
+
+with a declared floor $\tau$, then report what happens for the specified
+checkpoint. It must not relabel a residual as a width failure.
+
+## The frozen checkpoint audit
+
+`P03-CHECKPOINT-GAUSSIAN-DIAGNOSTIC` is a bounded composite claim record from
+one VGG-8/CIFAR-10 `architecture_adaptation`. Its raw checkpoint measurements
+and algebraic decomposition identities are `verified_fact`; its interpretation
+of Gaussian-surrogate fit errors is `independent_inference`. The exact
+checkpoint fingerprint is recorded in the
+[frozen summary](https://github.com/basharelnashef/hope-under-the-microscope/blob/v1.0.0/artifacts/part_03/results/summary.json).
+
+The audit used 2,000 CIFAR-10 test examples selected by a sorted, seeded,
+near-equal class-stratified sample without replacement. The selected-example
+fingerprint is recorded in the same frozen summary.
+
+It captured 16 deterministic channels and eight pairs at each graph point:
+
+| Layer | Module | Shape and rank | Observations |
+|---|---|---|---:|
+| `conv0` | `features.1` | 128 by 27, rank 27 | 32,000 |
+| `conv2` | `features.9` | 512 by 2,304, rank 512 | 32,000 |
+| `conv5` | `features.19` | 512 by 4,608, rank 512 | 32,000 |
+| `dense` | `bn_b` | 512 by 512, rank 512 | 2,000 |
+
+`conv0` selected channels 0, 8, 16, 25, 33, 42, 50, 59, 67, 76, 84, 93,
+101, 110, 118, and 127. Each other graph point selected channels 0, 34, 68,
+102, 136, 170, 204, 238, 272, 306, 340, 374, 408, 442, 476, and 511.
+
+The full channel lists, selection rules, output fingerprints, and configuration
+fingerprint are recorded in the frozen summary.
+The [artifact checksum index](https://github.com/basharelnashef/hope-under-the-microscope/blob/v1.0.0/artifacts/SHA256SUMS)
+authenticates the published result files.
+
+The checkpoint's historical training provenance is incomplete. Its bytes and
+strict-loaded state schema are bound, but epoch history, optimizer and
+scheduler state, training-data hashes, and the original generating command
+and environment are unavailable. The audit uses no legacy compression result
+and does not reproduce HOPE's ResNet-50/ImageNet experiment.
+
+### What the selected one-dimensional distributions looked like
+
+Across the four layer-summary rows, per-layer median absolute skewness ranged
+from `0.4381046015109638` to `0.916664923200222`; the largest selected-channel
+value was `2.3082733334908636`. Median absolute excess kurtosis ranged from
+`0.5276760976728814` to `4.1728378058823345`, with maximum
+`9.07941365824211`. Median fitted-normal KS distance ranged from
+`0.04980412829317285` to `0.13194043073030828`, with maximum
+`0.2124892081316252`.
+
+Those values show substantial variation across the selected channels. They do
+not produce one network-wide yes-or-no Gaussian label. Spatial positions and
+repeated values from each image are correlated, so these are descriptive
+effect sizes, not normality p-values.
+
+### Separating three self-kernel errors
+
+Let $G(m,s)$ denote the exact Gaussian ReLU second moment. The audit compares
+the empirical moment $E_i$, a Gaussian fitted to captured moments
+$G_i^{\mathrm{emp}}$, the checkpoint prediction with finite epsilon
+$G_i^{\mathrm{BN},\epsilon}$, and the paper's negligible-epsilon prediction
+$G_i^{\mathrm{BN},0}$. The signed error telescopes:
+
+$$
+E_i-G_i^{\mathrm{BN},0}
+=
+\underbrace{E_i-G_i^{\mathrm{emp}}}_{\text{shape}}
++
+\underbrace{G_i^{\mathrm{emp}}-G_i^{\mathrm{BN},\epsilon}}_{\text{moment state}}
++
+\underbrace{G_i^{\mathrm{BN},\epsilon}-G_i^{\mathrm{BN},0}}_{\text{finite epsilon}}.
+$$
+
+Across the four layer summaries, median Gaussian-fit self-kernel absolute error
+ranged from `0.00013562328773035452` to `0.001469023748179522`; the largest
+selected absolute error was `0.008144367516825735`. Median bounded symmetric
+error ranged from `0.018853763884460188` to `0.5458623797033268`.
+Near-dead channels reached the symmetric metric ceiling `2.0`, so that ceiling
+must be read beside the small absolute-error scale.
+
+The decomposition identity is a fail-closed gate. The sizes of the Gaussian
+fit errors are not pass gates; they are the scientific observations.
+
+### Pair moments and dependence
+
+Across 32 selected pairs, the empirical-versus-exact-biased-Gaussian absolute
+error ranged from `3.222170944350448e-10` to `0.007075261127352704`.
+Bounded symmetric error ranged from `0.000633394514674313` to `2.0`, again with
+near-zero pair moments at the ceiling.
+
+Independently shuffling one channel preserved the measured marginal summaries
+to maximum absolute difference `5.551115123125783e-17`, while per-layer scaled
+dependence change ranged from `0.2981947166796576` to
+`0.6397540775253039`. The shuffle is an identifiability diagnostic, not a
+plausible replacement network distribution.
+
+### What Eq. 76 measured
+
+The 128 by 27 rank-27 `conv0` expansion had the only nontrivial stored-mean
+projection residual: `0.000551072218291825`. It measures mismatch with the
+ideal current common-map condition. It does not show that expansion width
+caused the mismatch.
+
+The other maps were full row rank. Their column spaces equal their output
+spaces, so machine-scale residuals from `1.0827529949270106e-15` to
+`1.4707953601090622e-15` are non-diagnostic: any stored mean vector projects
+back in those cases. They do not prove that running statistics are current.
+
+The separate same-sample common-map residual ranged from
+`5.718194556149604e-10` to `1.1232923462430606e-8`, and all four declared
+implementation gates passed. That supports the implementation of the ideal
+algebra without converting width into a causal explanation.
+
+### The bounded conclusion
+
+The selected channels do not share one uniform Gaussian-fit profile. Some
+absolute ReLU-moment errors are small while normalized errors saturate on
+near-dead signals; pair behavior also changes when marginals are held fixed.
+This is evidence about the declared specimen and estimands. It is not
+"neural preactivations are Gaussian" or "HOPE's Gaussian premise is false."
+
+Whether these discrepancies change pruning or merge rankings remains an
+`open_question`.
+
+## So what does data-free mean here?
+
+`independent_inference` - For a BatchNorm checkpoint, HOPE can compute its
+surrogate-based scores without loading real or synthetic examples during the
+encoding loop. That is a meaningful operational advantage.
+
+But the computation still depends on:
+
+1. historical moments stored from training;
+2. an idealized relationship between those moments and current weights;
+3. a Gaussian marginal premise;
+4. a reconstructed dependence model for pair operations;
+5. architectural assumptions about the observed projections and graph.
+
+The better phrase is not "no data model." It is "a checkpoint-carried,
+analytically completed data model."
+
+That description is both fairer and more useful. It shows why the method can
+be efficient, why BatchNorm is central, where calibration enters without
+BatchNorm, and where empirical validation should focus.
+
+## What the audit establishes
+
+Several conclusions now have frozen support.
+
+`paper_claim` - HOPE intentionally replaces the inaccessible true layer-input
+distribution with a Gaussian surrogate constrained by BatchNorm statistics.
+
+`verified_fact` - BatchNorm's separate channel means and variances do not
+identify cross-channel dependence or a full joint distribution.
+
+`verified_fact` - The Eq. 76 mean reconstruction is exact under one common
+bias-free linear model. Width alone is not a counterexample.
+
+`independent_inference` - CLT and typical-projection intuition motivate a
+surrogate but do not substitute for measurement in trained directions.
+
+`verified_fact` - On the declared VGG-8 checkpoint and sample, the bounded raw
+measurements, exact self-kernel decomposition identities, shuffle-preserved
+marginals, and Eq. 76 projection measurements are as reported above.
+
+`independent_inference` - The measured marginal-shape, self-kernel, and
+pair-kernel discrepancies quantify fit to the chosen Gaussian surrogate; their
+variation by layer and signal scale does not by itself establish behavior for
+other checkpoints or the paper's target architecture.
+
+`open_question` - Are any measured errors large enough to alter HOPE's action
+rankings, and do the patterns transfer to other checkpoints?
+
+The final question is the constructive one. Data-free methods do not need to
+hide their assumptions. They can expose them, test them on provenance-bound
+checkpoints, and report exactly where analytical convenience remains faithful
+to the learned signals.
+
+That is the standard Part 3 applies.
+
+## Reproduction and release status
+
+The executable audit lives under `experiments/audits/part03_data_free/`; its
+selected frozen outputs live under `artifacts/part_03/results/`.
+
+This article is published in the `v1.0.0` twelve-part package. Its frozen
+evidence boundary is unchanged. Part 4 examines the maximum-entropy
+construction as a separate mathematical question.
+
+{{< include ../../_includes/cite-audit.qmd >}}

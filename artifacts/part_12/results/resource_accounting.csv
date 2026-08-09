@@ -1,0 +1,17 @@
+case_id,metric,value,reference_value,tolerance,comparator,unit,scope,claim_id,evidence_label,passed
+live_payoff,live_parameter_payoff,10.0,10.0,0.0,eq,parameters,declared_abstract_counts_not_timing,P12-LIVE-RESOURCE-ACCOUNTING,proposed_repair,True
+static_payoff,initial_static_payoff,22.0,22.0,0.0,eq,parameters,declared_abstract_counts_not_timing,P12-LIVE-RESOURCE-ACCOUNTING,proposed_repair,True
+payoff_gap,static_minus_live_payoff,12.0,12.0,0.0,eq,parameters,declared_abstract_counts_not_timing,P12-LIVE-RESOURCE-ACCOUNTING,proposed_repair,True
+current_prunes,current_prune_candidates,8.0,8.0,0.0,eq,evaluations,declared_abstract_counts_not_timing,P12-LIVE-RESOURCE-ACCOUNTING,proposed_repair,True
+current_merges,current_merge_candidates,4.0,4.0,0.0,eq,evaluations,declared_abstract_counts_not_timing,P12-LIVE-RESOURCE-ACCOUNTING,proposed_repair,True
+current_blocks,current_block_candidates,1.0,1.0,0.0,eq,evaluations,declared_abstract_counts_not_timing,P12-LIVE-RESOURCE-ACCOUNTING,proposed_repair,True
+current_total,current_candidate_count,13.0,13.0,0.0,eq,evaluations,declared_abstract_counts_not_timing,P12-LIVE-RESOURCE-ACCOUNTING,proposed_repair,True
+trajectory_scans,trajectory_scan_count,2.0,2.0,0.0,eq,scans,declared_abstract_counts_not_timing,P12-LIVE-RESOURCE-ACCOUNTING,proposed_repair,True
+trajectory_total,trajectory_candidate_evaluations,24.0,24.0,0.0,eq,evaluations,declared_abstract_counts_not_timing,P12-LIVE-RESOURCE-ACCOUNTING,proposed_repair,True
+pair_cache,pair_cache_entries,4.0,4.0,0.0,eq,entries,declared_abstract_counts_not_timing,P12-LIVE-RESOURCE-ACCOUNTING,proposed_repair,True
+scalar_payload,cache_scalar_payload_bytes,96.0,96.0,0.0,eq,bytes,declared_abstract_counts_not_timing,P12-LIVE-RESOURCE-ACCOUNTING,proposed_repair,True
+index_payload,cache_index_payload_bytes,32.0,32.0,0.0,eq,bytes,declared_abstract_counts_not_timing,P12-LIVE-RESOURCE-ACCOUNTING,proposed_repair,True
+key_records,cache_key_record_bytes,512.0,1.0,0.0,ge,bytes,declared_abstract_counts_not_timing,P12-LIVE-RESOURCE-ACCOUNTING,proposed_repair,True
+refresh_keys,refresh_key_evaluations,25.0,25.0,0.0,eq,evaluations,declared_abstract_counts_not_timing,P12-LIVE-RESOURCE-ACCOUNTING,proposed_repair,True
+calibration_elements,calibration_output_elements,6.0,6.0,0.0,eq,elements,declared_abstract_counts_not_timing,P12-LIVE-RESOURCE-ACCOUNTING,proposed_repair,True
+no_wallclock,wall_clock_claim,0.0,0.0,0.0,eq,boolean,declared_abstract_counts_not_timing,P12-LIVE-RESOURCE-ACCOUNTING,proposed_repair,True

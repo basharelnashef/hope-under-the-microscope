@@ -1,0 +1,7 @@
+fixture_id,candidate,distortion,initial_fan_in,initial_fan_out,live_fan_in,live_fan_out,bn_parameters,static_payoff,live_payoff,static_over_live_alpha,static_dr,live_dr,static_rank,live_rank,expected_flip,evidence_label,claim_id,passed
+nonuniform_alpha_flip,A,1.0,8,8,1,1,4,20,6,3.3333333333333335,0.05,0.16666666666666666,1,2,True,counterexample,P09-STATIC-PAYOFF-FLIP,True
+nonuniform_alpha_flip,B,1.0,6,6,5,5,4,16,14,1.1428571428571428,0.0625,0.07142857142857142,2,1,True,counterexample,P09-STATIC-PAYOFF-FLIP,True
+uniform_alpha_control,A,1.0,8,8,3,3,4,20,10,2.0,0.05,0.1,1,1,False,counterexample,P09-STATIC-PAYOFF-FLIP,True
+uniform_alpha_control,B,1.0,6,6,2,2,4,16,8,2.0,0.0625,0.125,2,2,False,counterexample,P09-STATIC-PAYOFF-FLIP,True
+distortion_control,A,0.8,6,6,5,5,4,16,14,1.1428571428571428,0.05,0.05714285714285715,1,1,False,counterexample,P09-STATIC-PAYOFF-FLIP,True
+distortion_control,B,1.2,6,6,5,5,4,16,14,1.1428571428571428,0.075,0.08571428571428572,2,2,False,counterexample,P09-STATIC-PAYOFF-FLIP,True

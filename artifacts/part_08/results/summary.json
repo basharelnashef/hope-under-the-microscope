@@ -1,0 +1,308 @@
+{
+  "audit_id": "part08_block_eviction_audit",
+  "check_count": 20,
+  "checks": {
+    "alpha_minus_4_rms_ratio": {
+      "maximum": 2400.0,
+      "minimum": 2300.0,
+      "passed": true,
+      "units": "ratio",
+      "value": 2345.47386005386
+    },
+    "degenerate_negative_paper_rms": {
+      "maximum": 1.0,
+      "minimum": 1.0,
+      "passed": true,
+      "units": "rms",
+      "value": 1.0
+    },
+    "degenerate_negative_post_rms": {
+      "maximum": 0.0,
+      "minimum": 0.0,
+      "passed": true,
+      "units": "rms",
+      "value": 0.0
+    },
+    "depth4_proxy_ratio_error": {
+      "maximum": 2e-12,
+      "minimum": 0.0,
+      "passed": true,
+      "units": "absolute",
+      "value": 0.0
+    },
+    "depth_function_max_difference": {
+      "maximum": 0.0,
+      "minimum": 0.0,
+      "passed": true,
+      "units": "absolute",
+      "value": 0.0
+    },
+    "eligible_post_relu_boundary_fixture_count": {
+      "maximum": 1.0,
+      "minimum": 1.0,
+      "passed": true,
+      "units": "count",
+      "value": 1.0
+    },
+    "established_gaussian_closed_form_fixture_count": {
+      "maximum": 0.0,
+      "minimum": 0.0,
+      "passed": true,
+      "units": "count",
+      "value": 0.0
+    },
+    "evidence_class_mismatch_count": {
+      "maximum": 0.0,
+      "minimum": 0.0,
+      "passed": true,
+      "units": "count",
+      "value": 0.0
+    },
+    "graph_post_moment_max_abs_error": {
+      "maximum": 0.008,
+      "minimum": 0.0,
+      "passed": true,
+      "units": "second_moment",
+      "value": 0.0033499234337264205
+    },
+    "monte_carlo_max_abs_error": {
+      "maximum": 0.015,
+      "minimum": 0.0,
+      "passed": true,
+      "units": "second_moment",
+      "value": 0.013008334066686444
+    },
+    "negative_ratio_monotonic_failures": {
+      "maximum": 0.0,
+      "minimum": 0.0,
+      "passed": true,
+      "units": "count",
+      "value": 0.0
+    },
+    "nonfinite_count": {
+      "maximum": 0.0,
+      "minimum": 0.0,
+      "passed": true,
+      "units": "count",
+      "value": 0.0
+    },
+    "ordering_expected_flip_count": {
+      "maximum": 1.0,
+      "minimum": 1.0,
+      "passed": true,
+      "units": "count",
+      "value": 1.0
+    },
+    "ordering_unexpected_flip_count": {
+      "maximum": 0.0,
+      "minimum": 0.0,
+      "passed": true,
+      "units": "count",
+      "value": 0.0
+    },
+    "projection_fixture_count": {
+      "maximum": 2.0,
+      "minimum": 2.0,
+      "passed": true,
+      "units": "count",
+      "value": 2.0
+    },
+    "quadrature_max_abs_error": {
+      "maximum": 2e-08,
+      "minimum": 0.0,
+      "passed": true,
+      "units": "second_moment",
+      "value": 3.552713678800501e-15
+    },
+    "row_failure_count": {
+      "maximum": 0.0,
+      "minimum": 0.0,
+      "passed": true,
+      "units": "count",
+      "value": 0.0
+    },
+    "synthetic_identity_copy_max_error": {
+      "maximum": 0.0,
+      "minimum": 0.0,
+      "passed": true,
+      "units": "absolute",
+      "value": 0.0
+    },
+    "zero_shift_cost_understatement_error": {
+      "maximum": 2e-12,
+      "minimum": 0.0,
+      "passed": true,
+      "units": "fraction",
+      "value": 1.1102230246251565e-16
+    },
+    "zero_shift_rms_ratio_error": {
+      "maximum": 2e-12,
+      "minimum": 0.0,
+      "passed": true,
+      "units": "absolute",
+      "value": 2.220446049250313e-16
+    }
+  },
+  "claim_classes": {
+    "BLOCK-IDENTITY-MOMENT": "independent_inference",
+    "P08-BIASED-MOMENT-AUDIT": "verified_fact",
+    "P08-EVICTION-SCORE": "paper_claim",
+    "P08-IDENTITY-ELIGIBILITY": "verified_fact",
+    "P08-ORDERING-FLIP": "counterexample",
+    "P08-POST-RELU-BOUNDARY": "verified_fact",
+    "P08-RELU-MOMENT-REPAIR": "proposed_repair",
+    "P08-SEQUENTIAL-DEPTH-GAP": "counterexample"
+  },
+  "claim_ids": [
+    "P08-EVICTION-SCORE",
+    "P08-POST-RELU-BOUNDARY",
+    "BLOCK-IDENTITY-MOMENT",
+    "P08-BIASED-MOMENT-AUDIT",
+    "P08-ORDERING-FLIP",
+    "P08-SEQUENTIAL-DEPTH-GAP",
+    "P08-IDENTITY-ELIGIBILITY",
+    "P08-RELU-MOMENT-REPAIR"
+  ],
+  "config": {
+    "float_dtype": "float64",
+    "full_mode": false,
+    "monte_carlo_samples": 500000,
+    "monte_carlo_seed": 260721366,
+    "quadrature_intervals": 240000,
+    "quadrature_limit": 12.0,
+    "quadrature_rule": "composite_simpson_standard_normal",
+    "random_sampling": true,
+    "shift_alphas": [
+      -4.0,
+      -3.0,
+      -2.0,
+      -1.0,
+      -0.5,
+      0.0,
+      0.5,
+      1.0,
+      2.0,
+      3.0,
+      4.0
+    ],
+    "tolerances": {
+      "formula_atol": 2e-12,
+      "function_atol": 0.0,
+      "graph_monte_carlo_atol": 0.008,
+      "monte_carlo_atol": 0.015,
+      "ordering_atol": 1e-12,
+      "quadrature_atol": 2e-08
+    }
+  },
+  "config_sha256": "f476a971014304a3a286893e7acbca2116c564ac148b35135eda9051f9f7f127",
+  "depth_fixture": {
+    "function": "ReLU composed with itself depth times",
+    "function_is_identical_for_depths": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "proxy_multiplier_at_depth_4": 4.0
+  },
+  "method_origins": {
+    "depth_witness": {
+      "claim_id": "P08-SEQUENTIAL-DEPTH-GAP",
+      "evidence_label": "counterexample",
+      "origin": "independent ReLU-idempotence fixture",
+      "scope": "refutes a residual-function-only interpretation of the additive local-layer proxy"
+    },
+    "moment_comparison": {
+      "claim_id": "BLOCK-IDENTITY-MOMENT",
+      "evidence_label": "independent_inference",
+      "origin": "conditional comparison of Eq. 96 with a Gaussian pre-ReLU fixture",
+      "scope": "synthetic Gaussian coordinate with declared beta and gamma; not a trained-block measurement"
+    },
+    "paper_identity_energy": {
+      "claim_id": "P08-EVICTION-SCORE",
+      "evidence_label": "paper_claim",
+      "origin": "HOPE v1 Eq. 96",
+      "scope": "sum of unrectified coordinate RMS values under the stated BN Gaussian"
+    },
+    "post_relu_boundary": {
+      "claim_id": "P08-POST-RELU-BOUNDARY",
+      "evidence_label": "verified_fact",
+      "origin": "composition of Figure 3's terminal ReLU with the next interior identity block",
+      "scope": "canonical post-activation ResNet V1 identity bottlenecks only"
+    },
+    "post_relu_denominator": {
+      "claim_id": "P08-RELU-MOMENT-REPAIR",
+      "evidence_label": "proposed_repair",
+      "origin": "use the actual boundary second moment; use Eq. 79 only under a validated Gaussian law",
+      "scope": "eligible identity shortcuts with a measured or separately derived post-ReLU boundary law"
+    }
+  },
+  "negative_shift_boundary": {
+    "degenerate_negative_gamma_zero_paper_rms": 1.0,
+    "degenerate_negative_gamma_zero_post_rms": 0.0,
+    "finite_fixture_alpha": -4.0,
+    "paper_over_post_rms_ratio": 2345.47386005386
+  },
+  "ordering_fixture": {
+    "equal_payoff": true,
+    "fixture_id": "negative_shift_flip",
+    "paper_first": "A",
+    "post_relu_first": "B"
+  },
+  "paper": {
+    "anchors": [
+      "Figure 3 and Section 8, PDF pages 16-17",
+      "Eqs. 19-20, PDF page 17",
+      "Eq. 79, PDF page 53",
+      "Appendix F and Eqs. 86-98, PDF pages 56-59"
+    ],
+    "arxiv_id": "2607.21366",
+    "pdf_sha256": "8106a86c0c72aee05b0fbcc5e13095edc03fe725538b1bfa5c50c18ea806067b",
+    "version": "v1"
+  },
+  "passed": true,
+  "passing_check_count": 20,
+  "reproduction_scope": {
+    "checkpoint_or_dataset_used": false,
+    "claim_boundary": "The audit establishes the Figure 3 topology and conditional Gaussian sensitivity fixtures. It does not identify a trained block's activation law, estimate prevalence, or establish downstream performance.",
+    "excludes": [
+      "ResNet-50 or ImageNet reproduction",
+      "trained-network block frequencies or compression accuracy",
+      "the post-add activation law or its parameters in a trained residual block",
+      "projection-shortcut capacity derivation or repair",
+      "stride-changing shortcut derivation",
+      "end-to-end logits, loss, latency, or accuracy",
+      "Parts 9 through 12"
+    ],
+    "includes": [
+      "paper source map for Figure 3, Eqs. 19-20, and Appendix F Eqs. 86-98",
+      "analytic and deterministic-quadrature Gaussian ReLU second moments",
+      "seeded Monte Carlo checks of the conditional Gaussian post-ReLU fixture",
+      "bounded beta over gamma sweep",
+      "equal-payoff two-candidate ordering fixture",
+      "ReLU-idempotence sequential-depth fixture",
+      "identity versus projection shortcut eligibility classification"
+    ],
+    "paper_experiment_reproduced": false,
+    "random_sampling_used": true,
+    "reproduction_scope": "independent_mathematical_and_graph_fixture_audit"
+  },
+  "row_counts": {
+    "depth_fixture": 4,
+    "eligibility": 5,
+    "graph_boundary": 3,
+    "moment_validation": 9,
+    "ordering_fixtures": 6,
+    "shift_sweep": 14,
+    "source_map": 9
+  },
+  "schema_version": 2,
+  "status": "passed",
+  "zero_shift": {
+    "paper_cost_fraction_of_post": 0.7071067811865475,
+    "paper_cost_understatement_fraction": 0.29289321881345254,
+    "paper_identity_rms": 1.0,
+    "paper_over_post_ratio": 1.4142135623730951,
+    "post_relu_identity_rms": 0.7071067811865475
+  }
+}

@@ -1,0 +1,34 @@
+case_id,section,p,width,scale,distance,terminal_capacity,proxy_value,reference_value,absolute_error,monotone_from_previous,additivity_role,evidence_label,claim_id,passed,note
+scale_p0.5_k1e-06,scale_invariance,0.5,5,1e-06,3e-06,2e-06,6.123724356957945,6.123724356957945,0.0,,,counterexample,P06-ENDPOINT-PROXY-NONUNIQUENESS,True,D and E_b are scaled together; N is unchanged
+scale_p0.5_k0.001,scale_invariance,0.5,5,0.001,0.003,0.002,6.123724356957945,6.123724356957945,0.0,,,counterexample,P06-ENDPOINT-PROXY-NONUNIQUENESS,True,D and E_b are scaled together; N is unchanged
+scale_p0.5_k1,scale_invariance,0.5,5,1.0,3.0,2.0,6.123724356957945,6.123724356957945,0.0,,,counterexample,P06-ENDPOINT-PROXY-NONUNIQUENESS,True,D and E_b are scaled together; N is unchanged
+scale_p0.5_k1000,scale_invariance,0.5,5,1000.0,3000.0,2000.0,6.123724356957945,6.123724356957945,0.0,,,counterexample,P06-ENDPOINT-PROXY-NONUNIQUENESS,True,D and E_b are scaled together; N is unchanged
+scale_p0.5_k1e+06,scale_invariance,0.5,5,1000000.0,3000000.0,2000000.0,6.123724356957945,6.123724356957945,0.0,,,counterexample,P06-ENDPOINT-PROXY-NONUNIQUENESS,True,D and E_b are scaled together; N is unchanged
+extinction_p0.5_eb1,extinction,0.5,5,1.0,3.0,1.0,8.660254037844386,8.660254037844386,0.0,True,,counterexample,P06-ENDPOINT-PROXY-NONUNIQUENESS,True,D is held at a positive value while E_b decreases
+extinction_p0.5_eb0.1,extinction,0.5,5,1.0,3.0,0.1,27.386127875258307,27.386127875258307,0.0,True,,counterexample,P06-ENDPOINT-PROXY-NONUNIQUENESS,True,D is held at a positive value while E_b decreases
+extinction_p0.5_eb0.01,extinction,0.5,5,1.0,3.0,0.01,86.60254037844388,86.60254037844388,0.0,True,,counterexample,P06-ENDPOINT-PROXY-NONUNIQUENESS,True,D is held at a positive value while E_b decreases
+extinction_p0.5_eb0.001,extinction,0.5,5,1.0,3.0,0.001,273.8612787525831,273.8612787525831,0.0,True,,counterexample,P06-ENDPOINT-PROXY-NONUNIQUENESS,True,D is held at a positive value while E_b decreases
+scale_p1_k1e-06,scale_invariance,1.0,5,1e-06,3e-06,2e-06,7.5,7.5,0.0,,,counterexample,P06-ENDPOINT-PROXY-NONUNIQUENESS,True,D and E_b are scaled together; N is unchanged
+scale_p1_k0.001,scale_invariance,1.0,5,0.001,0.003,0.002,7.5,7.5,0.0,,,counterexample,P06-ENDPOINT-PROXY-NONUNIQUENESS,True,D and E_b are scaled together; N is unchanged
+scale_p1_k1,scale_invariance,1.0,5,1.0,3.0,2.0,7.5,7.5,0.0,,,counterexample,P06-ENDPOINT-PROXY-NONUNIQUENESS,True,D and E_b are scaled together; N is unchanged
+scale_p1_k1000,scale_invariance,1.0,5,1000.0,3000.0,2000.0,7.5,7.5,0.0,,,counterexample,P06-ENDPOINT-PROXY-NONUNIQUENESS,True,D and E_b are scaled together; N is unchanged
+scale_p1_k1e+06,scale_invariance,1.0,5,1000000.0,3000000.0,2000000.0,7.5,7.5,0.0,,,counterexample,P06-ENDPOINT-PROXY-NONUNIQUENESS,True,D and E_b are scaled together; N is unchanged
+extinction_p1_eb1,extinction,1.0,5,1.0,3.0,1.0,15.0,15.0,0.0,True,,counterexample,P06-ENDPOINT-PROXY-NONUNIQUENESS,True,D is held at a positive value while E_b decreases
+extinction_p1_eb0.1,extinction,1.0,5,1.0,3.0,0.1,150.0,150.0,0.0,True,,counterexample,P06-ENDPOINT-PROXY-NONUNIQUENESS,True,D is held at a positive value while E_b decreases
+extinction_p1_eb0.01,extinction,1.0,5,1.0,3.0,0.01,1500.0,1500.0,0.0,True,,counterexample,P06-ENDPOINT-PROXY-NONUNIQUENESS,True,D is held at a positive value while E_b decreases
+extinction_p1_eb0.001,extinction,1.0,5,1.0,3.0,0.001,15000.0,15000.0,0.0,True,,counterexample,P06-ENDPOINT-PROXY-NONUNIQUENESS,True,D is held at a positive value while E_b decreases
+scale_p2_k1e-06,scale_invariance,2.0,5,1e-06,3e-06,2e-06,11.25,11.25,0.0,,,counterexample,P06-ENDPOINT-PROXY-NONUNIQUENESS,True,D and E_b are scaled together; N is unchanged
+scale_p2_k0.001,scale_invariance,2.0,5,0.001,0.003,0.002,11.25,11.25,0.0,,,counterexample,P06-ENDPOINT-PROXY-NONUNIQUENESS,True,D and E_b are scaled together; N is unchanged
+scale_p2_k1,scale_invariance,2.0,5,1.0,3.0,2.0,11.25,11.25,0.0,,,counterexample,P06-ENDPOINT-PROXY-NONUNIQUENESS,True,D and E_b are scaled together; N is unchanged
+scale_p2_k1000,scale_invariance,2.0,5,1000.0,3000.0,2000.0,11.25,11.25,0.0,,,counterexample,P06-ENDPOINT-PROXY-NONUNIQUENESS,True,D and E_b are scaled together; N is unchanged
+scale_p2_k1e+06,scale_invariance,2.0,5,1000000.0,3000000.0,2000000.0,11.25,11.25,0.0,,,counterexample,P06-ENDPOINT-PROXY-NONUNIQUENESS,True,D and E_b are scaled together; N is unchanged
+extinction_p2_eb1,extinction,2.0,5,1.0,3.0,1.0,45.0,45.0,0.0,True,,counterexample,P06-ENDPOINT-PROXY-NONUNIQUENESS,True,D is held at a positive value while E_b decreases
+extinction_p2_eb0.1,extinction,2.0,5,1.0,3.0,0.1,4500.0,4500.0,0.0,True,,counterexample,P06-ENDPOINT-PROXY-NONUNIQUENESS,True,D is held at a positive value while E_b decreases
+extinction_p2_eb0.01,extinction,2.0,5,1.0,3.0,0.01,450000.0,450000.0,0.0,True,,counterexample,P06-ENDPOINT-PROXY-NONUNIQUENESS,True,D is held at a positive value while E_b decreases
+extinction_p2_eb0.001,extinction,2.0,5,1.0,3.0,0.001,45000000.0,45000000.0,0.0,True,,counterexample,P06-ENDPOINT-PROXY-NONUNIQUENESS,True,D is held at a positive value while E_b decreases
+nonadd_p0.5_direct,nonadditivity,0.5,2,1.0,2.0,2.0,2.0,2.0,0.0,,direct,counterexample,P06-ENDPOINT-PROXY-NONUNIQUENESS,True,scalar path 4->3->2 with fixed N; via row is the sum of two endpoint proxies
+nonadd_p0.5_via_midpoint,nonadditivity,0.5,2,1.0,,2.0,2.5689141007523464,2.0,0.5689141007523464,,via_midpoint,counterexample,P06-ENDPOINT-PROXY-NONUNIQUENESS,True,scalar path 4->3->2 with fixed N; via row is the sum of two endpoint proxies
+nonadd_p1_direct,nonadditivity,1.0,2,1.0,2.0,2.0,2.0,2.0,0.0,,direct,counterexample,P06-ENDPOINT-PROXY-NONUNIQUENESS,True,scalar path 4->3->2 with fixed N; via row is the sum of two endpoint proxies
+nonadd_p1_via_midpoint,nonadditivity,1.0,2,1.0,,2.0,1.6666666666666665,2.0,0.3333333333333335,,via_midpoint,counterexample,P06-ENDPOINT-PROXY-NONUNIQUENESS,True,scalar path 4->3->2 with fixed N; via row is the sum of two endpoint proxies
+nonadd_p2_direct,nonadditivity,2.0,2,1.0,2.0,2.0,2.0,2.0,0.0,,direct,counterexample,P06-ENDPOINT-PROXY-NONUNIQUENESS,True,scalar path 4->3->2 with fixed N; via row is the sum of two endpoint proxies
+nonadd_p2_via_midpoint,nonadditivity,2.0,2,1.0,,2.0,0.7222222222222222,2.0,1.2777777777777777,,via_midpoint,counterexample,P06-ENDPOINT-PROXY-NONUNIQUENESS,True,scalar path 4->3->2 with fixed N; via row is the sum of two endpoint proxies

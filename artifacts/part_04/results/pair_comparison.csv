@@ -1,0 +1,3 @@
+case_id,method,evidence_label,correlation,logdet,projection_variance_1,projection_variance_2,constraint_residual,passed
+cosine_half_pair,pure_local_maximum_entropy,counterexample,-3.821054855117038e-17,0.2876820724517812,1.0,1.0000000000000002,2.220446049250313e-16,True
+cosine_half_pair,appendix_identity_precision_tau_1,paper_claim,0.5000000000000001,0.0,1.0,0.9999999999999999,1.1102230246251565e-16,True

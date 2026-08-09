@@ -1,0 +1,37 @@
+name: Proposal or extension
+description: Suggest a new check, experiment, derivation, or HOPE-R extension.
+title: "[Proposal]: "
+body:
+  - type: textarea
+    id: question
+    attributes:
+      label: Question or opportunity
+      description: What limitation, open question, or use case should be addressed?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed approach
+      description: Describe the scope, method, evidence, and expected output.
+    validations:
+      required: true
+  - type: textarea
+    id: boundary
+    attributes:
+      label: Evidence boundary
+      description: Explain whether this tests a paper claim, adds an independent inference, or proposes a repair.
+    validations:
+      required: true
+  - type: textarea
+    id: references
+    attributes:
+      label: References or examples
+      description: Link primary sources, code, related issues, or a small example if available.
+  - type: checkboxes
+    id: public
+    attributes:
+      label: Public-content check
+      options:
+        - label: This proposal contains no credentials, confidential employer information, or private data.
+          required: true

@@ -1,0 +1,4 @@
+case_id,expected_exact,span_rank,candidate_count,source_child_sum_norm,parent_norm,absolute_residual,relative_residual,residual_threshold,criterion,claim_id,evidence_label,passed
+zero_bias_twins,1,1,2,3.827024747901773,3.827024747901773,0.0,0.0,7.654049495803547e-14,residual_le_threshold,P12-TWIN-PRESERVATION,verified_fact,True
+biased_twins,1,1,2,4.732888152403128,4.732888152403128,3.3013233998736706e-16,6.975282942609622e-17,9.465776304806257e-14,residual_le_threshold,P12-TWIN-PRESERVATION,verified_fact,True
+noncollinear_pair,0,2,128,1.644608416038682,1.4787883940709965,0.719667789793448,0.43759218472619144,0.1,residual_gt_threshold,P12-SUM-MAP-MERGE,proposed_repair,True

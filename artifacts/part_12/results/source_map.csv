@@ -1,0 +1,13 @@
+claim_id,evidence_label,implementation_source,audit_output,paper_anchor,scope,source_exists,passed
+P12-CALIBRATED-COMMON-MEASURE,proposed_repair,src/hope_repro/proposed_repairs/hope_r/common.py,common_gram_cases.csv,PDF pages 7-9 and 35,calibrated local geometry,1,True
+P12-COMMON-GRAM-PSD,verified_fact,src/hope_repro/proposed_repairs/hope_r/common.py,common_gram_cases.csv,PDF pages 35 and 52,declared deterministic fixture,1,True
+P12-KERNEL-BOUNDARY-CONTRACT,proposed_repair,src/hope_repro/proposed_repairs/hope_r/common.py,common_gram_cases.csv,PDF pages 5 and 52-56,repair and comparison kept separate,1,True
+P12-SUM-MAP-MERGE,proposed_repair,src/hope_repro/proposed_repairs/hope_r/merge.py,merge_cases.csv,PDF pages 13-16 and 57,measured one-parent residual,1,True
+P12-TWIN-PRESERVATION,verified_fact,src/hope_repro/proposed_repairs/hope_r/merge.py,merge_cases.csv,PDF pages 13 and 57,declared twin fixtures only,1,True
+P12-DEPENDENCY-CLOSURE,proposed_repair,src/hope_repro/proposed_repairs/hope_r/graph.py,invalidation_cases.csv,PDF pages 19-20 and 68,resolved supported graph,1,True
+P12-REFRESH-EQUIVALENCE,verified_fact,src/hope_repro/proposed_repairs/hope_r/graph.py,invalidation_cases.csv,PDF page 68,declared cache-key fixture,1,True
+P12-LIVE-RESOURCE-ACCOUNTING,proposed_repair,src/hope_repro/proposed_repairs/hope_r/graph.py,resource_accounting.csv,PDF pages 18-20 and 38-40,counts and bytes not latency,1,True
+P12-BLOCK-ELIGIBILITY,proposed_repair,src/hope_repro/proposed_repairs/hope_r/graph.py,block_eligibility.csv,PDF pages 16-17 and 58,narrow identity block domain,1,True
+P12-FIXED-WIDTH-DEFT,proposed_repair,src/hope_repro/proposed_repairs/hope_r/deft.py,deft_transitions.csv,PDF pages 21-23 and 62-70,fixed deterministic state fixture,1,True
+P12-CORE-STATE-INVARIANCE,verified_fact,src/hope_repro/proposed_repairs/hope_r/deft.py,deft_transitions.csv,PDF pages 5 23 65-66 and 70,local parameter and buffer state,1,True
+P12-GUARANTEE-SCOPE,independent_inference,experiments/audits/part12_corrected_hope/run.py,design_contract.csv,PDF pages 18-24 and 68-70,no trained-network outcome claim,1,True

@@ -1,0 +1,13 @@
+{
+  "arxiv_id": "2607.21366",
+  "authors": [
+    "Hossein Mobahi",
+    "Peter L. Bartlett"
+  ],
+  "pages": 70,
+  "pdf_filename": "2607.21366v1.pdf",
+  "pdf_sha256": "8106a86c0c72aee05b0fbcc5e13095edc03fe725538b1bfa5c50c18ea806067b",
+  "pdf_url": "https://arxiv.org/pdf/2607.21366v1",
+  "title": "Hilbert Operator for Progressive Encoding (HOPE): A Mathematical Framework for Deconstructing Learned Representations in Deep Networks",
+  "version": "v1"
+}

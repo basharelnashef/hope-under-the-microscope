@@ -1,0 +1,836 @@
+---
+title: "When pure maximum entropy is unbounded"
+description: "Projection constraints that do not span the input space leave unseen directions through which entropy can escape."
+part: 4
+toc: true
+execute:
+  enabled: false
+---
+
+::: {.callout-note appearance="simple"}
+## Code and reproducibility
+
+This page is paired with the immutable `v1.0.0` release.
+
+- [Exact audit package](https://github.com/basharelnashef/hope-under-the-microscope/tree/v1.0.0/experiments/audits/part04_maximum_entropy)
+- [Focused tests](https://github.com/basharelnashef/hope-under-the-microscope/blob/v1.0.0/experiments/audits/part04_maximum_entropy/test_run.py)
+- [Artifact checksums](https://github.com/basharelnashef/hope-under-the-microscope/blob/v1.0.0/artifacts/SHA256SUMS)
+- [Evidence: `escape_path.csv`](https://github.com/basharelnashef/hope-under-the-microscope/blob/v1.0.0/artifacts/part_04/results/escape_path.csv)
+- [Evidence: `tau_sweep.csv`](https://github.com/basharelnashef/hope-under-the-microscope/blob/v1.0.0/artifacts/part_04/results/tau_sweep.csv)
+
+From the repository root:
+
+```bash
+python -m unittest discover -s experiments/audits/part04_maximum_entropy -p 'test_*.py' -v
+```
+
+Scope: The included tests cover deterministic offline fixtures; no checkpoint
+or paper PDF is required.
+
+:::
+
+*Part 4 of HOPE Under the Microscope*
+
+If constraints observe only part of a space, entropy can escape through the
+directions they never see.
+
+That sentence is the core of Part 4, but it needs two qualifications every time
+it is used:
+
+1. the projection-variance constraints must admit at least one
+   positive-definite covariance;
+2. the constrained directions must fail to span the finite-dimensional input
+   space.
+
+Under those hypotheses, HOPE's pure maximum-differential-entropy covariance
+problem is unbounded. When the same feasible constraints do span the input
+space, the objective is bounded and has one unique positive-definite
+maximizer. The objection is decisive in its domain, not universal.
+
+The second question is what to make of Appendix E. Section 4 describes a pure
+entropy objective, whose stationarity expression contains only weighted filter
+outer products. Appendix E.3.1 instead uses an identity precision term:
+
+$$
+\Sigma^{-1}=I+W\Lambda W^\top.
+$$
+
+That identity makes the local covariance well behaved outside the constrained
+span. It is also the stationarity signature of a different objective: a
+relative-entropy projection onto an isotropic Gaussian reference. That
+interpretation is ours, not wording supplied by the paper.
+
+The constructive repair is therefore simple to state: if a reference Gaussian
+is intended, name it, give its scale, and test sensitivity to that scale.
+
+This article is bound to
+[arXiv:2607.21366v1](https://arxiv.org/abs/2607.21366v1). Its exact 70-page PDF
+fingerprint is recorded in the
+[paper manifest](https://github.com/basharelnashef/hope-under-the-microscope/blob/v1.0.0/paper/manifest.json).
+The exact anchors are physical PDF pages 6, 7, 54, and 55. The paper
+traceability summary above separates statements printed by the paper from the
+independent mathematics developed here.
+
+## Evidence labels used here
+
+- **paper_claim**: what HOPE v1 states or prints.
+- **verified_fact**: algebra independently proved in the
+  calculations above.
+- **independent_inference**: an interpretation assembled from the printed
+  formulas and verified algebra, but not stated by the paper.
+- **proposed_repair**: a replacement objective that is not presented as HOPE
+  v1.
+- **open_question**: an issue not resolved by the source or current evidence.
+
+Exact matrices, determinants, and the cosine-one-half result below are
+algebraic fixtures. A separate frozen-diagnostics section reports values from
+an independent deterministic audit, not the paper's experiments. The focused
+tests validate those values, and the artifact checksum index authenticates the
+published files.
+
+## The strongest fair version of the paper's idea
+
+Evidence: **paper_claim**, **P04-PURE-MAXENT-FORMULATION**.
+
+HOPE needs a probability model for a layer input because its Hilbert inner
+products are expectations. For a network with BatchNorm, the checkpoint gives
+one mean and variance for each observed preactivation direction. Section 4
+uses those stored moments as constraints on a Gaussian input surrogate.
+
+Maximum entropy is an attractive organizing principle here. Given only a
+declared set of moment constraints, choose the distribution that adds the
+least extra structure. For a Gaussian with fixed mean $\mu$ and covariance
+$\Sigma\succ0$,
+
+$$
+h(\mathcal N(\mu,\Sigma))
+=
+\frac d2\log(2\pi e)
++
+\frac12\log\det\Sigma.
+$$
+
+The covariance problem is therefore
+
+$$
+\max_{\Sigma\succ0}
+\log\det\Sigma
+\quad
+\text{subject to}
+\quad
+w_i^\top\Sigma w_i=v_i,
+\qquad
+i=1,\ldots,m.
+$$
+
+This is a clean question. It is concave, its constraints are linear in
+$\Sigma$, and it has a unique answer whenever a maximizer exists.
+
+The missing issue is existence.
+
+## Start with feasibility, not rank alone
+
+Let
+
+$$
+W=[w_1,\ldots,w_m]\in\mathbb R^{d\times m},
+\qquad
+r=\operatorname{rank}(W),
+$$
+
+where $d$ is finite. Define
+
+$$
+\mathcal F
+=
+\left\{
+\Sigma\in\mathbb S_{++}^{d}:
+w_i^\top\Sigma w_i=v_i
+\text{ for every }i
+\right\}.
+$$
+
+Every result in this article begins with the hypothesis
+
+$$
+\mathcal F\ne\varnothing.
+$$
+
+That condition is not clerical. Rank tells us which directions the constraints
+can observe. It does not make contradictory target variances consistent.
+Likewise, if $w_i\ne0$, then a positive-definite covariance cannot satisfy
+$w_i^\top\Sigma w_i=0$.
+
+So there are two separate questions:
+
+1. Does any positive-definite covariance satisfy the targets?
+2. If one does, is pure entropy bounded on that feasible set?
+
+Part 4 answers the second question conditional on the first.
+
+## The non-spanning theorem
+
+Evidence: **verified_fact**, **P04-NONSPANNING-UNBOUNDED**.
+
+Assume:
+
+- the input dimension $d$ is finite;
+- $\mathcal F$ contains a covariance $\Sigma_0\succ0$;
+- $r<d$.
+
+Because the constrained directions do not span the input, the nullspace of
+$W^\top$ contains a nonzero vector. Choose a unit vector $z$ such that
+
+$$
+W^\top z=0.
+$$
+
+For every $t\geq0$, define
+
+$$
+\Sigma_t=\Sigma_0+tzz^\top.
+$$
+
+The update is positive semidefinite, so every $\Sigma_t$ remains positive
+definite. More importantly, the constraints cannot see it:
+
+$$
+\begin{aligned}
+w_i^\top\Sigma_tw_i
+&=
+w_i^\top\Sigma_0w_i+t\,w_i^\top zz^\top w_i\\
+&=
+v_i+t(w_i^\top z)^2\\
+&=
+v_i.
+\end{aligned}
+$$
+
+Thus the whole path remains feasible.
+
+Entropy does see the update. The matrix determinant lemma gives
+
+$$
+\det\Sigma_t
+=
+\det\Sigma_0
+\left(
+1+t z^\top\Sigma_0^{-1}z
+\right).
+$$
+
+Since $\Sigma_0^{-1}\succ0$ and $z\ne0$,
+
+$$
+z^\top\Sigma_0^{-1}z>0.
+$$
+
+Therefore
+
+$$
+\log\det\Sigma_t
+=
+\log\det\Sigma_0
++
+\log\left(
+1+t z^\top\Sigma_0^{-1}z
+\right)
+\longrightarrow\infty.
+$$
+
+There is no finite maximizer.
+
+This proof does not depend on a solver, an initialization, a tolerance, or an
+ill-conditioned numerical inversion. It supplies an explicit feasible path
+whose objective diverges.
+
+## The smallest example
+
+Take a two-dimensional input and constrain only
+
+$$
+w_1=
+\begin{bmatrix}
+1\\
+0
+\end{bmatrix},
+\qquad
+v_1=1.
+$$
+
+The constraint observes the horizontal variance and nothing else. The family
+
+$$
+\Sigma_t=
+\begin{bmatrix}
+1 & 0\\
+0 & 1+t
+\end{bmatrix},
+\qquad
+t\geq0,
+$$
+
+is positive definite and satisfies
+
+$$
+w_1^\top\Sigma_tw_1=1
+$$
+
+for every $t$. But
+
+$$
+\log\det\Sigma_t=\log(1+t)\longrightarrow\infty.
+$$
+
+Geometrically, the covariance ellipse keeps the same horizontal width while
+stretching without limit in the unobserved vertical direction.
+
+This example is not meant to imitate a trained layer. It is the smallest exact
+witness to the mathematical mechanism.
+
+## Why the Section 4 inverse exposes the same boundary
+
+Evidence: **paper_claim** for the printed expression; **verified_fact** for the
+rank consequence.
+
+Section 4 conceptually writes the pure stationarity form as
+
+$$
+\widehat\Sigma
+=
+\left(
+\sum_i\lambda_iw_iw_i^\top
+\right)^{-1}.
+$$
+
+The matrix inside the inverse has rank at most $r$. If $r<d$, it is singular
+for every choice of multipliers.
+
+That observation alone says the displayed inverse cannot exist in the
+non-spanning case. The nullspace construction proves the stronger fact: under
+positive-definite feasibility, this is not merely a defective formula for a
+finite answer. The pure optimization itself is unbounded.
+
+## What changes when the constraints span the input
+
+Evidence: **verified_fact**, **P04-FULL-SPAN-BOUNDARY**.
+
+Now keep the finite-dimensional and positive-definite feasibility hypotheses,
+but suppose
+
+$$
+r=d.
+$$
+
+Define
+
+$$
+C=WW^\top
+=
+\sum_iw_iw_i^\top.
+$$
+
+Full span makes $C\succ0$. Also define
+
+$$
+S=\sum_i v_i.
+$$
+
+Every feasible covariance obeys
+
+$$
+\begin{aligned}
+\operatorname{tr}(C\Sigma)
+&=
+\operatorname{tr}
+\left(
+\sum_iw_iw_i^\top\Sigma
+\right)\\
+&=
+\sum_i w_i^\top\Sigma w_i\\
+&=
+S.
+\end{aligned}
+$$
+
+Set
+
+$$
+A=C^{1/2}\Sigma C^{1/2}\succ0.
+$$
+
+Then $\operatorname{tr}(A)=S$. Applying the arithmetic-geometric mean
+inequality to the $d$ positive eigenvalues of $A$ yields
+
+$$
+\det A
+\leq
+\left(\frac Sd\right)^d.
+$$
+
+Since
+
+$$
+\det A=\det C\,\det\Sigma,
+$$
+
+we obtain the finite bound
+
+$$
+\log\det\Sigma
+\leq
+d\log\left(\frac Sd\right)
+-
+\log\det C.
+$$
+
+The trace identity also bounds the feasible covariances:
+
+$$
+\lambda_{\min}(C)\operatorname{tr}(\Sigma)
+\leq
+\operatorname{tr}(C\Sigma)
+=S.
+$$
+
+The closure of the feasible set in the positive-semidefinite cone is therefore
+compact. Singular boundary points have extended objective
+$\log\det\Sigma=-\infty$, while the feasibility hypothesis supplies at least
+one positive-definite point with a finite objective. A maximizer exists in the
+positive-definite interior.
+
+Finally, $\log\det$ is strictly concave and the feasible set is convex, so
+that maximizer is unique.
+
+The boundary is exact:
+
+- feasible and $r<d$: pure entropy is unbounded above;
+- feasible and $r=d$: pure entropy is bounded and has one
+  positive-definite maximizer.
+
+This is why the title says *when* pure maximum entropy is unbounded.
+
+## In two dimensions, pure entropy removes projection correlation
+
+Suppose the complete ambient problem is two-dimensional and two independent
+constraint directions span it. Set
+
+$$
+Y=W^\top X,
+\qquad
+K=\operatorname{Cov}(Y)=W^\top\Sigma W.
+$$
+
+Because $W$ is invertible in this two-dimensional setting,
+
+$$
+\log\det\Sigma
+=
+\log\det K
+-
+2\log|\det W|.
+$$
+
+The change of coordinates adds only a constant. The two target variances fix
+the diagonal of $K$:
+
+$$
+K=
+\begin{bmatrix}
+v_1 & c\\
+c & v_2
+\end{bmatrix}.
+$$
+
+Its determinant is
+
+$$
+\det K=v_1v_2-c^2.
+$$
+
+Pure maximum entropy therefore chooses
+
+$$
+c=0.
+$$
+
+The constrained projections are uncorrelated. A nonzero correlation based on
+the geometry of the raw directions needs structure beyond the two target
+variances.
+
+## An exact feasible contrast
+
+Evidence: **verified_fact**, exact algebraic fixture.
+
+Choose
+
+$$
+w_1=
+\begin{bmatrix}
+1\\
+0
+\end{bmatrix},
+\qquad
+w_2=
+\begin{bmatrix}
+1/2\\
+\sqrt3/2
+\end{bmatrix},
+\qquad
+v_1=v_2=1.
+$$
+
+The two unit directions are non-collinear and span the full two-dimensional
+input. The pure optimizer is
+
+$$
+\Sigma_{\mathrm{pure}}
+=
+\begin{bmatrix}
+1 & -1/\sqrt3\\
+-1/\sqrt3 & 5/3
+\end{bmatrix}.
+$$
+
+Direct multiplication gives
+
+$$
+W^\top\Sigma_{\mathrm{pure}}W=I.
+$$
+
+Both target variances equal one and the projected cross-covariance is zero.
+Also,
+
+$$
+\det\Sigma_{\mathrm{pure}}=\frac43.
+$$
+
+Now consider the identity covariance
+
+$$
+\Sigma_{\mathrm{ref}}=I.
+$$
+
+It is also feasible because both raw directions have unit norm:
+
+$$
+w_1^\top\Sigma_{\mathrm{ref}}w_1
+=
+w_2^\top\Sigma_{\mathrm{ref}}w_2
+=1.
+$$
+
+But its two projected coordinates retain the raw cosine:
+
+$$
+w_1^\top\Sigma_{\mathrm{ref}}w_2=\frac12,
+$$
+
+and
+
+$$
+\det\Sigma_{\mathrm{ref}}=1.
+$$
+
+The identity answer is feasible, but it is not the pure entropy maximizer. This
+contrast holds in a full-spanning problem, so no nullspace escape is involved.
+The two answers differ because they optimize different objectives.
+
+## The identity precision in Appendix E
+
+Evidence: **paper_claim**, **P04-LOCAL-IDENTITY-PRECISION**.
+
+Appendix E.3.1 builds a local pairwise covariance and uses
+
+$$
+\Sigma^{-1}
+=
+I+W\Lambda W^\top.
+$$
+
+The identity term is not present in the Section 4 pure stationarity
+expression. Its effect is concrete: on any direction orthogonal to the local
+pair, the added precision remains one rather than zero. The covariance is
+therefore anchored instead of free to expand.
+
+That makes the Appendix construction mathematically different from the pure
+problem. It does not make it incoherent. It means the reference structure
+needs to be named.
+
+## The pair formula has its own rank domain
+
+Evidence: **verified_fact**, **P04-PAIR-RANK-DOMAIN**.
+
+The layer-wide rank boundary compares the span of every constrained direction
+with the ambient input dimension. The local Appendix formula has a separate
+domain condition.
+
+For a selected pair, write
+
+$$
+B=[w_i,w_j],
+\qquad
+G=B^\top B.
+$$
+
+The printed proof uses $G^{-1}$, while Eqs. 80 and 81 divide by one minus the
+squared raw correlation. These steps require
+
+$$
+\operatorname{rank}(B)=2,
+$$
+
+or equivalently:
+
+- both directions are nonzero;
+- they are not collinear;
+- their absolute cosine is strictly below one.
+
+Two nonzero collinear directions do not satisfy this domain. Nonzero norms
+alone are insufficient. An implementation should reject or separately define
+that boundary rather than manufacture a finite inverse.
+
+This pair-rank condition is not the same as full span of a high-dimensional
+layer. A rank-two pair can still occupy only a tiny part of an ambient space
+with $d>2$.
+
+## A reference-prior interpretation
+
+Evidence: **independent_inference**.
+
+Claim: `P04-IDENTITY-PRIOR-INTERPRETATION`.
+
+Let the reference covariance be
+
+$$
+P_\tau=\tau^2I,
+\qquad
+\tau>0.
+$$
+
+Consider the Gaussian relative-entropy projection
+
+$$
+\min_{\Sigma\in\mathcal F}
+\operatorname{KL}
+\left(
+\mathcal N(0,\Sigma)
+\middle\|
+\mathcal N(0,\tau^2I)
+\right).
+$$
+
+Ignoring terms independent of $\Sigma$, the objective is
+
+$$
+\frac12
+\left(
+\tau^{-2}\operatorname{tr}\Sigma
+-
+\log\det\Sigma
+\right).
+$$
+
+Its stationarity condition is
+
+$$
+\Sigma^{-1}
+=
+\tau^{-2}I
++
+W\Lambda W^\top.
+$$
+
+At $\tau=1$, this is exactly the identity-precision shape used in Appendix
+E.3.1.
+
+The conclusion has two evidence levels:
+
+- **paper_claim**: Appendix E prints the identity term.
+- **independent_inference**: the term is exactly explained by an isotropic
+  Gaussian reference-prior objective.
+
+We should not collapse those statements into one attribution.
+
+## Why the reference scale matters
+
+Evidence: **verified_fact**, **P04-PRIOR-SCALE-SENSITIVITY**, bounded to the
+declared deterministic rank-two fixture.
+
+Assume a valid rank-two pair. Let the raw directions have cosine $\rho$, norms
+$a$ and $b$, and target standard deviations $s_1$ and $s_2$. For the KL
+projection, let $q_\tau$ denote the resulting projected correlation. The
+calculations above derive
+
+$$
+\frac{q_\tau}{1-q_\tau^2}
+=
+\kappa_\tau,
+$$
+
+where
+
+$$
+\kappa_\tau
+=
+\frac{1}{\tau^2}
+\frac{\rho}{1-\rho^2}
+\frac{s_1s_2}{ab}.
+$$
+
+The stable root is
+
+$$
+q_\tau
+=
+\frac{2\kappa_\tau}
+{1+\sqrt{1+4\kappa_\tau^2}}.
+$$
+
+The target marginal variances remain fixed, yet the chosen pair correlation
+depends on $\tau$. In the exact full-spanning fixture above,
+$\rho=1/2$, $a=b=s_1=s_2=1$, and $\tau=1$ gives
+
+$$
+q_1=\frac12.
+$$
+
+By contrast, pure maximum entropy gives zero projected correlation. In this
+full-spanning fixture, the KL solution approaches the pure answer as
+$\tau$ grows without bound.
+
+The exact formula proves that the scale is substantive rather than cosmetic.
+The numerical sweep below checks a declared finite grid; it does not replace
+that analytic statement.
+
+### Frozen deterministic fixture diagnostics
+
+The authenticated independent audit passes all 17 declared checks. These are
+deterministic fixture diagnostics, not paper results or trained-network
+measurements:
+
+- the rank-deficient escape path reaches $t=1{,}000{,}000$ and records a
+  log-determinant gain of `13.815511557963774`;
+- the incompatible duplicate-constraint control records a minimum linear
+  residual of `0.5000000000000002`, or about `0.5`, and is classified as
+  infeasible rather than passed into the unboundedness theorem;
+- the prior-scale fixture uses
+  $\tau\in\{0.5,0.75,1,2,4,10\}$ and records a correlation range of
+  `0.8232599168595268` while the two target marginal variances remain fixed;
+- the maximum constraint residual on that tau sweep is
+  `1.5543122344752192e-15`; and
+- the maximum stationarity residual is `2.220446049250313e-16`.
+
+The exact $60$-degree geometry, cosine $1/2$, determinants $4/3$ and
+$1$, and correlations $0$ and $1/2$ remain algebraic results. The decimal
+values above only document the finite float64 fixtures declared in the
+[summary](https://github.com/basharelnashef/hope-under-the-microscope/blob/v1.0.0/artifacts/part_04/results/summary.json) and its configuration.
+
+## Proposed repair: state the real objective
+
+Evidence: **proposed_repair**, **P04-RELATIVE-ENTROPY-REPAIR**.
+
+If the intended construction is relative to an isotropic Gaussian, state:
+
+1. the exact KL direction;
+2. the reference covariance $\tau^2I$;
+3. the requirement $\tau>0$;
+4. the feasibility requirements on the projection targets;
+5. the rank-two domain of any inverse-Gram pair formula;
+6. how outputs change over a declared range of $\tau$.
+
+The repair does not turn inconsistent constraints into consistent ones. It
+does not retroactively make the Section 4 pure objective bounded when
+$r<d$. It defines a different, explicit problem whose identity precision
+prevents the nullspace escape.
+
+That is a constructive correction because it preserves the useful goal: build
+an analytical Gaussian surrogate from checkpoint moments while making every
+additional modeling choice visible.
+
+## What checks out
+
+The maximum-entropy framing is meaningful when its domain is stated.
+
+- Under positive-definite feasibility and full span, the pure covariance
+  problem is bounded and has a unique answer.
+- In a genuinely two-dimensional, rank-two problem, pure entropy sets the
+  projection cross-covariance to zero.
+- The identity-precision form has a coherent mathematical interpretation as a
+  relative-entropy projection onto a Gaussian reference.
+- The exact two-direction fixture lets us compare the pure and
+  identity-reference answers without optimizer behavior or empirical noise.
+
+These points are part of a fair reconstruction, not caveats added to soften a
+predetermined verdict.
+
+## What does not follow
+
+- Feasibility does not follow from rank.
+- Boundedness does not follow from feasibility when $r<d$.
+- Unboundedness does not follow when $r=d$ and positive-definite feasibility
+  holds.
+- The identity term does not follow from the pure Section 4 stationarity
+  condition.
+- A reference scale is not determined by the two target marginal variances.
+- Nonzero pair norms do not guarantee that the pair Gram matrix is invertible.
+
+The smallest correction is not to discard maximum entropy. It is to specify
+which maximum-entropy or relative-entropy problem is actually being solved.
+
+## Source and evidence matrix
+
+| Statement | Evidence label | Source or proof |
+|---|---|---|
+| Section 4 maximizes Gaussian differential entropy under projection-variance constraints | **paper_claim** | PDF pages 6 and 7 |
+| Section 4 conceptually inverts a weighted sum of filter outer products | **paper_claim** | PDF page 7 |
+| Feasible non-spanning constraints make the pure objective unbounded | **verified_fact** | Calculations above, non-spanning theorem |
+| Feasible full-spanning constraints give a bounded objective and unique positive-definite maximizer | **verified_fact** | Calculations above, full-spanning boundary |
+| Pure entropy gives zero projection correlation in the complete rank-two problem | **verified_fact** | Calculations above, local two-dimensional comparison |
+| Appendix E.3.1 uses identity precision | **paper_claim** | Proposition E.3 proof, PDF page 54 |
+| The printed pair inverse requires two non-collinear directions | **verified_fact** | Calculations above, pair-rank domain |
+| Identity precision is the stationarity form of a Gaussian KL projection | **independent_inference** | Calculations above, reference-prior derivation |
+| Introduce and disclose $\tau$ explicitly | **proposed_repair** | Calculations above, proposed repair |
+| Prior-scale sensitivity on the declared rank-two fixture | **verified_fact** | [Frozen summary](https://github.com/basharelnashef/hope-under-the-microscope/blob/v1.0.0/artifacts/part_04/results/summary.json), `P04-PRIOR-SCALE-SENSITIVITY` |
+
+## The bounded conclusion
+
+A maximum-entropy claim needs more than a list of observed projections. It
+needs a feasible constraint set and enough constrained directions to control
+every entropy-carrying direction.
+
+When those feasible directions do not span a finite-dimensional input,
+variance can escape through their orthogonal complement and pure differential
+entropy is unbounded. When they do span, the escape closes and the strict
+concavity of $\log\det$ selects one covariance.
+
+Appendix E closes the escape in another way: it adds identity precision. The
+mathematics becomes transparent once that term is read as a Gaussian reference
+measure. The constructive next step is to say so explicitly and expose its
+scale.
+
+> A maximum-entropy construction must constrain every entropy-carrying
+> direction or state the reference measure that anchors the rest.
+
+## Reproduction status
+
+The calculations and paper anchors are included above. The
+[artifact checksum index](https://github.com/basharelnashef/hope-under-the-microscope/blob/v1.0.0/artifacts/SHA256SUMS)
+authenticates these six published outputs:
+
+- [summary.json](https://github.com/basharelnashef/hope-under-the-microscope/blob/v1.0.0/artifacts/part_04/results/summary.json);
+- [escape_path.csv](https://github.com/basharelnashef/hope-under-the-microscope/blob/v1.0.0/artifacts/part_04/results/escape_path.csv);
+- [bounded_control.csv](https://github.com/basharelnashef/hope-under-the-microscope/blob/v1.0.0/artifacts/part_04/results/bounded_control.csv);
+- [pair_comparison.csv](https://github.com/basharelnashef/hope-under-the-microscope/blob/v1.0.0/artifacts/part_04/results/pair_comparison.csv);
+- [tau_sweep.csv](https://github.com/basharelnashef/hope-under-the-microscope/blob/v1.0.0/artifacts/part_04/results/tau_sweep.csv); and
+- [rank_cases.csv](https://github.com/basharelnashef/hope-under-the-microscope/blob/v1.0.0/artifacts/part_04/results/rank_cases.csv).
+
+From the repository root, validate the declared numerical contract with
+`python -m unittest discover -s experiments/audits/part04_maximum_entropy -p 'test_*.py' -v`.
+The outputs are independent mathematical fixtures, not measurements from a
+checkpoint and not a reproduction of a paper experiment.
+
+This article is published in the `v1.0.0` twelve-part package. Publication does
+not extend the frozen fixtures beyond the scope stated above.
+
+{{< include ../../_includes/cite-audit.qmd >}}

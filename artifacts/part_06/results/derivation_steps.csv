@@ -1,0 +1,14 @@
+step_id,sequence,formula,premise,result,evidence_label,claim_id,passed
+l1_paper_claim,1,E(Phi)=sum_i ||f_i||,"identity, symmetric separability, continuity, strict monotonicity, and equal partitioning",the paper states conditional L1 uniqueness,paper_claim,P06-L1-CAPACITY-CLAIM,True
+lp_fixed_family,2,E_p(partition)=||f|| M^(1/p-1),the declared L_p family and equal fractional partitioning,p=1 is the only nontrivially invariant tested exponent,verified_fact,P06-LP-PARTITION-RESULT,True
+capacity_differential,3,dJ=-c(Phi)dE/E,Axioms 1 and 3 with E>0,the scale-invariant density form is independently checked,verified_fact,P06-CAPACITY-INTEGRAL-FAMILY,True
+constant_density,4,J=c log(E_a/E_b),c is constant on the declared transition,three monotone parameterizations agree,verified_fact,P06-CAPACITY-INTEGRAL-FAMILY,True
+connectivity_condition,5,positivity and scale invariance of c do not imply c>=c_min>0,the theorem's divergence step separately assumes a uniform pathwise lower bound,the positive scale-invariant countermodel shows why the extra premise matters,counterexample,P06-CONNECTIVITY-LOWER-BOUND,True
+connectivity_countermodel,6,"Phi(E)=(E-E^2,E^2), c(Phi)=Phi_2/(Phi_1+Phi_2)=E",0<E<1 and c is positive and scale invariant on the positive cone,J=E_a-E_b stays finite as E_b->0,counterexample,P06-CONNECTIVITY-LOWER-BOUND,True
+geometric_change,7,dJ_proj=c(Phi)||dot(Phi)||_2 dt/E(Phi),geometric speed replaces -dot(E),the objective becomes path dependent,paper_claim,P06-GEOMETRIC-OBJECTIVE-CHANGE,True
+straight_bound,8,J_proj<=c D/E_b,"declared straight path, constant c, and E(t)>=E_b",endpoint expression bounds that path,verified_fact,P06-STRAIGHT-PATH-BOUND,True
+axiom3_relaxed,9,the endpoint proxy knowingly sacrifices path additivity,endpoint proxy replaces the line integral,the paper explicitly relaxes Axiom 3,paper_claim,P06-AXIOM3-RELAXATION,True
+width_choice,10,c(Phi)=N,piecewise constant width normalization,"an engineering choice, not fixed by Axioms 1-2",paper_claim,P06-WIDTH-NORMALIZATION-CHOICE,True
+eq6_instantiation,11,J_final=N D/E_b with action-specific substitutions,"the geometric endpoint proxy, c=N, and the declared pruning or merge endpoints",the paper's Eq. 6 formulas are algebraic instantiations of the selected proxy,paper_claim,P06-WIDTH-NORMALIZATION-CHOICE,True
+proxy_family,12,"J_p=N(D/E_b)^p, p>0",D/E_b is dimensionless and D has a positive extinction limit,every p shares scale invariance and the conditional barrier,counterexample,P06-ENDPOINT-PROXY-NONUNIQUENESS,True
+ranking_scope,13,N_a r_a^p=N_b r_b^p,global comparison may have different widths,p can change cross-layer order; fixed N preserves ratio order,verified_fact,P06-CROSS-LAYER-RANKING-SENSITIVITY,True

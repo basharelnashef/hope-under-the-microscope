@@ -1,0 +1,3 @@
+action_id,layer,widths_before,widths_after,active_neurons_before,active_neurons_after,neuron_density_before,neuron_density_after,density_reduction,parameters_before,parameters_after,parameter_payoff,parameter_retained_fraction,fixture_scope,paper_result,evidence_label,claim_id,passed
+prune_hidden_1,hidden_1,100|2|4|10,100|1|4|10,6,5,1.0,0.8333333333333334,0.16666666666666666,248,144,104,0.5806451612903226,weight-only dense chain without biases or BatchNorm parameters,False,independent_inference,P11-DENSITY-BUDGET-MISMATCH,True
+prune_hidden_2,hidden_2,100|2|4|10,100|2|3|10,6,5,1.0,0.8333333333333334,0.16666666666666666,248,236,12,0.9516129032258065,weight-only dense chain without biases or BatchNorm parameters,False,independent_inference,P11-DENSITY-BUDGET-MISMATCH,True

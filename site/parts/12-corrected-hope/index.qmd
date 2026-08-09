@@ -1,0 +1,836 @@
+---
+title: "Building a corrected HOPE"
+description: "HOPE-R keeps the functional-neuron idea while replacing incompatible geometry, merge, cache, block, and DEFT contracts with one runnable reference design."
+part: 12
+toc: true
+execute:
+  enabled: false
+---
+
+::: {.callout-note appearance="simple"}
+## Code and reproducibility
+
+This page is paired with the immutable `v1.0.0` release.
+
+- [Exact audit package](https://github.com/basharelnashef/hope-under-the-microscope/tree/v1.0.0/experiments/audits/part12_corrected_hope)
+- [Focused tests](https://github.com/basharelnashef/hope-under-the-microscope/blob/v1.0.0/experiments/audits/part12_corrected_hope/test_run.py)
+- [Artifact checksums](https://github.com/basharelnashef/hope-under-the-microscope/blob/v1.0.0/artifacts/SHA256SUMS)
+- [Evidence: `design_contract.csv`](https://github.com/basharelnashef/hope-under-the-microscope/blob/v1.0.0/artifacts/part_12/results/design_contract.csv)
+- [Evidence: `integration_ablations.csv`](https://github.com/basharelnashef/hope-under-the-microscope/blob/v1.0.0/artifacts/part_12/results/integration_ablations.csv)
+
+From the repository root:
+
+```bash
+python -m unittest discover -s experiments/audits/part12_corrected_hope -p 'test_*.py' -v
+```
+
+Scope: HOPE-R is an independently proposed reference design tested on deterministic fixtures, not author code or a benchmark result.
+
+:::
+
+The most useful criticism ends with a runnable alternative.
+
+Parts 1 through 11 found a valuable local idea inside HOPE v1: a neuron can be
+treated as a complete function-valued operator, not merely as an incoming
+filter. They also found that the published pipeline asks several incompatible
+objects to carry that idea. Pair-local surrogates are assembled as though they
+came from one distribution. A symbolic merge target is not always the
+physical one-parent map that Algorithm 2 executes. Local cache refresh omits
+graph dependencies. DEFT freezes destinations while the complete operator is
+owned by its source. The experiments do not resolve those specification gaps.
+
+Part 12 builds forward from that record.
+
+HOPE-R is a framework-independent proposed reference design with four joined
+contracts:
+
+1. Every neuron in one layer is evaluated under one declared weighted
+   calibration measure.
+2. A physical merge fits one realizable parent to the executed child sum and
+   reports the residual it actually leaves.
+3. Every physical channel mutation has an explicit graph dependency closure,
+   live resource account, and fail-closed block boundary.
+4. Transfer uses fixed-width slots, complete source-owned masks, explicit
+   optimizer state, and task-declared BatchNorm and evaluation state.
+
+These are proposed repairs, not an author implementation and not results
+reported by HOPE v1. The supporting audit uses deterministic float64 fixtures.
+It trains no model, reads no benchmark dataset, and makes no claim about
+accuracy, convergence, latency, or how often a local failure occurs in a
+trained network.
+
+## Correction begins by separating the branches
+
+A corrected method cannot quietly replace a paper equation and then continue
+calling the result a reproduction. HOPE-R therefore preserves three distinct
+labels:
+
+| Branch | Meaning | Permitted conclusion |
+|---|---|---|
+| Paper-literal | The equation or algorithm as printed in HOPE v1 | What the paper specifies on the declared input |
+| Deterministic fixture | A finite NumPy construction used to test one boundary | What happens on that fixture within enforced tolerances |
+| Proposed HOPE-R repair | A new rule chosen after the audit | What the implemented rule guarantees in its declared domain |
+
+The separation is visible in code. Paper-literal modules remain under
+`hope_repro.paper_literal`. The new modules live under
+`hope_repro.proposed_repairs.hope_r`. The Part 12 audit imports the latter as
+proposed repairs and retains paper-literal calculations only as named
+comparisons or negative controls.
+
+This distinction prevents four common overclaims:
+
+- calibrated exactness is not population exactness;
+- a positive-semidefinite fixture Gram is not proof that the paper's
+  pair-assembled Gram is always positive semidefinite;
+- an exact-twin merge is not universal one-neuron preservation;
+- a zero-drift optimizer fixture is not evidence of benchmark retention.
+
+The purpose of HOPE-R is narrower: make the desired invariants explicit enough
+that an implementation can either satisfy them or fail before changing a
+model.
+
+## The exact paper anchors stay attached
+
+The corrected pipeline answers specific parts of the authenticated HOPE v1
+paper. It does not replace their provenance. The Part 12 source map uses these
+exact anchors from `paper/equation-map.json`:
+
+| HOPE-R boundary | Exact paper anchor used for comparison |
+|---|---|
+| Functional atom and kernels | Eqs. 1-5, PDF pages 5-9 |
+| Printed physical merge | Eq. 6 and Eqs. 7-18, PDF pages 13-16 |
+| Residual eviction | Eqs. 19-20, PDF page 17 |
+| Planning and payoff | Eqs. 21-23, PDF pages 18-19 |
+| DEFT partition and routing | Eqs. 24-29, PDF pages 21-23 |
+| Common expectation geometry | Eq. 30 and Proposition A.1, PDF page 35 |
+| Cached payoff and pair geometry | Appendix B.2-B.4 and Eqs. 36-40, PDF pages 38-40 |
+| Self and cross-kernel comparison branches | Eqs. 73-85, PDF pages 52-56 |
+| Executed aggregate map | Eq. 86, PDF page 57 |
+| Identity-shortcut assumptions | Eqs. 93-97, PDF page 58 |
+| Core ownership and released vessels | Definition H.1 and Eqs. 102-118, PDF pages 62-67 |
+| Physical surgery, compression, and transfer | Algorithms 1-3, PDF pages 68-70 |
+
+The anchors matter because HOPE-R changes different things for different
+reasons. It retains Eq. 30's common-expectation logic, but changes how the
+measure is obtained. It retains Eq. 86's sum-map target, but changes how a
+realizable physical parent is selected. It retains the useful routing idea of
+Eqs. 28-29, but changes parameter ownership and slot lifecycle.
+
+`source_map.csv` is the canonical machine-readable route from each Part 12
+claim to these paper locations and to the independent implementation branch.
+
+## One layer gets one declared calibration measure
+
+The first repair resolves the geometry mismatch from Parts 3 through 5.
+
+Let a layer receive declared calibration rows
+
+$$
+x_1,\ldots,x_m
+$$
+
+with nonnegative weights
+
+$$
+q_1,\ldots,q_m,
+\qquad
+\sum_{n=1}^{m}q_n=1.
+$$
+
+For neuron $i$, fold its inference-time affine state and evaluate
+
+$$
+a_i(x_n)=\operatorname{ReLU}(w_i^\top x_n+b_i).
+$$
+
+The calibrated cross-moment is then
+
+$$
+K_{ij}^{\mathrm{cal}}
+=
+\sum_{n=1}^{m}q_n a_i(x_n)a_j(x_n).
+$$
+
+Every entry uses the same rows and the same normalized weights. No pair may
+silently choose a new covariance, a new marginal law, or a new sample subset.
+The label attached to the calibration measure is carried into downstream
+merge results.
+
+proposed_repair (P12-CALIBRATED-COMMON-MEASURE): HOPE-R evaluates all neurons
+in one layer under one declared weighted calibration measure, so the exact
+activation moments share one distribution.
+
+The word calibrated is an essential limitation. This mode consumes input
+rows. It is not strictly data-free, even when the rows are unlabeled. A user
+must declare their source, weighting, preprocessing, and sampling policy. A
+different calibration measure defines a different geometry.
+
+This is preferable to preserving a data-free label by hiding incompatible
+pairwise laws. It also creates an experimental obligation: a future trained
+study must test calibration-source and calibration-size sensitivity rather
+than treating the selected rows as an invisible constant.
+
+## The common Gram is positive semidefinite by construction
+
+Collect the calibrated activations in a matrix
+
+$$
+A_{n,i}=a_i(x_n)
+$$
+
+and let $D=\operatorname{diag}(q_1,\ldots,q_m)$. The whole-layer Gram is
+
+$$
+G=A^\top D A
+=
+(D^{1/2}A)^\top(D^{1/2}A).
+$$
+
+For any vector $c$,
+
+$$
+c^\top Gc
+=
+\lVert D^{1/2}Ac\rVert_2^2
+\ge 0.
+$$
+
+This is the shared-distribution guarantee anticipated by Eq. 30 and
+Proposition A.1 on PDF page 35. It does not need separately warped pairwise
+correlations to happen to assemble into one feasible matrix.
+
+The implementation still validates the output. It checks finite values,
+symmetry, and the smallest eigenvalue against a declared float64 roundoff
+tolerance. Material asymmetry or negative curvature raises an error. Small
+accepted numerical negativity remains visible in the returned certificate
+rather than being silently projected away.
+
+verified_fact (P12-COMMON-GRAM-PSD): on the declared Part 12 weighted
+calibration fixtures, the exact activation table produces a
+positive-semidefinite Gram by construction and the fail-closed spectral check
+finds no material negative eigenvalue.
+
+The result is local in two ways. It concerns the declared activation rows, and
+it concerns the Part 12 fixtures. It is not a claim that arbitrary empirical
+calibration represents the target population, nor that the paper-literal
+pair construction has acquired this property retroactively.
+
+The diagonal of this common Gram supplies each calibrated self-moment. HOPE-R
+then computes the functional capacity of neuron $i$ as
+
+$$
+\sqrt{G_{ii}}\,\lVert v_i\rVert_2,
+$$
+
+where $v_i$ is the complete outgoing vector. Positive rescaling of the
+incoming affine coordinates with reciprocal outgoing rescaling leaves the
+represented contribution and the tested capacity unchanged.
+
+## BatchNorm and kernel limits are explicit
+
+Equation 1 on PDF page 5 motivates folding BatchNorm into the functional
+affine map. HOPE-R performs that fold with the supplied finite epsilon intact.
+For raw affine state $w_0,b_0$, BatchNorm scale $\gamma$, shift $\beta$,
+running mean $\mu$, running variance $\sigma^2$, and epsilon $\epsilon$,
+the folded values are
+
+$$
+s=\frac{\gamma}{\sqrt{\sigma^2+\epsilon}},
+\qquad
+w=sw_0,
+\qquad
+b=\beta+s(b_0-\mu).
+$$
+
+The denominator must be strictly positive. Negative variance, negative
+epsilon, non-finite input, and non-finite output fail closed.
+
+The zero-scale boundary is handled before unsafe multiplication. If
+$\gamma=0$, the folded affine map is the deterministic constant $\beta$,
+even when an irrelevant raw subtraction would overflow. The corresponding
+zero-variance ReLU self-moment is exactly
+
+$$
+\operatorname{ReLU}(\beta)^2.
+$$
+
+It is not replaced by a tiny positive variance and it is not sent through a
+formula whose derivation assumes positive scale.
+
+HOPE-R also keeps two cross-kernel APIs separate:
+
+- `calibrated_cross_kernel` is exact with respect to the declared weighted
+  empirical measure;
+- `zero_bias_cross_kernel_approximation` is explicitly the zero-bias angular
+  comparison associated with Eqs. 84-85 on PDF page 56.
+
+The exact biased pair moment in Eqs. 80-83 on PDF pages 54-55 remains a
+paper-literal comparison branch. It is not used to smuggle pair-specific
+surrogates into the common calibrated Gram.
+
+proposed_repair (P12-KERNEL-BOUNDARY-CONTRACT): HOPE-R folds finite-epsilon
+BatchNorm explicitly, implements the deterministic zero-scale ReLU limit, and
+keeps calibrated exact cross-moments separate from the paper-literal
+zero-bias approximation.
+
+`common_gram_cases.csv` records the deterministic Gram, scale-symmetry, fold,
+and boundary cases. Those rows establish API behavior, not a population model
+and not a benchmark result.
+
+## The physical merge target is the executed child sum
+
+Equation 86 on PDF page 57 defines the aggregate tuple map as a sum of
+functional contributions. If two child neurons contribute vector-valued maps
+$f_i$ and $f_j$, the object that one retained physical vessel must replace
+is
+
+$$
+F(x)=f_i(x)+f_j(x).
+$$
+
+That target is different from preserving two duplicated parent coordinates in
+an abstract comparison space. Algorithm 2 on PDF page 69 retains one child
+vessel and purges the other. The realized post-surgery network therefore has
+one scalar ReLU activation and one outgoing vector where it previously had
+two.
+
+HOPE-R scores that actual one-parent problem. For every calibration row it
+forms the child sum $F(x_n)$. A candidate parent has augmented affine
+direction $d=[w;b]$, activation
+
+$$
+h_d(x_n)=\operatorname{ReLU}(d^\top[x_n;1]),
+$$
+
+and outgoing vector $v$. For fixed $d$, it solves the weighted
+least-squares problem
+
+$$
+v_d^*
+=
+\arg\min_v
+\sum_n q_n
+\lVert F(x_n)-h_d(x_n)v\rVert_2^2.
+$$
+
+The denominator-zero case has an explicit zero-output solution. Otherwise the
+outgoing vector is the closed-form weighted least-squares fit. The returned
+record includes the selected direction, fitted outgoing vector, child-sum
+norm, realized parent norm, absolute residual, relative residual, candidate
+count, span rank, and calibration-measure label.
+
+The incoming search is deterministic and realizable. It stays within the at
+most two-dimensional augmented affine span of the children. It always includes
+the signed child directions as anchors. A rank-two case adds a fixed
+full-circle angular candidate set. HOPE-R selects the smallest measured
+residual among that declared finite set.
+
+proposed_repair (P12-SUM-MAP-MERGE): HOPE-R ranks a physical one-parent merge
+by its measured residual against the executed child sum and searches a
+deterministic realizable direction set.
+
+This is why the method is named `sum_map_optimized`, not universally
+sum-preserving. The optimization is exact in the outgoing vector for each
+candidate and deterministic over the candidate set. It is not a proof of a
+global optimum over every possible ReLU parent, and it does not say that an
+arbitrary non-twin pair has a zero-residual one-neuron representation.
+
+## Exact twins receive an anchor, not a universal theorem
+
+Exact twins are the realizable boundary a corrected merge should not miss.
+Two positively rescaled parameterizations can describe the same functional
+contribution because ReLU is positively homogeneous. Their augmented
+directions are collinear, and a retained child direction is already present in
+the candidate set.
+
+On the declared zero-bias and biased exact-twin fixtures, the fitted outgoing
+vector doubles the realized anchored contribution. The one retained parent
+therefore matches the two-child sum within the enforced numerical tolerance.
+The same fixture remains invariant when the child parameterizations are
+changed by positive incoming scaling and reciprocal outgoing scaling.
+
+verified_fact (P12-TWIN-PRESERVATION): on the declared exact-twin fixtures,
+the corrected physical merge retains an anchored child direction, doubles its
+realized contribution through the fitted outgoing vector, and matches the
+original child sum to numerical tolerance.
+
+The non-twin control is equally important. A noncollinear pair returns a
+measured residual rather than being relabeled as exact. That residual is
+evaluated under the same calibration measure as the candidate fit. A zero
+value would certify equality only on those declared rows; a nonzero value is a
+direct local record of what the physical merge failed to preserve.
+
+`merge_cases.csv` preserves both boundaries. It does not license a claim of
+universal non-twin preservation, final-logit control, or downstream loss
+control.
+
+## Physical surgery invalidates a graph closure
+
+Algorithms 1 and 2 on PDF pages 68-69 mutate physical channels. Once a channel
+is removed or two children are replaced, the change is not confined to one
+cached pair in one layer.
+
+HOPE-R requires a complete explicit graph declaration before surgery. Every
+physical channel has a stable `ChannelRef`. Every live input coordinate names
+its source. Every producer names every direct consumer, including fan-out
+branches. A terminal channel may have no consumer; an unresolved nonterminal
+channel may not masquerade as one.
+
+For a declared prune or merge, the dependency plan includes:
+
+- every changed-layer capacity, outgoing, incoming, BatchNorm-assumption, and
+  affected pair key, including removed children and the retained merge-parent
+  vessel;
+- every resolved predecessor outgoing dependency;
+- every affected predecessor capacity and pair dependency;
+- every resolved successor incoming and capacity dependency;
+- every successor pair and BatchNorm assumption;
+- every residual-block score spanning an affected layer.
+
+The plan is constructed before physical mutation and serialized in canonical
+order. A merge must explicitly name which child vessel receives the synthesized
+parent; both child records are invalidated, the removed child is discarded, and
+the retained vessel is recomputed. Stable channel IDs are identity tokens, not
+a promise that surviving channels will be renumbered densely.
+
+proposed_repair (P12-DEPENDENCY-CLOSURE): after physical channel surgery,
+HOPE-R invalidates the changed layer, all resolved predecessor and successor
+dependencies, every affected successor BatchNorm assumption, and every
+spanning block score.
+
+This is a deliberately fail-closed contract. Grouped and depthwise
+convolution, shared parameters, unknown operators, incomplete consumer maps,
+and unresolved fan-out are rejected. The reference module does not claim to
+trace a framework model automatically. A caller must supply and validate the
+graph it wants to mutate.
+
+The deterministic branched fixture now constructs its oracle independently of
+the invalidation plan. `cache_universe(graph)` enumerates 37 pre-surgery cache
+records from the declared graph. A separate topology surgery produces the
+32-record post-prune graph, and graph-derived structural digests identify 25
+removed or changed prune keys. The merge oracle independently identifies 29
+keys because it also refreshes the retained physical parent. Both plan key sets
+match their oracles exactly, with zero missing and zero extra keys.
+
+The refresh comparison starts from the complete pre-surgery snapshot, removes
+the plan's invalidated keys, recomputes surviving affected keys from the
+post-surgery graph, and compares the resulting dictionary with the independently
+built post-surgery snapshot. A changed-layer-only negative control leaves 20
+dependent records stale.
+
+verified_fact (P12-REFRESH-EQUIVALENCE): on the declared abstract branched
+fixture, dependency-aware structural refresh agrees with the independently
+enumerated post-surgery cache snapshot, while the deliberately local negative
+control does not. This is a structural cache-contract test, not a numerical
+capacity or framework-runtime equivalence claim.
+
+`invalidation_cases.csv` records the resolved branch, closure categories,
+refresh comparison, and fail-closed cases. This fixture is not evidence that
+an undeclared production graph has been traced completely.
+
+## Resource accounting names the unit before counting it
+
+Section 10 and Appendix B.4 distinguish constant scalar arithmetic for one
+cached candidate from the scan needed to choose among live candidates. HOPE-R
+keeps those units separate.
+
+At every declared state, the resource record can report:
+
+- live widths;
+- live prune, merge, and eligible-block candidates;
+- exhaustive candidate evaluations in the current scan;
+- the full declared sequence of trajectory scan states;
+- pair-cache entries and their scalar and index payload bytes;
+- canonical key-record bytes, separately excluding container overhead;
+- dependency-plan refresh evaluations and unique refreshed keys;
+- calibration examples, input values, output elements, and branch-cost
+  evaluations.
+
+Immediate physical payoff is also recomputed from the live graph. Removing a
+channel counts its generating weights, optional bias, declared BatchNorm
+values, and the corresponding input coordinate in every explicit downstream
+consumer. Fan-out is counted branch by branch. The paper's initial static
+parameter payoff remains available as a separate baseline; it is not silently
+substituted for the live release after prior surgery.
+
+proposed_repair (P12-LIVE-RESOURCE-ACCOUNTING): HOPE-R records initialization,
+live candidates, exhaustive scans, trajectory evaluations, cache storage,
+dependency refreshes, calibration evaluations, and immediate live physical
+payoff without converting those counts into a wall-clock claim.
+
+The count record is not a benchmark. It does not include Python container
+overhead unless explicitly added, allocator behavior, kernel fusion, device
+traffic, parallel scheduling, or elapsed time. It also does not turn parameter
+count into FLOPs or latency. Those require separately instrumented
+measurements.
+
+`resource_accounting.csv` is the canonical count record. It keeps the initial
+static comparator and live physical values in different fields.
+
+## Residual-block handling has a narrow eligibility gate
+
+The paper's Eqs. 19-20 on PDF page 17 sum local internal-layer quantities and
+normalize by an identity-path capacity. Parts 6 and 8 showed why that
+construction does not automatically become a function-level bound for a
+sequential nonlinear residual branch.
+
+HOPE-R does not generalize the claim. It accepts only a declared:
+
+- ResNet V1 block;
+- post-activation boundary;
+- identity shortcut;
+- unit stride;
+- equal input and output shape.
+
+For that eligible boundary, the calibrated repair directly compares the
+retained output
+
+$$
+\operatorname{ReLU}(x+F(x))
+$$
+
+with the evicted output
+
+$$
+\operatorname{ReLU}(x)
+$$
+
+on declared calibration arrays. The score is the weighted mean squared
+boundary displacement. It measures the executed block change rather than
+summing local sequential proxies.
+
+Projection shortcuts, stride changes, ResNet V2 ordering, missing skips,
+shape changes, and unresolved cases are rejected with explicit reason codes.
+Eqs. 93-97 on PDF page 58 remain the exact identity-shortcut comparison
+anchor; they are not treated as authority for unsupported block families.
+
+proposed_repair (P12-BLOCK-ELIGIBILITY): HOPE-R accepts only resolved
+same-shape stride-one post-activation ResNet V1 identity shortcuts for this
+calibrated direct branch score and fails closed outside that domain.
+
+`block_eligibility.csv` records the accepted boundary and each named rejection.
+It does not show how often any block type occurs in a benchmark architecture,
+nor whether evicting an eligible block preserves accuracy.
+
+## DEFT keeps stable physical slots
+
+The Part 10 audit found three distinct partition procedures across Eqs. 24-27,
+Definition H.1, and Algorithm 3. HOPE-R chooses one instead of trying to prove
+all three equivalent.
+
+For each layer, the caller declares a fixed ordered tuple of stable slot IDs
+and an integer core count $k_\ell$. HOPE-R ranks current functional capacity
+within that layer by:
+
+1. capacity descending;
+2. stable slot ID ascending for an exact tie.
+
+Exactly $k_\ell$ slots become core. The remaining active slots become slack.
+The core count, tie rule, capacities, ranked IDs, and final assignment are
+returned together. Mapping insertion order and physical array order do not
+silently resolve ties.
+
+The slot lifecycle has four explicit states:
+
+| State | Meaning |
+|---|---|
+| `core` | Source-owned complete operator protected from target updates |
+| `slack` | Active plastic slot |
+| `released` | Fixed physical position retained but inactive and not trainable |
+| `reinitialized` | Reused position with a live incoming path and initially silent outgoing path |
+
+A slack slot may be released without changing tensor width or stable identity.
+Core slots have no release transition after the partition and remain
+protected. Only a released slot may be reinitialized. A reinitialized slot may
+then enter ordinary slack, or be released again. Direct transitions that would
+create a reinitialized state without parameters are rejected.
+
+Reinitialization is asymmetric on purpose. The deterministic initializer gives
+the slot a nonzero, normalized incoming vector, affine scale one, affine shift
+zero, and an all-zero outgoing vector. On the declared all-ones probe, the
+incoming ReLU activation is live while the initial vector contribution is
+exactly zero.
+
+That creates a two-stage gradient path in the scalar squared-loss fixture. On
+the first backward pass, the outgoing parameter receives a nonzero gradient
+while the internal parameters remain blocked by the zero outgoing value. After
+the first outgoing update, the second backward pass reaches the incoming and
+affine parameters. The fixture demonstrates local gradient liveness; it does
+not prove convergence or useful feature learning.
+
+proposed_repair (P12-FIXED-WIDTH-DEFT): HOPE-R uses stable fixed-width slots,
+one explicit layer-wise top-k current-capacity partition, live released-slot
+initialization, source-owned masks, cleared optimizer state, and declared
+BatchNorm ownership.
+
+## Core invariance needs two different masks
+
+The structural routing mask and parameter ownership mask serve different
+purposes.
+
+For a route indexed as `[source_slot, destination_slot]`, the structural mask
+permanently zeros every plastic-to-core edge. Slack, released, and
+reinitialized sources are all treated as plastic-side states for this rule.
+That preserves the narrow routing property associated with Eqs. 28-29 on PDF
+pages 22-23.
+
+The source-owned update mask protects the complete Eq. 2 operator. For each
+core source slot, it zeros updates to:
+
+- every incoming weight;
+- the incoming bias;
+- BatchNorm scale and shift;
+- every outgoing route, including routes into slack destinations.
+
+That final row-wide rule is the correction to destination-only ownership. A
+core-to-slack outgoing edge belongs to the upstream core operator even though
+its destination is plastic. Released slots are also nontrainable. Slack and
+properly reinitialized slots are trainable, subject to the separate structural
+route mask.
+
+Gradient masking alone is still insufficient when optimizer state already
+exists. HOPE-R clears masked momentum and accepts a separate reset mask for
+reused entries. Its deterministic momentum plus decoupled-weight-decay step
+applies gradient, momentum, and weight decay only where the update mask is one.
+Masked values are copied directly from the original parameter tensor, and
+their returned momentum is exactly zero. Per-tensor diagnostics report masked
+element count, maximum masked drift, maximum masked optimizer state, and the
+exact unchanged predicate.
+
+BatchNorm ownership is explicit as well. Scale and shift for channel $i$ are
+owned by that channel's stable source slot. Running buffers use one of two
+declared policies:
+
+- `frozen`: source and target evaluation select the source track, and target
+  adaptation does not update it;
+- `dual_track`: source and target own distinct running-mean and
+  running-variance tracks, and an update changes only the selected task track.
+
+Dual tracking preserves the source-evaluation map by retaining its source
+track. It does not claim that one live set of buffers is simultaneously ideal
+for both tasks. It stores task-specific state and must be reported as such.
+
+Finally, evaluation cannot select state implicitly. A `StateDeclaration`
+names the task, head, BatchNorm track, stable slot IDs, and slot mask. An
+`EvaluationDeclaration` names the dataset, metric, aggregation, checkpoint
+rule, and required state. `TaskStateSelector` rejects a task or buffer-track
+mismatch. This makes the state restoration and checkpoint semantics exposed
+in Parts 10 and 11 part of the result definition rather than hidden setup.
+
+verified_fact (P12-CORE-STATE-INVARIANCE): in the declared fixed-width
+fixtures, source-owned update masks plus the declared BatchNorm buffer policy
+freeze the complete core operator, including every outgoing route, under
+momentum and decoupled weight decay, while the reinitialized slot becomes
+gradient-live in two stages.
+
+`deft_transitions.csv` records the partition, lifecycle, gradient, structural
+route, complete ownership, optimizer, BatchNorm, and evaluation-state
+transitions. The result is a deterministic state-machine witness, not source
+retention accuracy.
+
+## The modules compose in one order
+
+HOPE-R is most useful as an ordered contract rather than a bag of independent
+patches.
+
+1. Declare the calibration measure, graph, supported block boundaries, and
+   task-state policy.
+2. Fold finite inference-time BatchNorm state and evaluate all layer neurons
+   on the common calibration rows.
+3. Build and validate one common Gram, then compute capacities from its
+   diagonal and each complete outgoing vector.
+4. Enumerate live actions. Score a merge against the executed child sum and an
+   eligible block against direct calibrated boundary displacement.
+5. Record the current exhaustive scan, live physical payoff, cache storage,
+   and calibration work before selecting an action.
+6. Resolve the full dependency closure before physical surgery. If graph
+   ownership or fan-out is unresolved, stop.
+7. Execute the selected supported action, invalidate every returned key, and
+   refresh those dependencies before the next scan.
+8. At transfer, keep physical widths fixed, partition once by the declared
+   layer-wise rule, initialize reusable slots, clear their optimizer state,
+   and combine structural routing with complete source-owned update masks.
+9. Evaluate only through a declaration that names the task head, slot mask,
+   BatchNorm track, metric aggregation, and checkpoint rule.
+
+`design_contract.csv` makes these preconditions, outputs, and fail-closed
+boundaries machine-readable. `integration_ablations.csv` records deterministic
+controls that isolate repaired module boundaries and their interaction. Those
+controls are implementation ablations, not trained-network or accuracy
+ablations.
+
+The integration order also exposes a dependency that an isolated equation can
+hide. A merge changes physical outgoing and incoming coordinates. That change
+invalidates capacities, pair geometry, successor assumptions, and block
+scores. A later DEFT partition is meaningful only after those quantities have
+been refreshed in the same declared geometry. Likewise, a source accuracy is
+meaningful only after its evaluation state has been selected explicitly.
+
+## What the corrected design establishes
+
+The Part 12 claims fall into three evidence classes.
+
+proposed_repair:
+
+- P12-CALIBRATED-COMMON-MEASURE chooses one declared weighted empirical law
+  for every neuron in a layer and gives up a strict data-free claim.
+- P12-KERNEL-BOUNDARY-CONTRACT makes finite-epsilon folding, zero-scale limits,
+  and exact-versus-approximate kernel branches explicit.
+- P12-SUM-MAP-MERGE optimizes a realizable physical parent against the
+  executed child sum and reports its measured residual.
+- P12-DEPENDENCY-CLOSURE invalidates the complete independently enumerated
+  cache set for the declared resolved graph contract or fails before surgery.
+- P12-LIVE-RESOURCE-ACCOUNTING records live candidates, scans, trajectory,
+  cache, refresh, calibration, and physical payoff without a timing claim.
+- P12-BLOCK-ELIGIBILITY restricts direct calibrated eviction scoring to the
+  implemented identity-shortcut domain.
+- P12-FIXED-WIDTH-DEFT specifies stable slots, one partition, reusable-state
+  transitions, complete masks, optimizer state, and BatchNorm ownership.
+
+verified_fact:
+
+- P12-COMMON-GRAM-PSD holds on the declared common-measure fixtures and their
+  fail-closed spectral validation.
+- P12-TWIN-PRESERVATION holds on the declared biased and zero-bias exact-twin
+  physical merge fixtures within numerical tolerance.
+- P12-REFRESH-EQUIVALENCE holds on the declared branched cache fixture against
+  full recomputation.
+- P12-CORE-STATE-INVARIANCE holds on the declared fixed-width optimizer,
+  buffer, and two-stage gradient fixtures.
+
+independent_inference (P12-GUARANTEE-SCOPE): the integrated fixtures establish
+local algebra, geometry, graph, state, and accounting contracts for HOPE-R.
+They do not establish trained-network prevalence, optimizer convergence,
+final-logit or loss control, accuracy, latency, author-code reproduction, or
+universal compression superiority.
+
+That last boundary is not a disclaimer attached after the fact. It is part of
+the design. Every result row carries a claim ID and evidence class so a local
+fixture cannot silently become a benchmark conclusion.
+
+## What remains unsupported
+
+HOPE-R is not a completed empirical answer to the HOPE research program.
+
+First, the common geometry is calibrated. Its sensitivity to calibration
+distribution, sample size, weights, preprocessing, and domain shift is open.
+The Part 12 fixtures show algebraic consistency, not population fidelity.
+
+Second, the merge search is finite. Exact twins are anchored, but a general
+non-twin pair may leave substantial residual, and a denser direction search
+may select a different candidate. Even zero calibration residual does not
+guarantee equality outside the calibration rows.
+
+Third, a local residual is not a network guarantee. Later nonlinearities,
+normalization, fan-out, and task loss can amplify or attenuate a local change.
+No Part 12 test bounds final logits or loss across an arbitrary network.
+
+Fourth, the graph implementation has a deliberately narrow operator domain.
+Grouped and depthwise convolution, projection shortcuts, shared weights,
+attention, LayerNorm, GroupNorm, non-PH-1 activations, framework tracing, and
+unresolved fan-out are unsupported or fail closed.
+
+Fifth, operation and byte counts are not measurements of elapsed time, energy,
+or peak device memory. A systems claim requires an implementation on declared
+hardware with synchronized measurement and a stated workload.
+
+Sixth, fixed-width DEFT retains task-specific state under dual tracking and
+task-state selection. It has not shown that the selected partition is optimal,
+that a released slot learns useful target structure, or that source accuracy
+is preserved in a trained network.
+
+Finally, this repository does not contain an authenticated author
+implementation against which HOPE-R could claim code equivalence. The
+paper-literal and proposed branches answer different questions by design.
+
+## The decisive next experiment
+
+A credible empirical evaluation should test the repaired boundaries alone and
+together without changing the result definition between methods.
+
+For compression, publish:
+
+- the calibration-row source and weighting rule;
+- exact action traces and measured per-action physical residuals;
+- results at equal live parameters, FLOPs, and measured latency;
+- literal versus common-Gram, literal versus sum-map merge, local versus
+  dependency-closure refresh, and internal-score versus direct-block-cost
+  controls;
+- final-logit, loss, and accuracy changes after each supported action;
+- unsupported-action counts and fail-closed reasons.
+
+For transfer, publish:
+
+- the exact layer-wise core counts and stable slot assignments;
+- source-owned and structural masks;
+- cleared optimizer-state records;
+- frozen versus dual-track BatchNorm policy;
+- live and restored source-state evaluation separately;
+- per-scenario target, source, and H-score records with one aggregation and
+  checkpoint rule;
+- parameter, optimizer-state, and task-state storage budgets.
+
+The essential ablation is cumulative. A common Gram cannot rescue an
+unrealizable physical merge. A better merge cannot rescue stale downstream
+caches. Correct cache refresh cannot freeze a core operator whose outgoing row
+and BatchNorm buffers remain plastic. Each invariant must survive after the
+next module is enabled.
+
+The outcomes of those experiments are unknown. Part 12 supplies the reference
+contracts needed to run them without first reopening the specification.
+
+## Reproduction boundary
+
+The canonical Part 12 numerical result contract contains exactly ten files
+under `artifacts/part_12/results/`:
+
+- `summary.json`
+- `design_contract.csv`
+- `common_gram_cases.csv`
+- `merge_cases.csv`
+- `invalidation_cases.csv`
+- `resource_accounting.csv`
+- `block_eligibility.csv`
+- `deft_transitions.csv`
+- `integration_ablations.csv`
+- `source_map.csv`
+
+The files contain deterministic local fixtures and evidence metadata. They do
+not contain benchmark measurements. The focused tests validate the numerical
+contract, and the artifact checksum index authenticates the published files.
+
+Run a disposable independent audit with:
+
+```bash
+python3 experiments/audits/part12_corrected_hope/run.py \
+  --result-dir artifacts/runs/part_12/manual
+```
+
+Run the focused framework-independent module tests with:
+
+```bash
+python3 -m unittest \
+  tests.test_part12_common_merge \
+  tests.test_part12_graph \
+  tests.test_part12_deft -v
+```
+
+Run the focused audit tests with:
+
+```bash
+python -m unittest discover -s experiments/audits/part12_corrected_hope -p 'test_*.py' -v
+```
+
+The runner refuses to overwrite a nonempty result directory. These local
+fixtures do not turn HOPE-R into author code or reproduce the paper's
+CIFAR-100 to SVHN or ImageNet experiments.
+
+The final conclusion is deliberately bounded:
+
+> HOPE's functional-neuron idea survives as a testable reference design when
+> geometry, physical realization, graph mutation, resource units, optimizer
+> ownership, and evaluation state are all declared. Whether that design wins
+> on a trained benchmark remains an experiment, not a consequence of the
+> local proofs.
+
+{{< include ../../_includes/cite-audit.qmd >}}

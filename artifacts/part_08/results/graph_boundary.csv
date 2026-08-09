@@ -1,0 +1,4 @@
+case_id,beta,gamma,sample_count,seed,conditional_unrectified_second_moment,conditional_post_relu_second_moment,empirical_unrectified_second_moment,empirical_post_relu_second_moment,synthetic_identity_copy_max_error,post_moment_abs_error,evidence_label,claim_id,passed
+zero_shift,0.0,1.0,500000,260721366,1.0,0.5,1.0000554985039953,0.5012099465780369,0.0,0.001209946578036858,independent_inference,BLOCK-IDENTITY-MOMENT,True
+negative_shift,-1.0,1.0,500000,260721366,2.0,0.07533978334377078,1.9968170983517965,0.07541988114602559,0.0,8.009780225480545e-05,independent_inference,BLOCK-IDENTITY-MOMENT,True
+positive_shift,1.0,1.0,500000,260721366,2.0,1.9246602166562292,2.003293898656194,1.9280101400899556,0.0,0.0033499234337264205,independent_inference,BLOCK-IDENTITY-MOMENT,True

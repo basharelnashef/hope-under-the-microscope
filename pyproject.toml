@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools>=77.0.3", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hope-repro"
+version = "1.0.0"
+description = "Independent reproduction and executable audit of HOPE v1"
+readme = "README.md"
+authors = [
+  {name = "Bashar Elnashef", email = "elnashefb@gmail.com"},
+]
+license = "Apache-2.0 AND CC-BY-4.0"
+license-files = ["LICENSE", "LICENSE-CONTENT", "LICENSES.md"]
+requires-python = ">=3.10"
+dependencies = [
+  "numpy>=1.24,<3",
+]
+
+[project.urls]
+Homepage = "https://basharelnashef.github.io/hope-under-the-microscope/"
+Documentation = "https://basharelnashef.github.io/hope-under-the-microscope/"
+Repository = "https://github.com/basharelnashef/hope-under-the-microscope"
+Issues = "https://github.com/basharelnashef/hope-under-the-microscope/issues"
+Contributing = "https://github.com/basharelnashef/hope-under-the-microscope/blob/main/CONTRIBUTING.md"
+
+[project.optional-dependencies]
+paper = [
+  "scipy>=1.10",
+  "torch>=2.1",
+]
+part3 = [
+  "torch>=2.1",
+  "torchvision>=0.16",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]

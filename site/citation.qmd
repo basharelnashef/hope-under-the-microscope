@@ -1,0 +1,39 @@
+---
+title: "Cite this project"
+description: "Citation guidance and ready-to-copy BibTeX for HOPE Under the Microscope."
+toc: true
+---
+
+Use the project citation when relying on this audit's analysis,
+counterexamples, reproduction code, numerical evidence, compiled report, or
+proposed HOPE-R reference design. When discussing claims or methods from the
+paper itself, cite the original HOPE paper as well.
+
+Author identity: [Bashar Elnashef on Google Scholar](https://scholar.google.com/citations?user=tHNUc5wAAAAJ).
+Contact: [`elnashefb@gmail.com`](mailto:elnashefb@gmail.com).
+
+{{< include _includes/cite-audit.qmd >}}
+
+## Cite the original HOPE paper
+
+The twelve-part audit examines version 1 of the following preprint:
+
+> Mobahi, Hossein, and Peter L. Bartlett. *Hilbert Operator for Progressive
+> Encoding (HOPE): A Mathematical Framework for Deconstructing Learned
+> Representations in Deep Networks*. arXiv:2607.21366v1, 2026.
+
+```bibtex
+@misc{mobahi2026hope,
+  author        = {Mobahi, Hossein and Bartlett, Peter L.},
+  title         = {Hilbert Operator for Progressive Encoding ({HOPE}): A Mathematical Framework for Deconstructing Learned Representations in Deep Networks},
+  year          = {2026},
+  eprint        = {2607.21366},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.LG},
+  url           = {https://arxiv.org/abs/2607.21366v1}
+}
+```
+
+The versioned source used by this audit is
+[arXiv:2607.21366v1](https://arxiv.org/abs/2607.21366v1). If a later journal
+version becomes the source you use, cite that version instead.

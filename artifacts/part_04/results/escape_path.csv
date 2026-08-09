@@ -1,0 +1,9 @@
+case_id,t,dimension,constraint_count,rank,nullity,min_eigenvalue,max_eigenvalue,logdet,max_constraint_residual,determinant_lemma_error,passed
+rank_deficient_r2_d3,0.0,3,2,2,1,1.0,4.0,1.3862943611198906,0.0,0.0,True
+rank_deficient_r2_d3,1.0,3,2,2,1,1.0,4.0,2.0794415416798357,0.0,0.0,True
+rank_deficient_r2_d3,10.0,3,2,2,1,1.0,11.0,3.7841896339182615,0.0,0.0,True
+rank_deficient_r2_d3,1000.0,3,2,2,1,1.0,1001.0,8.295049140435111,0.0,0.0,True
+rank_deficient_r2_d3,1000000.0,3,2,2,1,1.0,1000001.0,15.201805919083665,0.0,0.0,True
+duplicate_columns_m2_d2,0.0,2,2,1,1,1.0,1.0,0.0,0.0,0.0,True
+duplicate_columns_m2_d2,1.0,2,2,1,1,1.0,2.0,0.6931471805599453,0.0,0.0,True
+duplicate_columns_m2_d2,1000.0,2,2,1,1,1.0,1001.0,6.90875477931522,0.0,0.0,True

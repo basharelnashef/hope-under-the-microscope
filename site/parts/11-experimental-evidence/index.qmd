@@ -1,0 +1,419 @@
+---
+title: "What the experiments establish"
+description: "The reported results are useful proofs of concept, but they do not yet isolate the method's mechanisms or provide an exact reproduction target."
+part: 11
+toc: true
+execute:
+  enabled: false
+---
+
+::: {.callout-note appearance="simple"}
+## Code and reproducibility
+
+This page is paired with the immutable `v1.0.0` release.
+
+- [Exact audit package](https://github.com/basharelnashef/hope-under-the-microscope/tree/v1.0.0/experiments/audits/part11_experimental_evidence)
+- [Focused tests](https://github.com/basharelnashef/hope-under-the-microscope/blob/v1.0.0/experiments/audits/part11_experimental_evidence/test_run.py)
+- [Artifact checksums](https://github.com/basharelnashef/hope-under-the-microscope/blob/v1.0.0/artifacts/SHA256SUMS)
+- [Evidence: `table2_recalculation.csv`](https://github.com/basharelnashef/hope-under-the-microscope/blob/v1.0.0/artifacts/part_11/results/table2_recalculation.csv)
+- [Evidence: `compression_digitization.csv`](https://github.com/basharelnashef/hope-under-the-microscope/blob/v1.0.0/artifacts/part_11/results/compression_digitization.csv)
+
+From the repository root:
+
+```bash
+python -m unittest discover -s experiments/audits/part11_experimental_evidence -p 'test_*.py' -v
+```
+
+Scope: The package transcribes and audits the published record; it does not reproduce either paper experiment.
+
+:::
+
+A correct H-score can still answer an underspecified question.
+
+HOPE v1 presents its experiments as proofs of concept. That is the right place
+to begin: one compression plot asks whether the functional score can identify
+useful structure in a pretrained network, and one cross-domain benchmark asks
+whether DEFT can trade target plasticity against source accuracy.
+
+The published results are interesting. In Table 2, DEFT has the highest
+displayed mean H-score. The paper describes the HOPE compression curve as
+superior to the three magnitude baselines over the plotted trajectory.
+
+Neither observation is an exact reproduction, a statistical significance
+result, or evidence for one universal framework. The table omits the
+scenario-level values and the meaning of its plus/minus terms. The compression
+plot omits author-reported numbers, repetitions, uncertainty, and parameter or
+compute budgets. The source side of the DEFT score is measured with restored
+task-specific state, and the paper prints two different checkpoint-selection
+rules.
+
+Part 11 makes those boundaries executable. It does not train ResNet-50, VGG-8,
+DEFT, or any baseline. It authenticates the exact v1 paper, reproduces the
+arithmetic that can be recovered from the printed summaries, constructs small
+counterexamples for the missing aggregation and checkpoint rules, and records
+what a decisive experiment would still need.
+
+## Start with the reported record
+
+Section 11.2 evaluates 20 CIFAR-100 to SVHN transfer scenarios: four trials,
+each containing five source tasks. Every source task contains the 20 fine
+classes belonging to four sampled CIFAR-100 superclasses. Every target task
+uses all ten SVHN digits.
+
+Table 2 reports:
+
+| Method | Target accuracy | Source accuracy labeled retention | H-score |
+|---|---:|---:|---:|
+| DEFT | 89.79 +/- 0.84 | 52.14 +/- 5.29 | 65.82 +/- 3.96 |
+| Head-Only | 36.11 +/- 2.79 | 63.13 +/- 4.62 | 45.79 +/- 2.05 |
+| Full FT | 94.09 +/- 0.28 | 7.52 +/- 1.63 | 13.88 +/- 2.84 |
+| EWC | 93.94 +/- 0.22 | 6.74 +/- 1.74 | 12.54 +/- 2.99 |
+| PEFT | 81.91 +/- 0.49 | 5.44 +/- 0.98 | 10.18 +/- 1.63 |
+
+paper_claim (P11-TABLE2-RECORD): under the reported protocol, DEFT has the
+highest displayed mean H-score, Full FT has the highest displayed target
+accuracy, and Head-Only has the highest displayed source accuracy.
+
+That ordering is a faithful reading of the table. The word displayed is doing
+real work. The repository has no task-level predictions, checkpoints, seeds,
+or metric records from which to reconstruct the experiment.
+
+## The displayed means do not reconstruct the displayed H-scores
+
+Appendix G.5 defines validation H-score as
+
+$$
+H(T,S)=\frac{2TS}{T+S},
+$$
+
+where $T$ and $S$ are target and source accuracies.
+
+Applying that equation directly to the two displayed accuracy means gives:
+
+| Method | H from displayed means | Displayed H | Difference |
+|---|---:|---:|---:|
+| DEFT | 65.9713 | 65.82 | 0.1513 |
+| Head-Only | 45.9416 | 45.79 | 0.1516 |
+| Full FT | 13.9269 | 13.88 | 0.0469 |
+| EWC | 12.5776 | 12.54 | 0.0376 |
+| PEFT | 10.2024 | 10.18 | 0.0224 |
+
+The deterministic audit also treats each displayed accuracy as a conventional
+two-decimal rounding bin. Because the harmonic mean increases in both positive
+arguments, the lowest and highest possible H values come from the two lower
+and two upper bin endpoints. For all five methods, that entire derived interval
+is disjoint from the displayed H-score's own rounding interval.
+
+verified_fact (P11-HSCORE-AGGREGATION-GAP): Eq. 101 applied to the displayed
+aggregate accuracy means cannot produce any of the five displayed H-scores,
+even after allowing for ordinary two-decimal rounding.
+
+The discrepancy requires an unreported computation or aggregation convention
+to reconcile. One plausible workflow is to compute H separately for every
+scenario and then average those H values. The paper does not say whether it
+averages by task, by trial, by nested trial and task, or in some other order,
+and it does not publish the records needed to distinguish that possibility
+from a transcription, reporting, or table error.
+
+open_question (P11-HSCORE-AGGREGATION): what experimental unit and aggregation
+order produced each H-score mean and plus/minus term?
+
+## Aggregate means do not identify mean per-scenario H
+
+The distinction is structural, not cosmetic. Consider two records with the
+same target and source means:
+
+$$
+\bar T=50,\qquad \bar S=50.
+$$
+
+In a balanced fixture, both scenarios are $(T,S)=(50,50)$. Their mean
+per-scenario H-score is 50.
+
+In a crossed fixture, the scenarios are $(90,10)$ and $(10,90)$. The target
+and source column means are still 50, but each H-score is 18, so their mean is
+18.
+
+The same two aggregate accuracy means therefore support a 32-point range
+between these two valid examples. No operation on the printed column means can
+recover which taskwise tradeoffs occurred.
+
+This matters because H is intended to penalize imbalance. Aggregating away the
+pairing before publishing the score removes the very information that gives H
+its interpretation.
+
+## An undefined plus/minus does not establish significance
+
+Table 2 says that all metrics are averaged across tasks and trials, but it does
+not define the reported plus/minus statistic. It could denote, among other
+possibilities:
+
+- a standard deviation across 20 scenario values;
+- a standard deviation across four trial means;
+- a standard error across either experimental unit;
+- a confidence-interval half-width;
+- a quantity produced by a nested aggregation.
+
+Those interpretations are not interchangeable. The same printed value implies
+different sampling units, standard errors, and intervals under each one.
+Paired comparisons would additionally require the scenario pairing or the
+covariance of method differences.
+
+The exact v1 paper reports no definition of the plus/minus term and no
+hypothesis test. Its prose nevertheless says DEFT significantly outperforms
+the baselines.
+
+verified_fact (P11-UNCERTAINTY-UNDEFINED): the printed record does not define
+the uncertainty statistic or report an inferential test.
+
+The bounded conclusion is not that the methods are equal. It is that a formal
+statistical-significance statement cannot be reconstructed from Table 2.
+
+## Source accuracy is not normalized retention
+
+The Table 2 source column is labeled Source Retention (CIFAR). Appendix G.5
+describes it operationally as CIFAR-100 test accuracy after target adaptation.
+The paper does not report the corresponding pre-transfer source accuracy for
+each scenario.
+
+If normalized retention is defined as
+
+$$
+R=\frac{A_{\mathrm{after}}}{A_{\mathrm{before}}},
+$$
+
+then the denominator is necessary. Holding the displayed DEFT source value
+52.14 fixed, a hypothetical pre-transfer accuracy of 60 gives 86.9 percent
+retention, while a hypothetical pre-transfer accuracy of 90 gives about 57.9
+percent. These are deliberately independent fixtures, not estimates of the
+paper's missing baselines.
+
+verified_fact (P11-ABSOLUTE-SOURCE-ACCURACY): Table 2 identifies absolute
+post-transfer source accuracy. It does not identify normalized retention from
+each source model's own pre-transfer performance.
+
+This does not make the absolute source score useless. It makes the word
+retention ambiguous unless the baseline is published beside it.
+
+## The H-score combines two evaluation states
+
+Appendix G.5 does not evaluate source accuracy on only the live target-adapted
+model. For source evaluation it:
+
+1. grafts the original source classification head back onto the backbone;
+2. masks source-head connections originating from target-adapted slack;
+3. restores the original source BatchNorm moving means and variances.
+
+paper_claim (P10-SOURCE-STATE-RESTORATION): this task-specific restoration is
+part of the reported source protocol.
+
+independent_inference (P11-CROSS-STATE-HSCORE): the target term and source term
+therefore describe performance under different task-conditional states. The
+reported H-score is a tradeoff between those two evaluation procedures, not a
+single live model evaluated unchanged on both domains.
+
+The distinction should be visible in the result name. A useful future table
+would report at least:
+
+- target accuracy in the live target state;
+- source accuracy in that same live state;
+- source accuracy after head and mask restoration;
+- source accuracy after full head, mask, and BN-state restoration.
+
+That decomposition would show which part of apparent retention belongs to the
+learned backbone and which part belongs to task identity and stored state.
+
+## The paper prints two checkpoint rules
+
+Algorithm 3 evaluates target validation accuracy and restored source
+validation accuracy every epoch, forms their H-score, and returns the epoch
+with highest validation H-score.
+
+Appendix G.5 instead says the final run identifies the epoch with peak target
+validation accuracy. Table 2's caption repeats the target-validation rule.
+
+These selectors are not equivalent. In the deterministic two-epoch fixture:
+
+| Epoch | Target validation | Source validation | H-score |
+|---|---:|---:|---:|
+| 1 | 80 | 80 | 80 |
+| 2 | 90 | 10 | 18 |
+
+Target-only selection chooses epoch 2. H-score selection chooses epoch 1.
+
+verified_fact (P11-CHECKPOINT-RULE-CONFLICT): Algorithm 3 and Appendix
+G.5/Table 2 specify different checkpoint objectives, and a fixed example makes
+them select different epochs.
+
+The fixture does not tell us which epoch would win in the paper's training
+runs. It proves that the implementation choice can change the reported model.
+The exact checkpoint rule used to produce Table 2 remains unresolved.
+
+## Data-free capacity is not a data-free benchmark protocol
+
+Table 1 marks DEFT as source-data independent, but does not define the scope of
+that label. The narrow capacity calculation reads checkpoint and BatchNorm
+state instead of source examples when estimating neuron capacity.
+
+The reported model-selection protocol has a different scope. Appendix G.5 uses
+both source and target validation accuracy to choose hyperparameters.
+Algorithm 3 requires source validation examples and evaluates them at every
+epoch. Separately, source evaluation owns task-specific head, mask, and BN
+state; that stored state is not itself source data.
+
+independent_inference (P11-SOURCE-DATA-SCOPE): data-free capacity evaluation
+does not make the reported tuning and checkpoint-selection workflow
+independent of source examples.
+
+This is not an accusation that source validation is illegitimate. It is a
+requirement to name what is independent of source examples and what is not.
+
+## Neuron density is not the parameter objective
+
+Section 11.1 compares compression methods at model density, defined as the
+ratio of active to initial neurons across the network. Equation 21 formulates
+the compression objective using released parameters and a final parameter
+budget.
+
+Those axes are generally different. In a weight-only sequential fixture with
+widths
+
+$$
+100\longrightarrow2\longrightarrow4\longrightarrow10,
+$$
+
+the three matrices contain 248 weights. Removing one neuron from the width-2
+hidden layer releases 100 incoming plus 4 outgoing weights, or 104. Removing
+one neuron from the width-4 hidden layer releases 2 incoming plus 10 outgoing
+weights, or 12. Both actions reduce the hidden-neuron density from 6/6 to 5/6.
+
+independent_inference (P11-DENSITY-BUDGET-MISMATCH): equal active-neuron
+density does not fix equal parameter release and therefore does not directly
+test Eq. 21 at a common parameter budget. It fixes neither FLOPs nor latency.
+
+The fixture does not claim that the plotted method ordering would reverse at
+equal parameters. The author data needed to test that question are absent.
+
+## What the compression raster can and cannot say
+
+PDF page 20 contains one unnumbered 2929 by 1724 raster. It plots test accuracy
+against neuron density for HOPE, incoming L1, joint incoming-outgoing L1, and
+BN scale on a public Keras ImageNet-pretrained ResNet-50 checkpoint.
+
+paper_claim (P11-COMPRESSION-PLOT): the paper describes the HOPE curve as
+superior to all three baseline curves over the plotted trajectory.
+
+The Part 11 data file is a digitization, not an author numeric table. Every row
+is labeled digitized_approximation and author_reported_numeric=false. Its
+provenance binds:
+
+- the exact v1 PDF SHA-256;
+- the embedded RGB raster and soft-mask pixel hashes;
+- the axis calibration pixels;
+- the raw pixel range used for every extracted value;
+- an accuracy interval rather than an invented midpoint when a trace is
+  locally vertical.
+
+The joint-L1 curve has a conspicuous vertical discontinuity near density 0.50.
+The digitization preserves the vertical range. Other visible vertical spans
+are treated the same way.
+
+At the sampled compressed densities from 0.30 through 0.90, the HOPE interval
+is separated above every baseline interval. At density 1.00, the digitized
+HOPE and BN-scale intervals overlap. The digitization therefore does not
+independently certify strict endpoint superiority across the full trajectory.
+
+verified_fact (P11-COMPRESSION-EVIDENCE-BOUNDARY): the plot provides no exact
+author numeric table, repeated trials, uncertainty, parameter/FLOP/latency
+budget, or complete reproduction protocol. The vertical label Test Accuracy
+does not specify top-1 versus top-5.
+
+The inherited adapted VGG-8 compression run cannot fill this gap. Its recorded
+baseline accuracy does not match the surviving checkpoint, so its metrics
+remain excluded under LEGACY-COMPRESSION-PROVENANCE.
+
+## Baseline conclusions need the searched tradeoff
+
+Appendix G.5 tunes one representative Task 0 and locks the winning
+hyperparameters for all 20 scenarios. The EWC grid ends at
+$\lambda=50$. The reported EWC point is close to Full FT: high target
+accuracy and very low source accuracy.
+
+independent_inference (EWC-TRUNCATED-GRID): that capped grid does not establish
+EWC's best attainable stability-plasticity tradeoff. This is not a claim that
+EWC would win, only that the relevant part of its tradeoff curve was not shown.
+
+The same fairness principle applies across methods. A convincing comparison
+should disclose winning settings, search budgets, selection units, and full
+Pareto curves where a method has an explicit stability knob.
+
+## What this evidence establishes
+
+The strongest defensible conclusion is narrower and more useful than either
+uncritical acceptance or blanket dismissal.
+
+paper_claim:
+
+- HOPE v1 describes one compression trajectory as superior to three magnitude
+  baselines; the independent digitization does not certify strict ordering at
+  the overlapping density-1.00 endpoint.
+- HOPE v1 reports one CIFAR-100 to SVHN protocol where DEFT has the highest
+  displayed mean H-score.
+
+verified_fact:
+
+- the exact Table 2 values and their arithmetic are faithfully reproduced;
+- aggregate displayed accuracies do not determine the displayed H column;
+- the plus/minus statistic and inferential unit are undefined;
+- source retention is reported as absolute restored-state accuracy;
+- the checkpoint rules conflict;
+- the compression record is a raster without author numeric data or
+  uncertainty.
+
+independent_inference:
+
+- the reported H-score combines task-conditional evaluation states;
+- neuron density is not a controlled parameter or compute budget;
+- the reported protocol supports proof-of-concept evidence, not universal
+  compression superiority, general continual learning, or demonstrated
+  parameter efficiency.
+
+open_question (P11-PROTOCOL-IDENTITY): exact task identities, seeds, split
+seeds, winning hyperparameters, aggregation unit, uncertainty definition,
+partition rule, checkpoint rule, and source-state policy per baseline remain
+necessary to reproduce the reported benchmark.
+
+## The next experiment
+
+The missing-experiment matrix in the frozen artifact is a proposed design, not
+a set of observed outcomes. At minimum, a stronger compression study should
+report exact numbers and uncertainty at equal neuron, parameter, FLOP, and
+latency budgets; disclose action types and BN handling; and include prune,
+merge, eviction, and combined ablations.
+
+A stronger DEFT study should report:
+
+- pre-transfer source accuracy and normalized retention;
+- source accuracy in live and restored evaluation states;
+- per-scenario target, source, and H-score records;
+- a defined uncertainty statistic and paired inferential unit;
+- one declared checkpoint objective;
+- trainable and frozen parameter counts, merge counts, and released slots;
+- multiple source-target directions and sequential tasks;
+- broader regularization, projection, masking, replay, adapter, and low-rank
+  adaptation baselines;
+- sensitivity to percentile, merge budget, and source-state policy.
+
+independent_inference (P11-EVIDENCE-SCOPE): proof-of-concept evidence can
+justify these next experiments. It cannot substitute for them.
+
+## Reproduction boundary
+
+The frozen Part 11 package is an independent deterministic evidence audit. It
+uses no dataset, checkpoint, training run, random sample, Torch model, or
+wall-clock benchmark. It reproduces published table transcription and metric
+arithmetic, not the paper's trained experimental results. Compression values
+are explicitly digitized approximations from the authenticated raster. Every
+missing experiment is recorded as unknown rather than assigned an outcome.
+
+{{< include ../../_includes/cite-audit.qmd >}}

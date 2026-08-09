@@ -1,0 +1,2 @@
+upstream_neuron,role,activation_second_moment,outgoing_to_core_before,outgoing_to_core_after,outgoing_to_slack_before,outgoing_to_slack_after,outgoing_vector_before,outgoing_vector_after,operator_drift_norm,capacity_before,capacity_after,relative_capacity_change,incoming_parameter_change,bn_affine_parameter_change,bn_buffer_change,evidence_label,claim_id,passed
+upstream_0,core,1.0,2.0,2.0,5.0,6.0,2|5,2|6,1.0,5.385164807134504,6.324555320336759,0.17444043902940712,0.0,0.0,0.0,counterexample,P10-OUTGOING-OPERATOR-DRIFT,True

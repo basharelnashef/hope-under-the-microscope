@@ -1,0 +1,6 @@
+ablation_id,baseline_method,ablated_method,baseline_metric,ablated_metric,absolute_delta,criterion,claim_id,evidence_label,passed
+exact_cross_vs_zero_bias,calibrated_exact_cross,zero_bias_angular_approximation,0.16092105263157896,0.38032916096274394,0.21940810833116497,nonzero_declared_boundary_gap,P12-KERNEL-BOUNDARY-CONTRACT,proposed_repair,True
+merge_search_resolution,anchored_128_angle_search,anchored_4_angle_search,0.719667789793448,0.8092939851812856,0.08962619538783756,fine_residual_not_greater,P12-SUM-MAP-MERGE,proposed_repair,True
+dependency_refresh_scope,complete_dependency_closure,current_layer_only,0.0,20.0,20.0,local_only_leaves_stale_values,P12-REFRESH-EQUIVALENCE,verified_fact,True
+payoff_state,live_physical_payoff,initial_static_payoff,10.0,22.0,12.0,static_and_live_are_distinct,P12-LIVE-RESOURCE-ACCOUNTING,proposed_repair,True
+core_update_mask,source_owned_mask,all_parameters_trainable,0.0,9.260000000000002,9.260000000000002,mask_prevents_observed_core_drift,P12-CORE-STATE-INVARIANCE,verified_fact,True

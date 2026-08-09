@@ -1,0 +1,390 @@
+{
+  "audit_id": "part07_merge_semantics_audit",
+  "check_count": 24,
+  "checks": {
+    "correlation_ratio_rho_095": {
+      "maximum": 4.51,
+      "minimum": 4.49,
+      "passed": true,
+      "units": "ratio",
+      "value": 4.499699599351314
+    },
+    "correlation_ratio_rho_099": {
+      "maximum": 10.06,
+      "minimum": 10.04,
+      "passed": true,
+      "units": "ratio",
+      "value": 10.05175041386175
+    },
+    "correlation_ratio_rho_0999": {
+      "maximum": 31.7,
+      "minimum": 31.68,
+      "passed": true,
+      "units": "ratio",
+      "value": 31.690085322699478
+    },
+    "evidence_class_mismatch_count": {
+      "maximum": 0.0,
+      "minimum": 0.0,
+      "passed": true,
+      "units": "count",
+      "value": 0.0
+    },
+    "forward_effective_reconstruction_max_error": {
+      "maximum": 2e-12,
+      "minimum": 0.0,
+      "passed": true,
+      "units": "absolute",
+      "value": 4.440892098500626e-16
+    },
+    "forward_literal_relative_error_deviation": {
+      "maximum": 2e-12,
+      "minimum": 0.0,
+      "passed": true,
+      "units": "relative",
+      "value": 0.0
+    },
+    "forward_repair_relative_error_max": {
+      "maximum": 2e-12,
+      "minimum": 0.0,
+      "passed": true,
+      "units": "relative",
+      "value": 1.1188116080346974e-16
+    },
+    "h4_zero_delta_executed_gap": {
+      "maximum": 10.0,
+      "minimum": 0.1,
+      "passed": true,
+      "units": "capacity",
+      "value": 0.7776888838089433
+    },
+    "near_cancellation_charge_ratio": {
+      "maximum": 142.0,
+      "minimum": 140.0,
+      "passed": true,
+      "units": "ratio",
+      "value": 140.73142274335237
+    },
+    "near_cancellation_fraction": {
+      "maximum": 0.0051,
+      "minimum": 0.005,
+      "passed": true,
+      "units": "fraction",
+      "value": 0.005025125628146006
+    },
+    "nonfinite_count": {
+      "maximum": 0.0,
+      "minimum": 0.0,
+      "passed": true,
+      "units": "count",
+      "value": 0.0
+    },
+    "normalized_b_limit_error": {
+      "maximum": 2e-06,
+      "minimum": 0.0,
+      "passed": true,
+      "units": "relative",
+      "value": 8.659404304722784e-10
+    },
+    "normalized_objective_order_failures": {
+      "maximum": 0.0,
+      "minimum": 0.0,
+      "passed": true,
+      "units": "count",
+      "value": 0.0
+    },
+    "paper_half_b_limit_error": {
+      "maximum": 2e-06,
+      "minimum": 0.0,
+      "passed": true,
+      "units": "relative",
+      "value": 6.190362888958134e-09
+    },
+    "row_failure_count": {
+      "maximum": 0.0,
+      "minimum": 0.0,
+      "passed": true,
+      "units": "count",
+      "value": 0.0
+    },
+    "twin_executed_gap_max_error": {
+      "maximum": 2e-12,
+      "minimum": 0.0,
+      "passed": true,
+      "units": "capacity",
+      "value": 0.0
+    },
+    "twin_normalized_scale_max_error": {
+      "maximum": 2e-12,
+      "minimum": 0.0,
+      "passed": true,
+      "units": "capacity",
+      "value": 2.220446049250313e-16
+    },
+    "twin_paper_scale_max_error": {
+      "maximum": 2e-12,
+      "minimum": 0.0,
+      "passed": true,
+      "units": "absolute",
+      "value": 0.0
+    },
+    "twin_repair_residual_max": {
+      "maximum": 2e-12,
+      "minimum": 0.0,
+      "passed": true,
+      "units": "capacity",
+      "value": 0.0
+    },
+    "twin_reported_distance_max": {
+      "maximum": 2e-12,
+      "minimum": 0.0,
+      "passed": true,
+      "units": "capacity",
+      "value": 0.0
+    },
+    "twin_unnormalized_scale_max_error": {
+      "maximum": 2e-12,
+      "minimum": 0.0,
+      "passed": true,
+      "units": "capacity",
+      "value": 0.0
+    },
+    "unnormalized_improvement_rho_095": {
+      "maximum": 17.1,
+      "minimum": 17.0,
+      "passed": true,
+      "units": "ratio",
+      "value": 17.014283981895648
+    },
+    "unnormalized_improvement_rho_099": {
+      "maximum": 57.6,
+      "minimum": 57.5,
+      "passed": true,
+      "units": "ratio",
+      "value": 57.54416620742481
+    },
+    "unnormalized_improvement_rho_0999": {
+      "maximum": 325.0,
+      "minimum": 324.0,
+      "passed": true,
+      "units": "ratio",
+      "value": 324.5049070715491
+    }
+  },
+  "claim_classes": {
+    "MERGE-SUM-REPAIR": "proposed_repair",
+    "MERGE-TWIN-COUNTEREXAMPLE": "counterexample",
+    "P07-CORRELATION-GAP": "counterexample",
+    "P07-DUPLICATED-TARGET": "paper_claim",
+    "P07-EXECUTED-SUM-TRANSITION": "verified_fact",
+    "P07-H4-DISTORTION-GAP": "independent_inference",
+    "P07-NEAR-CANCELLATION": "counterexample",
+    "P07-NORMALIZED-SUM-REPAIR": "proposed_repair",
+    "P07-PAPER-SCALE-LIMIT": "verified_fact",
+    "P07-PHYSICAL-FORWARD-TWIN": "verified_fact"
+  },
+  "claim_ids": [
+    "P07-DUPLICATED-TARGET",
+    "P07-EXECUTED-SUM-TRANSITION",
+    "MERGE-TWIN-COUNTEREXAMPLE",
+    "P07-CORRELATION-GAP",
+    "P07-PAPER-SCALE-LIMIT",
+    "P07-PHYSICAL-FORWARD-TWIN",
+    "P07-NORMALIZED-SUM-REPAIR",
+    "MERGE-SUM-REPAIR",
+    "P07-NEAR-CANCELLATION",
+    "P07-H4-DISTORTION-GAP"
+  ],
+  "config": {
+    "bn_epsilon": 1e-05,
+    "capacity_ratios": [
+      0.0,
+      0.25,
+      1.0,
+      4.0,
+      16.0,
+      64.0,
+      1000.0,
+      1000000.0
+    ],
+    "correlation_remaining_capacity_rule": "E_rem=32*(q_i+q_j)",
+    "float_dtype": "float64",
+    "full_mode": false,
+    "near_cancellation_output_scale": -0.99,
+    "output_cosines": [
+      1.0,
+      0.8
+    ],
+    "physical_inputs": [
+      [
+        -2.0,
+        0.5,
+        1.0
+      ],
+      [
+        -1.0,
+        -0.5,
+        0.25
+      ],
+      [
+        -0.25,
+        0.75,
+        -1.5
+      ],
+      [
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.5,
+        -1.0,
+        0.75
+      ],
+      [
+        1.0,
+        0.25,
+        -0.5
+      ],
+      [
+        2.0,
+        -0.75,
+        1.25
+      ]
+    ],
+    "random_sampling": false,
+    "rho_values": [
+      0.7,
+      0.9,
+      0.95,
+      0.99,
+      0.999
+    ],
+    "tolerances": {
+      "formula_atol": 2e-12,
+      "forward_atol": 2e-12,
+      "high_correlation_ratio_095_min": 4.49,
+      "high_correlation_ratio_0999_min": 31.68,
+      "high_correlation_ratio_099_min": 10.04,
+      "limit_atol": 2e-06,
+      "near_cancellation_charge_ratio_min": 140.0,
+      "near_cancellation_fraction_max": 0.0051,
+      "relative_atol": 2e-12
+    },
+    "twin_remaining_ratios": [
+      0.0,
+      0.5,
+      4.0,
+      64.0
+    ]
+  },
+  "config_sha256": "04aea077cdc0276988044d62753b5fee6063ff3ace2736951628dfd30e5f105e",
+  "exact_twin": {
+    "executed_distance": "q",
+    "normalized_repair_scale": "2q",
+    "paper_coordinate_distance": 0.0,
+    "paper_scale": "q",
+    "unnormalized_repair_scale": "2q"
+  },
+  "executed_transition": "f_i+f_j -> f_p",
+  "method_origins": {
+    "correlation_gap_fixtures": {
+      "claim_id": "P07-CORRELATION-GAP",
+      "evidence_label": "counterexample",
+      "origin": "independent deterministic zero-bias ReLU fixtures",
+      "scope": "declared input correlations, output alignments, and remaining-capacity rule only"
+    },
+    "duplicated_coordinate_objective": {
+      "claim_id": "P07-DUPLICATED-TARGET",
+      "evidence_label": "paper_claim",
+      "origin": "HOPE v1 Eq. 6 and Eqs. 8-12",
+      "scope": "distance from two children to two copies of one parent"
+    },
+    "exact_twin_witness": {
+      "claim_id": "MERGE-TWIN-COUNTEREXAMPLE",
+      "evidence_label": "counterexample",
+      "origin": "independent exact Hilbert-space witness",
+      "scope": "nonzero exact twins; refutes a universal executed-distortion interpretation"
+    },
+    "executed_sum_transition": {
+      "claim_id": "P07-EXECUTED-SUM-TRANSITION",
+      "evidence_label": "verified_fact",
+      "origin": "independent composition of Eq. 86 with Algorithm 2 lines 12-14",
+      "scope": "one local additive layer contribution before and after one merge"
+    },
+    "normalized_sum_scale": {
+      "claim_id": "P07-NORMALIZED-SUM-REPAIR",
+      "evidence_label": "proposed_repair",
+      "origin": "independent minimization of the normalized physical sum residual",
+      "scope": "fixed parent direction, E_rem>=0, b>0"
+    },
+    "physical_forward_fixture": {
+      "claim_id": "P07-PHYSICAL-FORWARD-TWIN",
+      "evidence_label": "verified_fact",
+      "origin": "independent NumPy realization of HOPE v1 Eqs. 15-18",
+      "scope": "two deterministic dense-BN-ReLU-dense exact-twin fixtures"
+    },
+    "unnormalized_sum_scale": {
+      "claim_id": "MERGE-SUM-REPAIR",
+      "evidence_label": "proposed_repair",
+      "origin": "independent least-squares projection of f_i+f_j onto a fixed direction",
+      "scope": "fixed parent direction; exact preservation only when the sum lies in that direction"
+    }
+  },
+  "normalized_scale_limit": "s_normalized -> b as E_rem -> infinity",
+  "paper": {
+    "anchors": [
+      "Eq. 6 and Eq. 8, PDF page 13",
+      "Eqs. 9-11, PDF page 14",
+      "Eqs. 12-15, PDF page 15",
+      "Eqs. 16-18, PDF page 16",
+      "Eq. 86, PDF page 57",
+      "Proposition H.4 and Eqs. 116-118, PDF pages 66-67",
+      "Algorithm 2, PDF page 69"
+    ],
+    "arxiv_id": "2607.21366",
+    "pdf_sha256": "8106a86c0c72aee05b0fbcc5e13095edc03fe725538b1bfa5c50c18ea806067b",
+    "version": "v1"
+  },
+  "paper_scale_limit": "s* -> b over 2 as E_rem -> infinity",
+  "passed": true,
+  "passing_check_count": 24,
+  "priced_transition": "[f_i,f_j] -> [f_p,f_p]",
+  "reproduction_scope": {
+    "checkpoint_or_dataset_used": false,
+    "claim_boundary": "The exact-twin witness concerns the summed local next-affine contribution. It does not by itself quantify final logits, loss, accuracy, or prevalence.",
+    "excludes": [
+      "ResNet-50 or ImageNet reproduction",
+      "trained-network incidence or compression accuracy",
+      "global-kernel validity",
+      "parent-direction optimality outside the declared fixtures",
+      "merge correlation-threshold runtime enforcement",
+      "the adapted prune fallback",
+      "DEFT vessel reuse",
+      "Parts 8 through 12"
+    ],
+    "includes": [
+      "paper duplicated-coordinate merge algebra",
+      "executed local sum-map residual",
+      "exact and biased twin fixtures",
+      "zero-bias correlation and output-alignment sweeps",
+      "remaining-capacity scale limit",
+      "near-cancellation fixture",
+      "paper-literal physical parent reconstruction",
+      "normalized and unnormalized fixed-direction repair comparisons"
+    ],
+    "paper_experiment_reproduced": false,
+    "random_sampling_used": false,
+    "reproduction_scope": "independent_mathematical_audit"
+  },
+  "row_counts": {
+    "capacity_sweep": 8,
+    "correlation_sweep": 10,
+    "physical_forward": 6,
+    "repair_comparison": 15,
+    "source_map": 10,
+    "twin_cases": 8
+  },
+  "schema_version": 1,
+  "status": "passed"
+}

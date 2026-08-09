@@ -1,0 +1,830 @@
+---
+title: "When valid pairs do not form a Hilbert space"
+description: "Every two-neuron similarity can be locally legal while the assembled global Gram table is impossible."
+part: 5
+toc: true
+execute:
+  enabled: false
+---
+
+::: {.callout-note appearance="simple"}
+## Code and reproducibility
+
+This page is paired with the immutable `v1.0.0` release.
+
+- [Exact audit package](https://github.com/basharelnashef/hope-under-the-microscope/tree/v1.0.0/experiments/audits/part05_global_psd)
+- [Focused tests](https://github.com/basharelnashef/hope-under-the-microscope/blob/v1.0.0/experiments/audits/part05_global_psd/test_run.py)
+- [Artifact checksums](https://github.com/basharelnashef/hope-under-the-microscope/blob/v1.0.0/artifacts/SHA256SUMS)
+- [Evidence: `spectra.csv`](https://github.com/basharelnashef/hope-under-the-microscope/blob/v1.0.0/artifacts/part_05/results/spectra.csv)
+- [Evidence: `negative_direction.csv`](https://github.com/basharelnashef/hope-under-the-microscope/blob/v1.0.0/artifacts/part_05/results/negative_direction.csv)
+
+From the repository root:
+
+```bash
+python -m unittest discover -s experiments/audits/part05_global_psd -p 'test_*.py' -v
+```
+
+Scope: A fixed three-neuron counterexample and controls, not an estimate of trained-network frequency.
+
+:::
+
+*Part 5 of HOPE Under the Microscope*
+
+Every pair in a similarity table can look legal while the full table remains
+geometrically impossible.
+
+That sentence sounds like a criticism of Hilbert spaces. It is not. The
+correct starting point is the theorem that makes Hilbert geometry useful:
+when all functions are measured under one common input distribution, their
+Gram matrix is automatically positive semidefinite.
+
+Let
+
+$$
+K_{ij}
+=
+\mathbb E_{X\sim P_X}[g_i(X)g_j(X)].
+$$
+
+Then, for every coefficient vector $c$,
+
+$$
+c^\top Kc
+=
+\mathbb E_{X\sim P_X}
+\left[
+\left(\sum_i c_i g_i(X)\right)^2
+\right]
+\geq0.
+$$
+
+That proof is one line because all entries refer to the same random input
+$X$ and the same measure $P_X$.
+
+HOPE's scalable cross-kernel takes a different route. Instead of constructing
+one full layer covariance, Appendix E.3.1 solves a local Gaussian surrogate
+for each selected pair. Every isolated $2\times2$ result can be valid. The
+question is whether the collection of those local answers must still equal one
+global Gram matrix.
+
+The fixed three-neuron witness in this article says no.
+
+It starts from a valid correlation matrix whose smallest eigenvalue is
+approximately $0.126005$. After the paper's pairwise warped-correlation map,
+every isolated pair remains legal, but the assembled three-neuron correlation
+matrix has smallest eigenvalue approximately $-0.250680$. After applying the
+normalized zero-bias ReLU formula pairwise, every isolated pair is again legal,
+but the full kernel still has smallest eigenvalue approximately $-0.045070$.
+
+That is enough to refute a general guarantee of one global Hilbert geometry.
+It is not enough to claim that every layer fails, to estimate a failure rate,
+or to invalidate the paper's local two-neuron derivation.
+
+This article is bound to
+[arXiv:2607.21366v1](https://arxiv.org/abs/2607.21366v1). Its exact 70-page PDF
+fingerprint is recorded in the
+[paper manifest](https://github.com/basharelnashef/hope-under-the-microscope/blob/v1.0.0/paper/manifest.json).
+The exact anchors are physical PDF pages 7 through 9, 35 through 36, and 52
+through 56. The paper traceability summary above separates the paper's common
+kernel and pair-local formulas from the independent PSD theorem and
+counterexample.
+
+## Evidence labels used here
+
+- **paper_claim**: what HOPE v1 states or prints.
+- **verified_fact**: algebra proved independently or a fixed numerical result
+  reproduced by the deterministic audit.
+- **counterexample**: an explicit construction that satisfies the declared
+  local assumptions and contradicts a claim with general scope.
+- **proposed_repair**: a modified construction not presented as HOPE v1.
+- **open_question**: an issue not settled by the paper or this fixed witness.
+
+The matrices printed below come from a deterministic mathematical fixture, not
+from the paper's experiments and not from a random sweep. The derivations
+above give the unrounded values and scope.
+
+## Begin with the strongest fair theorem
+
+Evidence: **paper_claim**, `P05-COMMON-PX-KERNEL`, and **verified_fact**,
+`P05-COMMON-GRAM-PSD`.
+
+HOPE defines a neuron as a vector-valued function. If
+
+$$
+g_i(x)=\Psi(y_i(x))
+$$
+
+is its scalar activated signal and $w_{\mathrm{out},i}$ is the downstream
+weight vector, then
+
+$$
+f_i(x)=g_i(x)w_{\mathrm{out},i}.
+$$
+
+Section 5 places these functions in an $L_2(P_X)$-based Hilbert space.
+Appendix A defines the expectation inner product, and Appendix E, Eq. 73,
+defines the scalar kernel
+
+$$
+K(i,j)=\mathbb E_{X\sim P_X}[g_i(X)g_j(X)].
+$$
+
+This construction is globally coherent when $P_X$ is genuinely common.
+For any finite collection of scalar functions,
+
+$$
+\begin{aligned}
+c^\top Kc
+&=\sum_{i,j}c_i c_j\mathbb E[g_i(X)g_j(X)]\\
+&=\mathbb E
+\left[
+\left(\sum_i c_i g_i(X)\right)^2
+\right]\\
+&\geq0.
+\end{aligned}
+$$
+
+The full vector-valued neuron Gram is just as safe:
+
+$$
+G_{ij}
+=
+\mathbb E[f_i(X)^\top f_j(X)],
+$$
+
+so
+
+$$
+c^\top Gc
+=
+\mathbb E
+\left[
+\left\|\sum_i c_i f_i(X)\right\|_2^2
+\right]
+\geq0.
+$$
+
+Nothing about this proof depends on a Gaussian approximation. It does not even
+depend on ReLU. It depends on square-integrable functions being evaluated
+under one common probability measure.
+
+This theorem is the ruler for Part 5:
+
+> If a cached table has a materially negative eigenvalue, it cannot be the
+> exact Gram matrix of those functions under one common $P_X$.
+
+## The scalable move is local
+
+Evidence: **paper_claim**, `P05-PAIR-LOCAL-SURROGATE`.
+
+The paper also recognizes the computational burden of a full layer covariance.
+Appendix E.3.1 says the global covariance is computationally prohibitive and
+restricts the maximum-entropy formulation to the two-dimensional subspace of
+a selected neuron pair.
+
+For effective incoming directions $w_i^{\mathrm{eff}}$ and
+$w_j^{\mathrm{eff}}$, define their cosine
+
+$$
+\rho_{ij}
+=
+\frac{
+\langle w_i^{\mathrm{eff}},w_j^{\mathrm{eff}}\rangle
+}{
+\lVert w_i^{\mathrm{eff}}\rVert_2
+\lVert w_j^{\mathrm{eff}}\rVert_2
+}
+$$
+
+and positive scale ratio
+
+$$
+r_i
+=
+\frac{|\gamma_i|}{\lVert w_i^{\mathrm{eff}}\rVert_2}.
+$$
+
+Paper Eqs. 80 and 81 use
+
+$$
+\kappa_{ij}
+=
+\frac{\rho_{ij}}{1-\rho_{ij}^2}r_i r_j
+$$
+
+to produce the pairwise warped correlation
+
+$$
+\widehat\rho_{ij}
+=
+\frac{2\kappa_{ij}}
+{1+\sqrt{1+4\kappa_{ij}^2}}.
+$$
+
+Eq. 82 gives the resulting bivariate Gaussian law for that pair. Eq. 83 gives
+an exact biased bivariate ReLU moment. For scalable use, Eq. 85 supplies the
+normalized zero-bias approximation
+
+$$
+\mathcal R(q)
+=
+\frac{
+\sqrt{1-q^2}+(\pi-\arccos q)q
+}{\pi}.
+$$
+
+There is nothing internally contradictory about computing one valid
+bivariate Gaussian. The missing implication is global:
+
+$$
+\text{valid pair }(1,2),
+\quad
+\text{valid pair }(1,3),
+\quad
+\text{valid pair }(2,3)
+$$
+
+does not by itself give one valid joint law for $(1,2,3)$.
+
+## Three kinds of validity
+
+The whole issue can be hidden by the word "valid." It helps to split that word
+into three tests.
+
+### Isolated pair validity
+
+A unit-diagonal pair matrix
+
+$$
+\begin{bmatrix}
+1&q\\
+q&1
+\end{bmatrix}
+$$
+
+is PSD exactly when $|q|\leq1$. This is the pairwise Cauchy-Schwarz check.
+It says that one bivariate correlation or one normalized pair kernel is legal.
+
+### Joint correlation validity
+
+An assembled $n\times n$ unit-diagonal matrix must be PSD to be the
+correlation matrix of one $n$-dimensional random vector. For $n\geq3$,
+pairwise bounds do not check every quadratic form.
+
+### ReLU Gram validity
+
+The matrix of all activation pair moments must be PSD to be one common-$P_X$
+Gram matrix. Applying a valid bivariate moment formula separately to the
+entries of an invalid joint correlation table carries no automatic global
+guarantee.
+
+The fixed witness passes Test 1 for every pair, fails Test 2, and still fails
+Test 3 after the ReLU map.
+
+## A valid starting geometry
+
+Evidence: **counterexample**, `P05-GLOBAL-GRAM-COUNTEREXAMPLE`.
+
+Begin with the effective-weight correlation matrix
+
+$$
+R=
+\begin{bmatrix}
+1 & -0.173508 & 0.590994\\
+-0.173508 & 1 & 0.513747\\
+0.590994 & 0.513747 & 1
+\end{bmatrix}.
+$$
+
+Its eigenvalues, computed from exactly those six-decimal entries, are
+approximately
+
+$$
+0.1260054039,
+\qquad
+1.1716390523,
+\qquad
+1.7023555438.
+$$
+
+Therefore
+
+$$
+\lambda_{\min}(R)\approx0.126005>0.
+$$
+
+This first matrix is not a broken input. It is a positive-definite correlation
+matrix and therefore the Gram matrix of three unit directions.
+
+Use the positive scale ratios
+
+$$
+r=
+\begin{bmatrix}
+1.106838 & 1.793881 & 1.634949
+\end{bmatrix}.
+$$
+
+Each pair has $|\rho_{ij}|<1$, so the denominator in the warped-correlation
+formula is nonzero. Every ratio is positive. These are the fixed assumptions
+the local computation needs.
+
+## Every warped pair remains legal
+
+Evidence: **verified_fact**, `P05-LOCAL-PAIR-VALIDITY`.
+
+Applying Eqs. 80 and 81 independently to the three pairs produces the
+unrounded values
+
+$$
+\widehat\rho_{12}\approx-0.3190441425,
+\qquad
+\widehat\rho_{13}\approx0.7410265449,
+\qquad
+\widehat\rho_{23}\approx0.7851452758.
+$$
+
+Rounded for display, the assembled table is
+
+$$
+\widehat R=
+\begin{bmatrix}
+1 & -0.319044 & 0.741027\\
+-0.319044 & 1 & 0.785145\\
+0.741027 & 0.785145 & 1
+\end{bmatrix}.
+$$
+
+Every off-diagonal value lies strictly between $-1$ and $1$. The three
+isolated $2\times2$ determinants, using the unrounded computed values, are
+approximately
+
+$$
+0.8982108351,
+\qquad
+0.4508796597,
+\qquad
+0.3835468959.
+$$
+
+All are positive. If the audit stopped after checking each pair, every check
+would pass.
+
+That is precisely why the witness matters. The problem is not visible inside
+any one pair.
+
+## The joint correlation matrix is impossible
+
+Evidence: **counterexample**, `P05-GLOBAL-GRAM-COUNTEREXAMPLE`.
+
+The full eigenvalue spectrum of $\widehat R$, computed before display
+rounding, is approximately
+
+$$
+-0.2506797684,
+\qquad
+1.3183990152,
+\qquad
+1.9322807532.
+$$
+
+So
+
+$$
+\lambda_{\min}(\widehat R)
+\approx-0.250680<0.
+$$
+
+There is no three-dimensional random vector whose correlation matrix is this
+$\widehat R$. Equivalently, the three valid pair-local Gaussian laws cannot
+all be the bivariate marginals of one joint Gaussian with the assembled
+entries.
+
+Notice what has and has not failed:
+
+- The original effective-weight geometry $R$ is valid.
+- Each local transformed pair is valid.
+- The collection is not jointly valid.
+
+This is the gap between local and global consistency.
+
+## The ReLU map does not repair this witness
+
+Evidence: **counterexample**, `P05-GLOBAL-GRAM-COUNTEREXAMPLE`.
+
+Perhaps applying the activation kernel entry by entry could restore a valid
+matrix. It does not do so here.
+
+Using the unrounded warped correlations in the normalized Eq. 85 map gives
+
+$$
+K_{12}\approx0.1751298794,
+\qquad
+K_{13}\approx0.7811123043,
+\qquad
+K_{23}\approx0.8153656368.
+$$
+
+The displayed normalized kernel is
+
+$$
+K_{\mathrm{norm}}=
+\begin{bmatrix}
+1 & 0.175130 & 0.781112\\
+0.175130 & 1 & 0.815366\\
+0.781112 & 0.815366 & 1
+\end{bmatrix}.
+$$
+
+Again, every pair looks legal. The unrounded pair determinants are
+approximately
+
+$$
+0.9693295253,
+\qquad
+0.3898635681,
+\qquad
+0.3351788783.
+$$
+
+All are positive.
+
+But the complete spectrum is approximately
+
+$$
+-0.04506976335,
+\qquad
+0.8250394189,
+\qquad
+2.2200303444.
+$$
+
+Therefore
+
+$$
+\lambda_{\min}(K_{\mathrm{norm}})
+\approx-0.045070<0.
+$$
+
+The bivariate ReLU formula is valid for each bivariate Gaussian supplied to
+it. The failure comes from pretending that three separately supplied
+bivariate laws necessarily belong to one joint distribution.
+
+## A shared-surrogate control stays positive definite
+
+Evidence: **verified_fact**, `P05-SHARED-SURROGATE-CONTROL`, bounded to the
+same fixed input.
+
+To distinguish the ReLU map from the pair-dependent assembly, apply the same
+normalized zero-bias map directly to the valid joint correlation matrix
+$R$. This gives
+
+$$
+K_{\mathrm{shared}}=
+\begin{bmatrix}
+1 & 0.2363593803 & 0.6712159349\\
+0.2363593803 & 1 & 0.6181972853\\
+0.6712159349 & 0.6181972853 & 1
+\end{bmatrix}.
+$$
+
+Its spectrum is approximately
+
+$$
+0.1973982261,
+\qquad
+0.7645613281,
+\qquad
+2.0380404458.
+$$
+
+Thus
+
+$$
+\lambda_{\min}(K_{\mathrm{shared}})
+\approx0.197398>0.
+$$
+
+This control does not claim that the paper's unavailable full covariance would
+equal $R$. It makes a narrower comparison: on the declared fixture, the same
+ReLU map applied to one valid joint correlation stays positive definite, while
+the pair-dependent warped assembly is indefinite.
+
+## A negative squared norm
+
+Evidence: **verified_fact**, scoped to the fixed counterexample.
+
+An approximate unit eigenvector for the negative eigenvalue is
+
+$$
+c\approx
+\begin{bmatrix}
+-0.4656516215\\
+-0.4945479776\\
+0.7338875018
+\end{bmatrix}.
+$$
+
+Reversing its sign gives the same quadratic form. Direct evaluation gives
+
+$$
+c^\top K_{\mathrm{norm}}c
+\approx-0.04506976335.
+$$
+
+If the cached entries were inner products
+
+$$
+K_{ij}=\langle g_i,g_j\rangle_{\mathcal H},
+$$
+
+then the same quadratic form would be
+
+$$
+\left\|\sum_i c_i g_i\right\|_{\mathcal H}^2.
+$$
+
+A squared Hilbert norm cannot be negative. So no real Hilbert space contains
+vectors whose exact Gram matrix is this $K_{\mathrm{norm}}$.
+
+This is a statement about the assembled cached table. It is not a statement
+that the actual network activations, evaluated together under a real input
+distribution, have a negative Gram matrix. Their exact empirical or
+population Gram would be PSD by construction.
+
+## Even the induced triangle breaks
+
+Evidence: **verified_fact**, scoped to the same matrix.
+
+A normalized Gram matrix would induce pair distances
+
+$$
+d_{ij}=\sqrt{K_{ii}+K_{jj}-2K_{ij}}
+=
+\sqrt{2-2K_{ij}}.
+$$
+
+For the unrounded fixed kernel,
+
+$$
+d_{12}\approx1.2844221429,
+\qquad
+d_{13}\approx0.6616459713,
+\qquad
+d_{23}\approx0.6076748525.
+$$
+
+But
+
+$$
+d_{12}-(d_{13}+d_{23})
+\approx0.0151013191>0.
+$$
+
+So this proposed set of three Hilbert distances violates the triangle
+inequality.
+
+Not every indefinite matrix must reveal itself through this particular
+three-point triangle check. This fixed witness does. The negative quadratic
+form remains the general PSD certificate.
+
+## What the counterexample proves
+
+It proves one narrow but important statement:
+
+> Pairwise validity of the local surrogate correlations and pairwise ReLU
+> moments does not guarantee that the assembled multi-neuron table is one
+> positive-semidefinite Gram matrix.
+
+The consequence is structural. If an implementation uses the assembled table
+as though it were one exact Hilbert inner-product matrix, then global
+quantities built from arbitrary linear combinations need not behave like
+Hilbert norms or distances.
+
+The proof requires only one fixed witness because the targeted guarantee is
+universal. One counterexample settles that universal implication.
+
+## What the counterexample does not prove
+
+The boundaries are as important as the negative eigenvalue.
+
+- It does not invalidate an isolated pair covariance from Proposition E.3.
+- It does not contradict the common-$P_X$ Gram theorem.
+- It does not claim that every layer or checkpoint yields an indefinite cache.
+- It does not report the probability of failure under any random model.
+- It does not show that the exact Eq. 83 biased kernel fixes or worsens the
+  issue across real checkpoints.
+- It does not establish a task-accuracy consequence.
+- It does not show that one proposed repair is preferable in every use case.
+
+The project has no authenticated random failure-rate study for Part 5. None is
+invented here.
+
+## Repair 1: derive every pair from one shared covariance
+
+Evidence: **proposed_repair**.
+
+The most literal repair is to make the probability model genuinely common.
+Choose one layer covariance $\Sigma\succeq0$, define
+
+$$
+Y_i=w_i^\top X+b_i
+$$
+
+for all neurons under the same $X$, and derive every pair from the joint
+preactivation covariance
+
+$$
+C_Y=W^\top\Sigma W\succeq0.
+$$
+
+Then compute the activation moments under that one joint law. Their exact Gram
+is PSD by the theorem at the start of this article.
+
+This repair has a cost: the shared covariance must be defined, feasible, and
+computable. It inherits the modeling choices around a layer-wide Gaussian
+surrogate. Global consistency is restored only after those choices are made
+explicitly.
+
+## Repair 2: calibrate one activation Gram
+
+Evidence: **proposed_repair**.
+
+If a calibration batch is available, evaluate all $m$ activations together
+on the same $n$ inputs. Let $A\in\mathbb R^{n\times m}$ hold those values
+and set
+
+$$
+G_{\mathrm{cal}}=\frac1nA^\top A.
+$$
+
+Then
+
+$$
+c^\top G_{\mathrm{cal}}c
+=
+\frac1n\lVert Ac\rVert_2^2
+\geq0.
+$$
+
+This is one empirical Gram, not a table of independently fitted pairs. A
+positive-diagonal congruence can normalize it if unit diagonal is needed.
+
+The tradeoff is clear: calibration restores a shared observation basis but
+abandons a strictly data-free computation. The sample source, size,
+preprocessing, and handling of zero-activity channels become part of the
+method.
+
+## Repair 3: clip the spectrum, then renormalize the diagonal
+
+Evidence: **proposed_repair**, `P05-PSD-PROJECTION-REPAIR`.
+
+If the pairwise table is retained, symmetrize it and compute
+
+$$
+K_s=Q\operatorname{diag}(\lambda_i)Q^\top.
+$$
+
+The audit's `plain_eigenvalue_clipping` branch uses
+
+$$
+K_+
+=
+Q\operatorname{diag}(\max\{\lambda_i,0\})Q^\top.
+$$
+
+This removes the negative spectrum, but it generally changes the diagonal.
+For a normalized kernel, that is not the end of the repair.
+
+When every diagonal entry of $K_+$ is positive, define
+
+$$
+D=\operatorname{diag}(K_+),
+\qquad
+K_{\mathrm{renorm}}
+=
+D^{-1/2}K_+D^{-1/2}.
+$$
+
+The result has unit diagonal. It remains PSD because it is a congruence of a
+PSD matrix. The audit names this branch `psd_renormalized_correlation`.
+
+This package deliberately does not call the two-step procedure a nearest
+correlation method. Eigenvalue clipping and diagonal renormalization define a
+specific repair, but the second step moves the matrix again. The final
+Frobenius change, maximum entrywise change, spectrum, and any change in pair
+ranking should be measured rather than hidden behind a name.
+
+## Repair 4: call the pair values heuristics
+
+Evidence: **proposed_repair**.
+
+The least invasive computational option is to keep the pair values and narrow
+their interpretation:
+
+> These are pair-local heuristic scores, not certified entries of one global
+> Hilbert Gram matrix.
+
+That wording avoids a false geometric guarantee, but it has consequences. Any
+operation that requires global squared norms, projections, angles, or metric
+inequalities needs a new justification. A useful pair score can remain useful
+without being an inner product.
+
+## None of the repairs is paper-literal
+
+The paper supplies the common-$P_X$ definition and the pair-local scalable
+formula. It does not present the four-branch repair menu above as its implemented
+method.
+
+That boundary matters:
+
+- shared covariance changes what is computed;
+- calibration changes the data requirements;
+- clipping and renormalization change the cached values; and
+- heuristic reframing changes the mathematical claim.
+
+Each repair should be evaluated on the quantity the implementation ultimately
+uses. Part 5 establishes the consistency issue and the algebraic properties of
+the repair constructions. It does not choose a winner by downstream
+performance.
+
+## Open questions
+
+Evidence: **open_question**.
+
+The fixed counterexample leaves several empirical questions unanswered:
+
+1. How often do real checkpoint layers produce materially negative eigenvalues
+   under the pair-local cache?
+2. How does the result change with layer width, bias, finite precision, or use
+   of exact Eq. 83 rather than approximate Eq. 85?
+3. Which repair best preserves the pair ordering and the behavior an
+   implementation cares about?
+4. What numerical tolerance should separate floating-point noise from a
+   material PSD violation?
+
+Those questions need a declared checkpoint study with frozen inputs and
+results. They cannot be answered from the one witness, and the one witness
+does not need them to refute a universal guarantee.
+
+## Evidence matrix
+
+| Statement | Evidence label | Source or proof |
+|---|---|---|
+| HOPE defines the scalar kernel as an expectation under one $P_X$ | **paper_claim** | Section 5, PDF page 8; Eq. 73, PDF page 52 |
+| Any genuine common-$P_X$ Gram matrix is PSD | **verified_fact** | Calculations above, common-distribution theorem |
+| HOPE restricts the scalable surrogate to a selected pair | **paper_claim** | Appendix E.3.1, PDF page 54 |
+| The warped correlation and scalable ReLU pair kernel are given by Eqs. 80, 81, and 85 | **paper_claim** | PDF pages 54 and 56 |
+| Every isolated pair in the fixed witness is valid | **verified_fact** | `pair_checks.csv` in the frozen Part 5 audit |
+| The fixed warped-correlation table and ReLU table are indefinite | **counterexample** | `spectra.csv` and calculations above |
+| Direct ReLU mapping of the shared valid $R$ gives a positive-definite control | **verified_fact**, bounded to the fixed input | `P05-SHARED-SURROGATE-CONTROL`, `spectra.csv` |
+| The negative direction gives a negative quadratic form | **verified_fact**, bounded to the fixed matrix | `negative_direction.csv` and calculations above |
+| Use a shared covariance, calibrated Gram, or heuristic framing | **proposed_repair** | Calculations above, repair menu |
+| Clip eigenvalues and apply PSD diagonal renormalization | **proposed_repair** | `P05-PSD-PROJECTION-REPAIR` |
+| Checkpoint incidence and repair impact | **open_question** | Requires a separate empirical protocol |
+
+## Reproduction contract
+
+The audit README specifies the fixed inputs, method origins, and tolerances.
+The [artifact checksum index](https://github.com/basharelnashef/hope-under-the-microscope/blob/v1.0.0/artifacts/SHA256SUMS)
+authenticates these six published numerical outputs:
+
+- [summary.json](https://github.com/basharelnashef/hope-under-the-microscope/blob/v1.0.0/artifacts/part_05/results/summary.json);
+- [witness_matrices.csv](https://github.com/basharelnashef/hope-under-the-microscope/blob/v1.0.0/artifacts/part_05/results/witness_matrices.csv);
+- [spectra.csv](https://github.com/basharelnashef/hope-under-the-microscope/blob/v1.0.0/artifacts/part_05/results/spectra.csv);
+- [pair_checks.csv](https://github.com/basharelnashef/hope-under-the-microscope/blob/v1.0.0/artifacts/part_05/results/pair_checks.csv);
+- [negative_direction.csv](https://github.com/basharelnashef/hope-under-the-microscope/blob/v1.0.0/artifacts/part_05/results/negative_direction.csv); and
+- [projection_comparison.csv](https://github.com/basharelnashef/hope-under-the-microscope/blob/v1.0.0/artifacts/part_05/results/projection_comparison.csv).
+
+The direct deterministic generator is:
+
+```bash
+python3 experiments/audits/part05_global_psd/run.py --result-dir <fresh-dir>
+```
+
+Run the focused tests shown at the top of this page to validate the numerical
+contract. The checksum index authenticates the result-file bytes.
+
+## The bounded conclusion
+
+HOPE's common-$P_X$ kernel has exactly the right global property: it is a
+Gram matrix, so it is PSD.
+
+The scalable pair-local replacement needs a separate global check. A valid
+$2\times2$ result certifies one pair, not a whole table. In the fixed
+three-neuron construction, all pairs pass while both the assembled warped
+correlation and the assembled normalized ReLU kernel fail PSD.
+
+That makes the right conclusion precise:
+
+> Pairwise consistency is weaker than global realizability.
+
+The constructive response is equally precise: use one shared covariance, use
+one calibrated activation Gram, clip and PSD-renormalize the assembled matrix
+while reporting the perturbation, or present the values as heuristics rather
+than one Hilbert geometry.
+
+This article is published in the `v1.0.0` twelve-part package. Its conclusions
+remain bounded to the declared constructions and controls.
+
+{{< include ../../_includes/cite-audit.qmd >}}

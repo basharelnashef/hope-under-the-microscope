@@ -1,0 +1,89 @@
+project:
+  type: website
+  output-dir: _site
+  render:
+    - index.qmd
+    - citation.qmd
+    - contact.qmd
+    - about.qmd
+    - parts/**/*.qmd
+
+website:
+  title: "HOPE Under the Microscope"
+  favicon: favicon.svg
+  site-url: "https://basharelnashef.github.io/hope-under-the-microscope"
+  description: "A 12-part independent executable audit of HOPE v1."
+  open-graph: true
+  search: true
+  page-navigation: true
+  repo-url: "https://github.com/basharelnashef/hope-under-the-microscope"
+  repo-branch: "main"
+  repo-subdir: site
+  repo-actions: [source, issue]
+  navbar:
+    left:
+      - text: Home
+        href: index.qmd
+      - text: All 12 parts
+        href: parts/index.qmd
+      - text: Citation
+        href: citation.qmd
+      - text: Contact
+        href: contact.qmd
+      - text: About
+        href: about.qmd
+    right:
+      - icon: github
+        href: "https://github.com/basharelnashef/hope-under-the-microscope"
+        aria-label: GitHub repository
+  sidebar:
+    style: docked
+    contents:
+      - index.qmd
+      - section: "The 12-part breakdown"
+        contents:
+          - text: "Series index"
+            href: parts/index.qmd
+          - text: "1. A neuron is not a filter"
+            href: parts/01-neuron-not-filter/index.qmd
+          - text: "2. The closed-form capacity inside HOPE"
+            href: parts/02-closed-form-capacity/index.qmd
+          - text: "3. What data-free actually means"
+            href: parts/03-data-free-meaning/index.qmd
+          - text: "4. When pure maximum entropy is unbounded"
+            href: parts/04-maximum-entropy/index.qmd
+          - text: "5. When valid pairs do not form a Hilbert space"
+            href: parts/05-one-hilbert-space/index.qmd
+          - text: "6. What the axioms derive, and what they do not"
+            href: parts/06-axioms/index.qmd
+          - text: "7. The zero-cost merge that removes one copy"
+            href: parts/07-zero-cost-merge/index.qmd
+          - text: "8. Residual-block eviction: topology and a conditional Gaussian stress test"
+            href: parts/08-residual-eviction/index.qmd
+          - text: "9. Constant time per candidate is not a constant-time optimizer"
+            href: parts/09-constant-time/index.qmd
+          - text: "10. DEFT has multiple definitions of core"
+            href: parts/10-deft-core/index.qmd
+          - text: "11. What the experiments establish"
+            href: parts/11-experimental-evidence/index.qmd
+          - text: "12. Building a corrected HOPE"
+            href: parts/12-corrected-hope/index.qmd
+      - citation.qmd
+      - contact.qmd
+      - about.qmd
+  page-footer:
+    left: "Independent executable audit of HOPE v1"
+    right: "[Contact Bashar](mailto:elnashefb@gmail.com) · Code and evidence: v1.0.0"
+
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: true
+    toc-depth: 3
+    code-copy: true
+    anchor-sections: true
+    smooth-scroll: true
+
+execute:
+  enabled: false

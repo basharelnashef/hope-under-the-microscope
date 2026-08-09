@@ -1,0 +1,5 @@
+upstream_index,upstream_role,downstream_index,downstream_role,source_weight,mask,masked_weight,destination_elasticity,raw_gradient,effective_gradient,weight_after,expected_weight_after,dynamic_change,enters_core,source_activation,target_activation,source_core_input_before_mask,source_core_input_after_mask,target_core_input_after_update,initialization_shock,core_dynamic_drift,evidence_label,claim_id,passed
+0,core,0,core,2.0,1.0,2.0,0.0,99.0,0.0,2.0,2.0,0.0,True,1.0,1.0,5.0,2.0,2.0,3.0,0.0,verified_fact,P10-NARROW-ROUTING-GUARANTEE,True
+1,slack,0,core,3.0,0.0,0.0,0.0,99.0,0.0,0.0,0.0,0.0,True,1.0,4.0,5.0,2.0,2.0,3.0,0.0,verified_fact,P10-NARROW-ROUTING-GUARANTEE,True
+0,core,1,slack,5.0,1.0,5.0,1.0,-2.0,-2.0,6.0,6.0,1.0,False,1.0,1.0,5.0,2.0,2.0,3.0,0.0,verified_fact,P10-NARROW-ROUTING-GUARANTEE,True
+1,slack,1,slack,7.0,1.0,7.0,1.0,-2.0,-2.0,8.0,8.0,1.0,False,1.0,4.0,5.0,2.0,2.0,3.0,0.0,verified_fact,P10-NARROW-ROUTING-GUARANTEE,True

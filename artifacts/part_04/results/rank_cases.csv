@@ -1,0 +1,7 @@
+case_id,seed,dimension,constraint_count,rank,nullity,classification,base_logdet,test_logdet,max_constraint_residual,determinant_or_bound_residual,passed
+seeded_d3_r1,20260803,3,1,1,2,unbounded_feasible_ray,0.01148254765712764,9.478427653835947,0.0,7.283063041541027e-13,True
+seeded_d3_r2,20260904,3,2,2,1,unbounded_feasible_ray,0.4166517269251093,10.128514097296101,0.0,4.973799150320701e-14,True
+seeded_d3_r3,20261005,3,3,3,0,bounded_full_span,0.31773900985490733,0.31773900985490733,0.0,0.0,True
+seeded_d5_r2,20261106,5,2,2,3,unbounded_feasible_ray,0.8973991063136858,9.975676255629319,0.0,4.618527782440651e-14,True
+seeded_d5_r4,20261207,5,4,4,1,unbounded_feasible_ray,1.761130092928159,11.301636839514785,0.0,9.64561763794336e-13,True
+seeded_d5_r5,20261308,5,5,5,0,bounded_full_span,0.7495307907324745,0.7495307907324745,0.0,0.0,True

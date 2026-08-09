@@ -1,0 +1,859 @@
+{
+  "audit_id": "part05_global_psd_audit",
+  "check_count": 22,
+  "checks": {
+    "eq85_domain_diagonal_violation": {
+      "maximum": 2e-15,
+      "minimum": 0.0,
+      "observed": 0.0,
+      "passed": true,
+      "units": "absolute"
+    },
+    "eq85_finite_symmetry_residual": {
+      "maximum": 2e-15,
+      "minimum": 0.0,
+      "observed": 0.0,
+      "passed": true,
+      "units": "absolute"
+    },
+    "eq85_maximum_triangle_violation": {
+      "maximum": 0.0152,
+      "minimum": 0.015,
+      "observed": 0.01510131906285106,
+      "passed": true,
+      "units": "distance"
+    },
+    "eq85_minimum_eigenvalue": {
+      "maximum": -0.04,
+      "minimum": -0.05,
+      "observed": -0.04506976334652169,
+      "passed": true,
+      "units": "eigenvalue"
+    },
+    "eq85_negative_direction_error": {
+      "maximum": 2e-14,
+      "minimum": 0.0,
+      "observed": 1.3877787807814457e-17,
+      "passed": true,
+      "units": "absolute"
+    },
+    "local_pair_count": {
+      "maximum": 3.0,
+      "minimum": 3.0,
+      "observed": 3.0,
+      "passed": true,
+      "units": "count"
+    },
+    "maximum_eq80_equation_residual": {
+      "maximum": 2e-14,
+      "minimum": 0.0,
+      "observed": 1.1102230246251565e-15,
+      "passed": true,
+      "units": "absolute"
+    },
+    "minimum_local_pair_eigenvalue": {
+      "maximum": 1.0,
+      "minimum": 0.18,
+      "observed": 0.18463436318271764,
+      "passed": true,
+      "units": "eigenvalue"
+    },
+    "minimum_scale_ratio": {
+      "maximum": 100.0,
+      "minimum": 1e-12,
+      "observed": 1.106838,
+      "passed": true,
+      "units": "ratio"
+    },
+    "minimum_unrepaired_pairwise_squared_distance": {
+      "maximum": 10.0,
+      "minimum": 0.36,
+      "observed": 0.3692687263654353,
+      "passed": true,
+      "units": "squared_distance"
+    },
+    "plain_clipping_maximum_psd_violation": {
+      "maximum": 2e-12,
+      "minimum": 0.0,
+      "observed": 1.228297840866283e-16,
+      "passed": true,
+      "units": "absolute"
+    },
+    "raw_maximum_pair_absolute_correlation": {
+      "maximum": 0.999999999999,
+      "minimum": 0.0,
+      "observed": 0.590994,
+      "passed": true,
+      "units": "correlation"
+    },
+    "raw_minimum_eigenvalue": {
+      "maximum": 0.13,
+      "minimum": 0.12,
+      "observed": 0.12600540389160284,
+      "passed": true,
+      "units": "eigenvalue"
+    },
+    "raw_symmetry_residual": {
+      "maximum": 2e-15,
+      "minimum": 0.0,
+      "observed": 0.0,
+      "passed": true,
+      "units": "absolute"
+    },
+    "raw_unit_diagonal_residual": {
+      "maximum": 2e-15,
+      "minimum": 0.0,
+      "observed": 0.0,
+      "passed": true,
+      "units": "absolute"
+    },
+    "renormalized_maximum_psd_or_diagonal_violation": {
+      "maximum": 2e-12,
+      "minimum": 0.0,
+      "observed": 0.0,
+      "passed": true,
+      "units": "absolute"
+    },
+    "shared_control_minimum_eigenvalue": {
+      "maximum": 0.21,
+      "minimum": 0.19,
+      "observed": 0.19739822610147048,
+      "passed": true,
+      "units": "eigenvalue"
+    },
+    "warped_domain_diagonal_violation": {
+      "maximum": 2e-15,
+      "minimum": 0.0,
+      "observed": 0.0,
+      "passed": true,
+      "units": "absolute"
+    },
+    "warped_finite_symmetry_residual": {
+      "maximum": 2e-15,
+      "minimum": 0.0,
+      "observed": 0.0,
+      "passed": true,
+      "units": "absolute"
+    },
+    "warped_minimum_eigenvalue": {
+      "maximum": -0.2,
+      "minimum": -0.26,
+      "observed": -0.25067976835991007,
+      "passed": true,
+      "units": "eigenvalue"
+    },
+    "warped_negative_direction_error": {
+      "maximum": 2e-14,
+      "minimum": 0.0,
+      "observed": 1.1102230246251565e-16,
+      "passed": true,
+      "units": "absolute"
+    },
+    "witness_nonfinite_count": {
+      "maximum": 0.0,
+      "minimum": 0.0,
+      "observed": 0.0,
+      "passed": true,
+      "units": "count"
+    }
+  },
+  "claim_ids": [
+    "P05-COMMON-PX-KERNEL",
+    "P05-COMMON-GRAM-PSD",
+    "P05-PAIR-LOCAL-SURROGATE",
+    "P05-LOCAL-PAIR-VALIDITY",
+    "P05-GLOBAL-GRAM-COUNTEREXAMPLE",
+    "P05-SHARED-SURROGATE-CONTROL",
+    "P05-PSD-PROJECTION-REPAIR"
+  ],
+  "config": {
+    "fixed_input_policy": "six-decimal embedded witness values are exact inputs",
+    "fixed_raw_correlation": [
+      [
+        1.0,
+        -0.173508,
+        0.590994
+      ],
+      [
+        -0.173508,
+        1.0,
+        0.513747
+      ],
+      [
+        0.590994,
+        0.513747,
+        1.0
+      ]
+    ],
+    "fixed_scale_ratios": [
+      1.106838,
+      1.793881,
+      1.634949
+    ],
+    "float_dtype": "float64",
+    "formula_routes": {
+      "activation_kernel": "HOPE v1 normalized zero-bias Eq. 85",
+      "pair_warp": "HOPE v1 Eqs. 80-81"
+    },
+    "full_mode": false,
+    "matrix_dimension": 3,
+    "random_sampling": false,
+    "tolerances": {
+      "distance_atol": 2e-15,
+      "domain_atol": 2e-15,
+      "eq85_negative_maximum": -0.04,
+      "equation_residual_atol": 2e-14,
+      "positive_definite_minimum": 1e-12,
+      "positive_semidefinite_atol": 2e-12,
+      "quadratic_form_atol": 2e-14,
+      "raw_pd_material_minimum": 0.12,
+      "shared_control_pd_minimum": 0.19,
+      "symmetry_atol": 2e-15,
+      "unit_diagonal_atol": 2e-15,
+      "warped_negative_maximum": -0.2
+    }
+  },
+  "config_sha256": "3fef3ee936e6aa7c58e34984c7c6033a7f382004e94780603d04869ad124f06b",
+  "local_pairs": [
+    {
+      "eq80_equation_residual": 0.0,
+      "eq80_warped_correlation": -0.31904414251477403,
+      "eq81_kappa": -0.35519961465356764,
+      "eq85_kernel_value": 0.17512987939640395,
+      "eq85_local_min_eigenvalue": 0.824870120603596,
+      "eq85_squared_distance": 1.649740241207192,
+      "index_i": 0,
+      "index_j": 1,
+      "pair_id": "1-2",
+      "passed": true,
+      "raw_correlation": -0.173508,
+      "scale_ratio_i": 1.106838,
+      "scale_ratio_j": 1.793881,
+      "warped_local_min_eigenvalue": 0.6809558574852259,
+      "warped_squared_distance": 2.638088285029548
+    },
+    {
+      "eq80_equation_residual": 1.1102230246251565e-15,
+      "eq80_warped_correlation": 0.7410265449389223,
+      "eq81_kappa": 1.6435129174794498,
+      "eq85_kernel_value": 0.7811123043000225,
+      "eq85_local_min_eigenvalue": 0.21888769569997746,
+      "eq85_squared_distance": 0.4377753913999549,
+      "index_i": 0,
+      "index_j": 2,
+      "pair_id": "1-3",
+      "passed": true,
+      "raw_correlation": 0.590994,
+      "scale_ratio_i": 1.106838,
+      "scale_ratio_j": 1.634949,
+      "warped_local_min_eigenvalue": 0.2589734550610777,
+      "warped_squared_distance": 0.5179469101221554
+    },
+    {
+      "eq80_equation_residual": 0.0,
+      "eq80_warped_correlation": 0.7851452758112819,
+      "eq81_kappa": 2.047064607387386,
+      "eq85_kernel_value": 0.8153656368172824,
+      "eq85_local_min_eigenvalue": 0.18463436318271764,
+      "eq85_squared_distance": 0.3692687263654353,
+      "index_i": 1,
+      "index_j": 2,
+      "pair_id": "2-3",
+      "passed": true,
+      "raw_correlation": 0.513747,
+      "scale_ratio_i": 1.793881,
+      "scale_ratio_j": 1.634949,
+      "warped_local_min_eigenvalue": 0.2148547241887181,
+      "warped_squared_distance": 0.4297094483774362
+    }
+  ],
+  "matrices": {
+    "input_R": [
+      [
+        1.0,
+        -0.173508,
+        0.590994
+      ],
+      [
+        -0.173508,
+        1.0,
+        0.513747
+      ],
+      [
+        0.590994,
+        0.513747,
+        1.0
+      ]
+    ],
+    "normalized_eq85_K": [
+      [
+        1.0,
+        0.17512987939640395,
+        0.7811123043000225
+      ],
+      [
+        0.17512987939640395,
+        1.0,
+        0.8153656368172824
+      ],
+      [
+        0.7811123043000225,
+        0.8153656368172824,
+        1.0
+      ]
+    ],
+    "normalized_eq85_K_plain_eigenvalue_clipping": [
+      [
+        1.009772541355125,
+        0.18550886303893932,
+        0.7657103479249401
+      ],
+      [
+        0.18550886303893932,
+        1.0110230591549767,
+        0.7990079006388424
+      ],
+      [
+        0.7657103479249401,
+        0.7990079006388424,
+        1.0242741628364174
+      ]
+    ],
+    "normalized_eq85_K_psd_renormalized_correlation": [
+      [
+        1.0,
+        0.18359986384753768,
+        0.7529127106296343
+      ],
+      [
+        0.18359986384753768,
+        1.0,
+        0.7851677159793888
+      ],
+      [
+        0.7529127106296343,
+        0.7851677159793888,
+        1.0
+      ]
+    ],
+    "shared_eq85_control": [
+      [
+        1.0,
+        0.23635938028314127,
+        0.6712159348591652
+      ],
+      [
+        0.23635938028314127,
+        1.0,
+        0.6181972853314059
+      ],
+      [
+        0.6712159348591652,
+        0.6181972853314059,
+        1.0
+      ]
+    ],
+    "warped_Q": [
+      [
+        1.0,
+        -0.31904414251477403,
+        0.7410265449389223
+      ],
+      [
+        -0.31904414251477403,
+        1.0,
+        0.7851452758112819
+      ],
+      [
+        0.7410265449389223,
+        0.7851452758112819,
+        1.0
+      ]
+    ],
+    "warped_Q_plain_eigenvalue_clipping": [
+      [
+        1.0693618982386863,
+        -0.24726060623963023,
+        0.6548657906708752
+      ],
+      [
+        -0.24726060623963023,
+        1.074289721172754,
+        0.6959763835729134
+      ],
+      [
+        0.6548657906708752,
+        0.6959763835729134,
+        1.10702814894847
+      ]
+    ],
+    "warped_Q_psd_renormalized_correlation": [
+      [
+        1.0,
+        -0.23069164534416828,
+        0.6018809794654661
+      ],
+      [
+        -0.23069164534416828,
+        1.0,
+        0.6381965627525933
+      ],
+      [
+        0.6018809794654661,
+        0.6381965627525933,
+        1.0
+      ]
+    ]
+  },
+  "method_origins": {
+    "eq80_eq81_pair_warp": {
+      "evidence_label": "paper_claim",
+      "origin": "HOPE v1 Proposition E.3 and Eqs. 80-81",
+      "scope": "applied independently to each declared pair"
+    },
+    "fixed_global_psd_witness": {
+      "evidence_label": "counterexample",
+      "origin": "embedded fixed six-decimal three-neuron witness",
+      "scope": "one deterministic three-neuron analytical fixture"
+    },
+    "normalized_eq85_relu": {
+      "evidence_label": "paper_claim",
+      "origin": "HOPE v1 normalized zero-bias Eq. 85",
+      "scope": "applied entrywise to each pair correlation"
+    },
+    "plain_eigenvalue_clipping": {
+      "evidence_label": "proposed_repair",
+      "origin": "independent spectral projection diagnostic",
+      "scope": "negative eigenvalues are set to zero; diagonal is not preserved"
+    },
+    "psd_renormalized_correlation": {
+      "evidence_label": "proposed_repair",
+      "origin": "independent clipping followed by positive diagonal congruence",
+      "scope": "PSD and unit diagonal; no correlation-matrix optimality claim"
+    },
+    "shared_eq85_control": {
+      "evidence_label": "verified_fact",
+      "origin": "independent positive control using one valid shared correlation",
+      "scope": "Eq. 85 is applied directly to the jointly valid input R"
+    }
+  },
+  "negative_directions": {
+    "normalized_eq85_K": {
+      "absolute_match_error": 1.3877787807814457e-17,
+      "minimum_eigenvalue": -0.04506976334652169,
+      "passed": true,
+      "quadratic_form": -0.04506976334652168,
+      "vector": [
+        -0.4656516215358381,
+        -0.4945479775847531,
+        0.7338875017520566
+      ],
+      "vector_norm": 0.9999999999999999
+    },
+    "warped_Q": {
+      "absolute_match_error": 1.1102230246251565e-16,
+      "minimum_eigenvalue": -0.25067976835991007,
+      "passed": true,
+      "quadratic_form": -0.25067976835990996,
+      "vector": [
+        -0.5260182870219043,
+        -0.5443832096101124,
+        0.6534153983593697
+      ],
+      "vector_norm": 0.9999999999999999
+    }
+  },
+  "pairwise_squared_distances": {
+    "input_R": [
+      {
+        "index_i": 0,
+        "index_j": 1,
+        "nonnegative": true,
+        "pair_id": "1-2",
+        "squared_distance": 2.347016
+      },
+      {
+        "index_i": 0,
+        "index_j": 2,
+        "nonnegative": true,
+        "pair_id": "1-3",
+        "squared_distance": 0.818012
+      },
+      {
+        "index_i": 1,
+        "index_j": 2,
+        "nonnegative": true,
+        "pair_id": "2-3",
+        "squared_distance": 0.9725060000000001
+      }
+    ],
+    "normalized_eq85_K": [
+      {
+        "index_i": 0,
+        "index_j": 1,
+        "nonnegative": true,
+        "pair_id": "1-2",
+        "squared_distance": 1.649740241207192
+      },
+      {
+        "index_i": 0,
+        "index_j": 2,
+        "nonnegative": true,
+        "pair_id": "1-3",
+        "squared_distance": 0.4377753913999549
+      },
+      {
+        "index_i": 1,
+        "index_j": 2,
+        "nonnegative": true,
+        "pair_id": "2-3",
+        "squared_distance": 0.3692687263654353
+      }
+    ],
+    "normalized_eq85_K_plain_eigenvalue_clipping": [
+      {
+        "index_i": 0,
+        "index_j": 1,
+        "nonnegative": true,
+        "pair_id": "1-2",
+        "squared_distance": 1.6497778744322231
+      },
+      {
+        "index_i": 0,
+        "index_j": 2,
+        "nonnegative": true,
+        "pair_id": "1-3",
+        "squared_distance": 0.5026260083416623
+      },
+      {
+        "index_i": 1,
+        "index_j": 2,
+        "nonnegative": true,
+        "pair_id": "2-3",
+        "squared_distance": 0.43728142071370923
+      }
+    ],
+    "normalized_eq85_K_psd_renormalized_correlation": [
+      {
+        "index_i": 0,
+        "index_j": 1,
+        "nonnegative": true,
+        "pair_id": "1-2",
+        "squared_distance": 1.6328002723049246
+      },
+      {
+        "index_i": 0,
+        "index_j": 2,
+        "nonnegative": true,
+        "pair_id": "1-3",
+        "squared_distance": 0.49417457874073145
+      },
+      {
+        "index_i": 1,
+        "index_j": 2,
+        "nonnegative": true,
+        "pair_id": "2-3",
+        "squared_distance": 0.42966456804122233
+      }
+    ],
+    "shared_eq85_control": [
+      {
+        "index_i": 0,
+        "index_j": 1,
+        "nonnegative": true,
+        "pair_id": "1-2",
+        "squared_distance": 1.5272812394337174
+      },
+      {
+        "index_i": 0,
+        "index_j": 2,
+        "nonnegative": true,
+        "pair_id": "1-3",
+        "squared_distance": 0.6575681302816696
+      },
+      {
+        "index_i": 1,
+        "index_j": 2,
+        "nonnegative": true,
+        "pair_id": "2-3",
+        "squared_distance": 0.7636054293371881
+      }
+    ],
+    "warped_Q": [
+      {
+        "index_i": 0,
+        "index_j": 1,
+        "nonnegative": true,
+        "pair_id": "1-2",
+        "squared_distance": 2.638088285029548
+      },
+      {
+        "index_i": 0,
+        "index_j": 2,
+        "nonnegative": true,
+        "pair_id": "1-3",
+        "squared_distance": 0.5179469101221554
+      },
+      {
+        "index_i": 1,
+        "index_j": 2,
+        "nonnegative": true,
+        "pair_id": "2-3",
+        "squared_distance": 0.4297094483774362
+      }
+    ],
+    "warped_Q_plain_eigenvalue_clipping": [
+      {
+        "index_i": 0,
+        "index_j": 1,
+        "nonnegative": true,
+        "pair_id": "1-2",
+        "squared_distance": 2.638172831890701
+      },
+      {
+        "index_i": 0,
+        "index_j": 2,
+        "nonnegative": true,
+        "pair_id": "1-3",
+        "squared_distance": 0.8666584658454055
+      },
+      {
+        "index_i": 1,
+        "index_j": 2,
+        "nonnegative": true,
+        "pair_id": "2-3",
+        "squared_distance": 0.7893651029753972
+      }
+    ],
+    "warped_Q_psd_renormalized_correlation": [
+      {
+        "index_i": 0,
+        "index_j": 1,
+        "nonnegative": true,
+        "pair_id": "1-2",
+        "squared_distance": 2.4613832906883366
+      },
+      {
+        "index_i": 0,
+        "index_j": 2,
+        "nonnegative": true,
+        "pair_id": "1-3",
+        "squared_distance": 0.7962380410690677
+      },
+      {
+        "index_i": 1,
+        "index_j": 2,
+        "nonnegative": true,
+        "pair_id": "2-3",
+        "squared_distance": 0.7236068744948134
+      }
+    ]
+  },
+  "paper": {
+    "anchors": [
+      "Section 5 and Eqs. 4-5, PDF pages 7-9",
+      "Appendix A Eq. 30 and Proposition A.1, PDF page 35",
+      "Eq. 73, PDF page 52",
+      "Proposition E.3 and Eqs. 80-81, PDF page 54",
+      "Eqs. 84-85, PDF page 56"
+    ],
+    "arxiv_id": "2607.21366",
+    "local_pdf": {
+      "authenticated": false,
+      "status": "not_supplied"
+    },
+    "pdf_filename": "2607.21366v1.pdf",
+    "pdf_sha256": "8106a86c0c72aee05b0fbcc5e13095edc03fe725538b1bfa5c50c18ea806067b",
+    "title": "Hilbert Operator for Progressive Encoding (HOPE): A Mathematical Framework for Deconstructing Learned Representations in Deep Networks",
+    "version": "v1"
+  },
+  "passed": true,
+  "passing_check_count": 22,
+  "projection_comparison": [
+    {
+      "evidence_label": "proposed_repair",
+      "frobenius_change": 0.25067976835991007,
+      "maximum_absolute_change": 0.1070281489484699,
+      "maximum_diagonal_deviation": 0.1070281489484699,
+      "method": "plain_eigenvalue_clipping",
+      "minimum_eigenvalue_after": 5.456247433033301e-17,
+      "minimum_eigenvalue_before": -0.25067976835990985,
+      "minimum_pairwise_squared_distance": 0.7893651029753972,
+      "note": "PSD spectral clipping; the resulting diagonal is recorded and not forced to one.",
+      "psd_passed": true,
+      "repaired_matrix": "warped_Q_plain_eigenvalue_clipping",
+      "source_matrix": "warped_Q",
+      "unit_diagonal_passed": false
+    },
+    {
+      "evidence_label": "proposed_repair",
+      "frobenius_change": 0.3122869719242689,
+      "maximum_absolute_change": 0.14694871305868862,
+      "maximum_diagonal_deviation": 0.0,
+      "method": "psd_renormalized_correlation",
+      "minimum_eigenvalue_after": 2.289563937746264e-16,
+      "minimum_eigenvalue_before": -0.25067976835990985,
+      "minimum_pairwise_squared_distance": 0.7236068744948134,
+      "note": "PSD clipping plus diagonal congruence renormalization; no optimality claim.",
+      "psd_passed": true,
+      "repaired_matrix": "warped_Q_psd_renormalized_correlation",
+      "source_matrix": "warped_Q",
+      "unit_diagonal_passed": true
+    },
+    {
+      "evidence_label": "proposed_repair",
+      "frobenius_change": 0.045069763346521546,
+      "maximum_absolute_change": 0.024274162836417368,
+      "maximum_diagonal_deviation": 0.024274162836417368,
+      "method": "plain_eigenvalue_clipping",
+      "minimum_eigenvalue_after": -1.228297840866283e-16,
+      "minimum_eigenvalue_before": -0.04506976334652179,
+      "minimum_pairwise_squared_distance": 0.43728142071370923,
+      "note": "PSD spectral clipping; the resulting diagonal is recorded and not forced to one.",
+      "psd_passed": true,
+      "repaired_matrix": "normalized_eq85_K_plain_eigenvalue_clipping",
+      "source_matrix": "normalized_eq85_K",
+      "unit_diagonal_passed": false
+    },
+    {
+      "evidence_label": "proposed_repair",
+      "frobenius_change": 0.05964682963425857,
+      "maximum_absolute_change": 0.03019792083789352,
+      "maximum_diagonal_deviation": 0.0,
+      "method": "psd_renormalized_correlation",
+      "minimum_eigenvalue_after": 4.780623208370037e-17,
+      "minimum_eigenvalue_before": -0.04506976334652179,
+      "minimum_pairwise_squared_distance": 0.42966456804122233,
+      "note": "PSD clipping plus diagonal congruence renormalization; no optimality claim.",
+      "psd_passed": true,
+      "repaired_matrix": "normalized_eq85_K_psd_renormalized_correlation",
+      "source_matrix": "normalized_eq85_K",
+      "unit_diagonal_passed": true
+    }
+  ],
+  "reproduction_scope": {
+    "analysis_role": "global_psd_counterexample_and_repair_diagnostic",
+    "checkpoint_or_dataset_used": false,
+    "claim_boundary": "The fixed witness refutes a universal global-PSD guarantee for the tested pair-local assembly; it does not estimate incidence in trained layers.",
+    "excludes": [
+      "trained-network incidence",
+      "checkpoint or dataset behavior",
+      "paper compression metrics",
+      "random failure-rate estimation",
+      "downstream repair utility"
+    ],
+    "includes": [
+      "exact Eqs. 80-81 pairwise warp",
+      "normalized zero-bias Eq. 85 map",
+      "fixed three-neuron global PSD counterexample",
+      "negative-direction quadratic-form certificates",
+      "pairwise squared-distance and triangle diagnostics",
+      "shared-surrogate positive control",
+      "plain clipping and PSD-renormalized correlation diagnostics"
+    ],
+    "paper_experiment_reproduced": false,
+    "random_failure_rate_reported": false,
+    "random_search_used": false,
+    "repair_boundary": "Both PSD repairs are independent diagnostics and are not methods reported by HOPE v1.",
+    "reproduction_scope": "independent_mathematical_audit"
+  },
+  "schema_version": 1,
+  "spectra": {
+    "input_R": [
+      0.12600540389160284,
+      1.1716390523014248,
+      1.7023555438069724
+    ],
+    "normalized_eq85_K": [
+      -0.04506976334652169,
+      0.8250394188974253,
+      2.220030344449095
+    ],
+    "normalized_eq85_K_plain_eigenvalue_clipping": [
+      2.4221911720226732e-17,
+      0.8250394188974245,
+      2.2200303444490928
+    ],
+    "normalized_eq85_K_psd_renormalized_correlation": [
+      7.621232893542066e-17,
+      0.8165712897099007,
+      2.183428710290099
+    ],
+    "shared_eq85_control": [
+      0.19739822610147048,
+      0.7645613280643049,
+      2.0380404458342243
+    ],
+    "warped_Q": [
+      -0.25067976835991007,
+      1.3183990151721292,
+      1.932280753187781
+    ],
+    "warped_Q_plain_eigenvalue_clipping": [
+      2.429968119083137e-16,
+      1.3183990151721292,
+      1.9322807531877806
+    ],
+    "warped_Q_psd_renormalized_correlation": [
+      1.4151548856367047e-16,
+      1.230233060989429,
+      1.7697669390105715
+    ]
+  },
+  "status": "passed",
+  "triangle_violation": {
+    "direct_distance": 1.2844221429137666,
+    "direct_pair": [
+      0,
+      1
+    ],
+    "leg_distances": [
+      0.6616459713471812,
+      0.6076748525037343
+    ],
+    "leg_pairs": [
+      [
+        0,
+        2
+      ],
+      [
+        1,
+        2
+      ]
+    ],
+    "triangle_inequality_satisfied": false,
+    "triple": [
+      0,
+      1,
+      2
+    ],
+    "via_index": 2,
+    "violation": 0.01510131906285106
+  },
+  "witness": {
+    "input_decimal_policy": "declared six-decimal values are exact",
+    "raw_correlation": [
+      [
+        1.0,
+        -0.173508,
+        0.590994
+      ],
+      [
+        -0.173508,
+        1.0,
+        0.513747
+      ],
+      [
+        0.590994,
+        0.513747,
+        1.0
+      ]
+    ],
+    "scale_ratios": [
+      1.106838,
+      1.793881,
+      1.634949
+    ],
+    "source": "embedded constants in this audit package"
+  }
+}

@@ -1,0 +1,35 @@
+---
+title: About this audit
+toc: true
+---
+
+## Positioning
+
+This is an independent executable audit of HOPE v1, with bounded diagnostics
+and a proposed corrected reference design. It is not author code and it does
+not claim an exact reproduction of the paper's headline experiments.
+
+## How the site and code stay aligned
+
+The long-form Quarto pages are the public technical articles. Each page links
+to focused tests and CSV or JSON evidence in the immutable `v1.0.0` release.
+The repository's [artifact checksum index](https://github.com/basharelnashef/hope-under-the-microscope/blob/v1.0.0/artifacts/SHA256SUMS)
+authenticates the result files, and figures used by the articles are stored
+with the site.
+
+## Corrections and contact
+
+Published by [Bashar](https://scholar.google.com/citations?user=tHNUc5wAAAAJ).
+
+Questions, corrections, reproducibility reports, and proposals are welcome by
+[email](mailto:elnashefb@gmail.com) or through the
+[contact and contribution page](contact.qmd).
+
+## Citation
+
+If this audit is useful in your work, please cite Bashar Elnashef and the
+original HOPE paper. The dedicated [citation page](citation.qmd) provides the
+formatted references, ready-to-copy BibTeX, and machine-readable citation
+files.
+
+[Open the repository](https://github.com/basharelnashef/hope-under-the-microscope).

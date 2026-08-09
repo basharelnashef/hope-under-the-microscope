@@ -1,0 +1,9 @@
+case_id,eligible,expected_eligible,reason_count,expected_reason,cost_evaluated,direct_cost,reference_cost,tolerance,claim_id,evidence_label,passed
+eligible_identity,1,1,0,none,1,2.3125,2.3125,1e-15,P12-BLOCK-ELIGIBILITY,proposed_repair,True
+eligible_weighted_cost,1,1,0,none,1,3.15625,3.15625,1e-15,P12-BLOCK-ELIGIBILITY,proposed_repair,True
+projection_shortcut,0,0,1,non_identity_shortcut,0,0.0,0.0,1e-15,P12-BLOCK-ELIGIBILITY,proposed_repair,True
+stride_change,0,0,1,non_unit_stride,0,0.0,0.0,1e-15,P12-BLOCK-ELIGIBILITY,proposed_repair,True
+resnet_v2,0,0,1,architecture_not_resnet_v1,0,0.0,0.0,1e-15,P12-BLOCK-ELIGIBILITY,proposed_repair,True
+pre_activation,0,0,1,not_post_activation,0,0.0,0.0,1e-15,P12-BLOCK-ELIGIBILITY,proposed_repair,True
+missing_skip,0,0,1,missing_skip,0,0.0,0.0,1e-15,P12-BLOCK-ELIGIBILITY,proposed_repair,True
+shape_change,0,0,1,shape_mismatch,0,0.0,0.0,1e-15,P12-BLOCK-ELIGIBILITY,proposed_repair,True

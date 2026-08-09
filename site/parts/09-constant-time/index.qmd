@@ -1,0 +1,371 @@
+---
+title: "Constant time per candidate is not a constant-time optimizer"
+description: "A cached scalar lookup can be constant-time even though enumeration, trajectory scans, memory, and dependency refresh are not."
+part: 9
+toc: true
+execute:
+  enabled: false
+---
+
+::: {.callout-note appearance="simple"}
+## Code and reproducibility
+
+This page is paired with the immutable `v1.0.0` release.
+
+- [Exact audit package](https://github.com/basharelnashef/hope-under-the-microscope/tree/v1.0.0/experiments/audits/part09_constant_time)
+- [Focused tests](https://github.com/basharelnashef/hope-under-the-microscope/blob/v1.0.0/experiments/audits/part09_constant_time/test_run.py)
+- [Artifact checksums](https://github.com/basharelnashef/hope-under-the-microscope/blob/v1.0.0/artifacts/SHA256SUMS)
+- [Evidence: `candidate_counts.csv`](https://github.com/basharelnashef/hope-under-the-microscope/blob/v1.0.0/artifacts/part_09/results/candidate_counts.csv)
+- [Evidence: `refresh_comparison.csv`](https://github.com/basharelnashef/hope-under-the-microscope/blob/v1.0.0/artifacts/part_09/results/refresh_comparison.csv)
+
+From the repository root:
+
+```bash
+python -m unittest discover -s experiments/audits/part09_constant_time -p 'test_*.py' -v
+```
+
+Scope: Exact operation counts and deterministic cache fixtures are not wall-clock benchmarks.
+
+:::
+
+Caching can make one price lookup constant-time. It cannot make millions of
+candidates disappear.
+
+That distinction matters because HOPE contains two different complexity
+stories.
+
+The careful story is in Section 10. It says that evaluating one cached
+candidate takes constant scalar work, while scanning all merge pairs in $L$
+layers of width $N$ takes $O(LN^2)$ per greedy action.
+
+The stronger story appears in Appendix B.4 and Algorithm 1. The appendix calls
+the scan over all remaining pairs an "$O(1)$ global scan," and Algorithm 1
+labels its nested layer-and-candidate loop a "True $O(1)$ Greedy Scan."
+
+Those statements cannot all describe the same unit of work.
+
+This audit separates the units, counts a complete trajectory, and then asks a
+second question: after a physical channel is removed, which cached quantities
+are still valid?
+
+## Start with the strongest supported claim
+
+HOPE's decoupled cache is a useful systems idea.
+
+For one merge pair, the expensive geometry can be summarized by cached scalar
+constants such as $a$, $b$, and the warped correlation. Given those values
+and the live remaining layer capacity $E_{\mathrm{rem}}$, Eq. 40 computes the
+parent magnitude
+
+$$
+s^*=\frac{a+bE_{\mathrm{rem}}}{2E_{\mathrm{rem}}+b}.
+$$
+
+The transition score can then be evaluated with a fixed number of scalar
+operations.
+
+`paper_claim`: one already enumerated candidate can be repriced in $O(1)$
+scalar arithmetic after its geometry has been initialized.
+
+That is not the same as selecting the minimum candidate.
+
+## The paper's own main text gives the correct scan scope
+
+At live width $m$, one layer has
+
+$$
+m
+$$
+
+solitary prune candidates and
+
+$$
+\binom{m}{2}=\frac{m(m-1)}{2}
+$$
+
+unordered merge candidates.
+
+Algorithm 1 loops over every active layer and then every active action. Section
+10 therefore states $O(LN)$ for pruning and $O(LN^2)$ for merging at one
+greedy step.
+
+`verified_fact`: Section 10 and the pseudocode do not implement a constant-time
+global selection. They implement a quadratic merge scan whose individual
+candidate evaluations are constant-time.
+
+The precise correction is important. It would be unfair to say that the paper
+never recognizes the quadratic scan. It does. The problem is that Appendix
+B.4 and the Algorithm 1 phase label contradict that recognition.
+
+The clean vocabulary is:
+
+- cached candidate lookup: $O(1)$ scalar arithmetic;
+- one layer-wide merge scan: $\Theta(m^2)$ candidate evaluations;
+- one network-wide scan: $\Theta(\sum_\ell m_\ell^2)$;
+- one complete trajectory: the sum of those scans over every executed action.
+
+## Receding horizon repeats the scan
+
+HOPE does not select one action and stop. It executes one action, updates the
+state, and scans again.
+
+For a declared one-layer trajectory that removes one neuron at each step from
+width $N$ down to width one, the merge-candidate evaluations are exactly
+
+$$
+\sum_{m=2}^{N}\binom{m}{2}
+=\binom{N+1}{3}
+=\frac{N(N-1)(N+1)}{6}.
+$$
+
+Therefore the cached merge-score scan alone is
+
+$$
+\Theta(N^3).
+$$
+
+If prune candidates are scanned alongside merge candidates, their trajectory
+count is
+
+$$
+\sum_{m=2}^{N}m=\frac{N(N+1)}{2}-1,
+$$
+
+and the combined exact count is
+
+$$
+\binom{N+2}{3}-1.
+$$
+
+`verified_fact`: constant arithmetic per candidate does not remove the cubic
+candidate-enumeration count of this complete single-layer trajectory.
+
+The frozen width-4,096 fixture contains:
+
+- 8,386,560 unordered merge pairs in the initial layer;
+- 11,453,245,440 cached merge-score evaluations over the complete trajectory.
+
+These are exact combinatorial counts, not timings and not estimates from a
+trained network.
+
+## Initialization is dimension-dependent
+
+Appendix B.4 describes $O(N^2)$ initialization because there are quadratically
+many pairs. That statement suppresses the cost of constructing one pair's
+geometry.
+
+Let $d$ be incoming dimension and $c$ the complete outgoing dimension. A
+pair calculation must at least visit coordinates from those vectors. The
+dimension-aware initialization scale is therefore
+
+$$
+\Theta\!\left(N^2(d+c)\right),
+$$
+
+before implementation-specific eigensolver, SVD, indexing, and allocation
+costs are counted.
+
+`independent_inference`: $O(N^2)$ is an entry-count description, not a
+dimension-free end-to-end initialization bound.
+
+The Part 9 operation-count fixture fixes $d=c=64$. It compares:
+
+1. recomputing every pair geometry at every live width;
+2. initializing geometry once, scanning cached scalars, and refreshing only
+   new-parent pairs within the same layer.
+
+At width 4,096, the declared work-unit proxy favors the decoupled cache by
+about $108.64\times$. This is evidence that the cache can be valuable. It is
+not a wall-clock speedup claim because coordinate visits and scalar evaluations
+are only a deterministic workload model.
+
+## The cache has quadratic storage
+
+A cache entry must exist for every live unordered pair if every pair is to be
+queried without rebuilding its geometry.
+
+The entry count is
+
+$$
+\binom{N}{2}=\Theta(N^2).
+$$
+
+The frozen memory table counts only three float64 scalars per pair: $a$,
+$b$, and the warped correlation used for parent BatchNorm recovery. It
+deliberately excludes pair indices, object headers, hash tables, queues,
+alignment, and allocator overhead.
+
+At width 4,096, those three raw scalar arrays alone occupy
+
+$$
+8{,}386{,}560\times3\times8
+=201{,}277{,}440\text{ bytes}
+=191.953125\text{ MiB}.
+$$
+
+`verified_fact`: the paper's constant-time candidate lookup trades against a
+quadratic pair-cache entry count. The frozen byte figure is a lower-scope raw
+payload count, not a claim about a particular Python, C++, or accelerator
+implementation.
+
+## Static parameter payoff does not freeze functional state
+
+Equation 23 divides distortion by a payoff computed on the initial network.
+Appendix B.3 argues that overlap between static and live payoffs acts like one
+uniform factor $\alpha$, preserving candidate order.
+
+But physical weights are shared across adjacent functional descriptions.
+
+Consider a 1x1 Conv-BN-ReLU-Conv chain and remove one channel from its central
+layer. That one action does all of the following:
+
+1. It removes one coordinate from every predecessor neuron's outgoing vector.
+2. It removes one coordinate from every successor neuron's incoming vector.
+3. It changes successor incoming norms and pairwise cosines.
+4. It changes successor preactivation variances under the same declared input
+   covariance.
+5. It can invalidate block scores and any stored BatchNorm interpretation that
+   assumed the old preactivation.
+
+Static $\Delta P$ changes none of those facts. It freezes only a denominator
+used for action comparison.
+
+## A fixed dependency counterexample
+
+The audit removes channel 1 from the following successor incoming matrix:
+
+$$
+W_{\mathrm{succ}}=
+\begin{bmatrix}
+-5&4&-1&-1\\
+2&-4&0&-3\\
+-3&-3&2&-5
+\end{bmatrix}.
+$$
+
+Before removal, the three pair correlations are approximately
+
+$$
+\rho_{01}=-0.6513,\qquad
+\rho_{02}=0.1335,\qquad
+\rho_{12}=0.5688.
+$$
+
+The best pair under the monotone zero-bias ReLU kernel is $(1,2)$.
+
+After deleting the second coordinate, they become
+
+$$
+\rho'_{01}=-0.3736,\qquad
+\rho'_{02}=0.5620,\qquad
+\rho'_{12}=0.4049.
+$$
+
+Now the best pair is $(0,2)$.
+
+Algorithm 1's strictly intra-layer update leaves the successor cache at the
+old values and keeps pair $(1,2)$ first. Full recomputation selects pair
+$(0,2)$.
+
+`counterexample`: "zero downstream recalculation" is false for this physical
+channel-surgery fixture. All three successor pair values change, and the stale
+cache selects a different next pair.
+
+The same fixture changes all three predecessor capacities and all three
+successor preactivation variances. The result is not confined to one pair.
+
+## A dependency-aware refresh is a proposed repair
+
+The repair is conceptually simple even if an efficient implementation requires
+careful graph bookkeeping.
+
+After a physical action, refresh:
+
+- current-layer candidates involving a synthesized or removed neuron;
+- predecessor capacities and pairs whose outgoing vectors changed;
+- successor geometry and kernels whose incoming coordinates changed;
+- any block score spanning the affected tensors;
+- any stored distributional premise invalidated by the changed preactivation.
+
+`proposed_repair`: on the declared fixture, dependency-aware refresh reproduces
+the full-recomputation pair values and ranking exactly.
+
+This audit does not claim that the repair has optimal asymptotic complexity on
+arbitrary graphs. Fan-out, shared weights, grouped convolutions, residual
+branches, and unresolved consumers change the dependency set.
+
+## Static payoff can reverse action order
+
+The uniform-$\alpha$ claim also fails independently of the functional cache.
+
+For a simple dense or 1x1 convolutional neuron with four BatchNorm values,
+write the parameter payoff as
+
+$$
+\Delta P=d_{\mathrm{in}}+d_{\mathrm{out}}+4.
+$$
+
+The frozen equal-distortion fixture uses:
+
+$$
+\begin{array}{c|cc|cc|cc}
+&d_{\mathrm{in}}^{\mathrm{init}}&d_{\mathrm{out}}^{\mathrm{init}}
+&d_{\mathrm{in}}^{\mathrm{live}}&d_{\mathrm{out}}^{\mathrm{live}}
+&\Delta P^{\mathrm{init}}&\Delta P^{\mathrm{live}}\\ \hline
+A&8&8&1&1&20&6\\
+B&6&6&5&5&16&14
+\end{array}
+$$
+
+With $J_A=J_B=1$, static payoff ranks $A$ first because
+$1/20<1/16$. Live payoff ranks $B$ first because $1/14<1/6$.
+
+The implied factors are
+
+$$
+\alpha_A=20/6\approx3.333,
+\qquad
+\alpha_B=16/14\approx1.143.
+$$
+
+They are not uniform.
+
+`counterexample`: Eq. 39's ordering equivalence does not hold for general
+action histories. The audit also includes a true uniform-factor control and a
+distortion control; neither reverses.
+
+Because HOPE executes only one action before replanning, a corrected optimizer
+can use the real immediate live payoff. It does not need to pretend that all
+overlap factors are equal.
+
+## What this audit establishes
+
+The strongest fair conclusion is not that caching is useless. The opposite is
+true: the deterministic workload comparison shows why decoupling expensive
+geometry from live scalar capacity can save substantial repeated work.
+
+The supported boundaries are:
+
+- `paper_claim`: one cached candidate can be evaluated with constant scalar
+  arithmetic.
+- `verified_fact`: one global merge scan is quadratic in live width, exactly as
+  Section 10 states.
+- `verified_fact`: a complete single-layer merge trajectory performs cubic
+  cached candidate evaluations.
+- `verified_fact`: the pair cache has quadratic entries and dimension-dependent
+  initialization.
+- `counterexample`: physical channel surgery invalidates adjacent functional
+  state and can reverse the next cached pair ranking.
+- `counterexample`: static-to-live parameter payoff is not generally one
+  uniform factor, so action ordering can reverse.
+- `proposed_repair`: refresh the complete dependency neighborhood and use the
+  immediate live payoff.
+
+The audit does not report a trained-model runtime, GPU memory trace, accuracy
+curve, or end-to-end optimizer benchmark. Those remain empirical work.
+
+The practical question to ask whenever a method says "constant time" is:
+
+> Constant time per what?
+
+{{< include ../../_includes/cite-audit.qmd >}}

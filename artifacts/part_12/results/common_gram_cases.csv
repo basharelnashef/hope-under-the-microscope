@@ -1,0 +1,11 @@
+case_id,metric,value,reference_value,tolerance,comparator,measure_label,sample_count,neuron_count,claim_id,evidence_label,passed
+measure_probability,normalized_weight_sum,1.0,1.0,2e-15,eq,part12_weighted_fixture,9,3,P12-CALIBRATED-COMMON-MEASURE,proposed_repair,True
+weighted_activation_gram,minimum_eigenvalue,0.08168052937955,-5.983929141668916e-13,0.0,ge,part12_weighted_fixture,9,3,P12-COMMON-GRAM-PSD,verified_fact,True
+weighted_activation_gram,symmetry_error,0.0,5.983929141668916e-13,0.0,le,part12_weighted_fixture,9,3,P12-COMMON-GRAM-PSD,verified_fact,True
+exact_empirical_cross,cross_vs_gram_error,0.0,0.0,2e-15,eq,part12_weighted_fixture,9,3,P12-KERNEL-BOUNDARY-CONTRACT,proposed_repair,True
+finite_epsilon_bn,fold_max_absolute_error,0.0,0.0,2e-15,eq,part12_weighted_fixture,9,3,P12-KERNEL-BOUNDARY-CONTRACT,proposed_repair,True
+zero_gamma_bn,constant_boundary_error,0.0,0.0,0.0,eq,part12_weighted_fixture,9,3,P12-KERNEL-BOUNDARY-CONTRACT,proposed_repair,True
+relu_gamma_zero_positive,self_kernel_limit_error,0.0,0.0,0.0,eq,part12_weighted_fixture,9,3,P12-KERNEL-BOUNDARY-CONTRACT,proposed_repair,True
+relu_gamma_zero_negative,self_kernel_limit_error,0.0,0.0,0.0,eq,part12_weighted_fixture,9,3,P12-KERNEL-BOUNDARY-CONTRACT,proposed_repair,True
+positive_rescaling,capacity_absolute_error,0.0,0.0,2e-14,eq,part12_weighted_fixture,9,3,P12-KERNEL-BOUNDARY-CONTRACT,proposed_repair,True
+zero_bias_approximation,finite_approximate_cross,0.38032916096274394,0.0,0.0,ge,part12_weighted_fixture,9,3,P12-KERNEL-BOUNDARY-CONTRACT,proposed_repair,True

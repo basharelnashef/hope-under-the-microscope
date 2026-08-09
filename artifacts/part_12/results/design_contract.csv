@@ -1,0 +1,13 @@
+contract_id,requirement,implementation_source,scope_value,claim_id,evidence_label,passed
+one_measure,one declared weighted measure per layer,src/hope_repro/proposed_repairs/hope_r/common.py,1.0,P12-CALIBRATED-COMMON-MEASURE,proposed_repair,True
+common_psd,explicit PSD validation of the activation Gram,src/hope_repro/proposed_repairs/hope_r/common.py,1.0,P12-COMMON-GRAM-PSD,verified_fact,True
+kernel_boundary,finite-epsilon fold and exact zero-gamma limit,src/hope_repro/proposed_repairs/hope_r/common.py,1.0,P12-KERNEL-BOUNDARY-CONTRACT,proposed_repair,True
+physical_merge,measured executed-child-sum residual,src/hope_repro/proposed_repairs/hope_r/merge.py,1.0,P12-SUM-MAP-MERGE,proposed_repair,True
+twin_anchor,exact child direction anchors,src/hope_repro/proposed_repairs/hope_r/merge.py,1.0,P12-TWIN-PRESERVATION,verified_fact,True
+dependency_closure,complete resolved graph invalidation,src/hope_repro/proposed_repairs/hope_r/graph.py,1.0,P12-DEPENDENCY-CLOSURE,proposed_repair,True
+refresh_control,full-key incremental refresh comparison,src/hope_repro/proposed_repairs/hope_r/graph.py,1.0,P12-REFRESH-EQUIVALENCE,verified_fact,True
+resource_scope,operation and byte counts without timing,src/hope_repro/proposed_repairs/hope_r/graph.py,1.0,P12-LIVE-RESOURCE-ACCOUNTING,proposed_repair,True
+block_gate,narrow identity-block eligibility,src/hope_repro/proposed_repairs/hope_r/graph.py,1.0,P12-BLOCK-ELIGIBILITY,proposed_repair,True
+fixed_width,stable logical slots and explicit transitions,src/hope_repro/proposed_repairs/hope_r/deft.py,1.0,P12-FIXED-WIDTH-DEFT,proposed_repair,True
+core_ownership,complete masks optimizer reset and BN policy,src/hope_repro/proposed_repairs/hope_r/deft.py,1.0,P12-CORE-STATE-INVARIANCE,verified_fact,True
+local_scope,local fixtures without trained-network claims,experiments/audits/part12_corrected_hope/run.py,1.0,P12-GUARANTEE-SCOPE,independent_inference,True

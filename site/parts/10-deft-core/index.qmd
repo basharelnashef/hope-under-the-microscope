@@ -1,0 +1,724 @@
+---
+title: "DEFT has multiple definitions of core"
+description: "Destination-gated gradients can freeze a narrow route while the complete source-owned neuron and BatchNorm state still move."
+part: 10
+toc: true
+execute:
+  enabled: false
+---
+
+::: {.callout-note appearance="simple"}
+## Code and reproducibility
+
+This page is paired with the immutable `v1.0.0` release.
+
+- [Exact audit package](https://github.com/basharelnashef/hope-under-the-microscope/tree/v1.0.0/experiments/audits/part10_deft_core)
+- [Focused tests](https://github.com/basharelnashef/hope-under-the-microscope/blob/v1.0.0/experiments/audits/part10_deft_core/test_run.py)
+- [Artifact checksums](https://github.com/basharelnashef/hope-under-the-microscope/blob/v1.0.0/artifacts/SHA256SUMS)
+- [Evidence: `operator_drift.csv`](https://github.com/basharelnashef/hope-under-the-microscope/blob/v1.0.0/artifacts/part_10/results/operator_drift.csv)
+- [Evidence: `bn_buffer_drift.csv`](https://github.com/basharelnashef/hope-under-the-microscope/blob/v1.0.0/artifacts/part_10/results/bn_buffer_drift.csv)
+
+From the repository root:
+
+```bash
+python -m unittest discover -s experiments/audits/part10_deft_core -p 'test_*.py' -v
+```
+
+Scope: Deterministic NumPy fixtures expose specification boundaries; they do not measure transfer accuracy.
+
+:::
+
+A frozen parameter is not necessarily a frozen neuron.
+
+That distinction is the center of this audit.
+
+HOPE uses its functional capacity to build Dispersed Elastic Fine-Tuning,
+or DEFT. The motivating idea is attractive: consolidate redundant source
+features, protect a high-capacity core, turn low-capacity structure into
+plastic slack, and block target-driven slack from feeding back into the core.
+
+The paper then makes a strong promise. Once the structural mask has been
+applied, the core is said to experience zero dynamic deviation during target
+fine-tuning.
+
+There are two separate questions hidden inside that promise:
+
+1. Which neurons are core at the moment the promise is invoked?
+2. What state must remain fixed for a core neuron, as defined by Eq. 2, to be
+   the same operator?
+
+The paper gives three different answers to the first question. Its proof gives
+a useful but narrower answer to the second.
+
+The result is not that DEFT's structural mask does nothing. The mask supports a
+real routing guarantee. The result is that this guarantee protects a selected
+input route into downstream core neurons, not every component of every
+complete core operator.
+
+## Start with the strongest fair version
+
+DEFT assigns each neuron a binary elasticity
+
+$$
+E_i\in\{0,1\},
+$$
+
+where core neurons use $E_i=0$ and slack neurons use $E_i=1$. For a weight from
+upstream neuron $k$ to downstream neuron $j$, Eq. 28 applies the structural
+mask
+
+$$
+M_{j,k}=
+\begin{cases}
+0,&E_{\mathrm{in},k}>0\text{ and }E_{\mathrm{out},j}=0,\\
+1,&\text{otherwise}.
+\end{cases}
+$$
+
+The target model starts from
+
+$$
+W_0=M\odot W_{\mathrm{source}}.
+$$
+
+Equation 29 then gates each weight gradient by the elasticity of its
+destination neuron:
+
+$$
+g_t=E_{\mathrm{out}}\odot\nabla_W L_{\mathrm{target}}(W_t).
+$$
+
+If an upstream slack activation changes but its route into a downstream core
+neuron is permanently zero, that changing signal contributes exactly zero to
+that downstream core input.
+
+`verified_fact` (`P10-NARROW-ROUTING-GUARANTEE`): under the declared mask,
+destination gate, and routing assumptions, a severed slack-to-core weight stays
+zero in the deterministic audit. This is a genuine and useful decoupling
+property.
+
+The scope words matter. The theorem would be stronger only if the mask and
+gradient rule also froze every state component belonging to the complete
+functional neuron in Eq. 2. They do not.
+
+## Before proving stability, define the partition
+
+A partition must specify:
+
+- the scalar being thresholded;
+- the network state at which it is measured;
+- whether the threshold is global or layer-specific;
+- the treatment of equality;
+- the treatment of merged, removed, inactive, and terminal-survivor slots;
+- the time at which the resulting elasticity is attached.
+
+DEFT does not give one answer to that list. It gives three.
+
+### Main-text trajectory-cost partition
+
+Equations 24 through 27 assign a pruning cost when neuron $i$ is removed during
+progressive encoding:
+
+$$
+J_{\mathrm{prune}}^{(i)}
+=
+\frac{N^{(i)}\lVert f_i\rVert_{\mathcal H}}
+{E_b^{(i)}},
+\qquad
+E_b^{(i)}=E_a^{(i)}-\lVert f_i\rVert_{\mathcal H}.
+$$
+
+The paper collects valid trajectory costs across the network, takes one global
+percentile, applies its numerical fallback, and defines
+
+$$
+E_i=
+\begin{cases}
+1,&J_{\mathrm{prune}}^{(i)}<J_{\mathrm{lock}},\\
+0,&J_{\mathrm{prune}}^{(i)}\ge J_{\mathrm{lock}}.
+\end{cases}
+$$
+
+`paper_claim` (`P10-TRAJECTORY-PARTITION`): the main-text rule thresholds a
+history-dependent destruction cost. Its scalar depends on the active width and
+remaining capacity at the step when that neuron is removed.
+
+This is not a threshold on the neuron's current raw capacity. It is also not
+defined on an active terminal survivor that never receives a removal event,
+unless an additional convention is supplied.
+
+### Appendix H per-layer capacity partition
+
+Definition H.1 instead starts from one threshold for each layer:
+
+$$
+\mathcal N_{\mathrm{core}}^{(\ell)}
+=
+\left\{i:\lVert f_i\rVert_{\mathcal H^{(\ell)}}>
+\tau^{(\ell)}\right\},
+$$
+
+$$
+\mathcal N_{\mathrm{slack}}^{(\ell)}
+=
+\left\{j:\lVert f_j\rVert_{\mathcal H^{(\ell)}}\le
+\tau^{(\ell)}\right\}.
+$$
+
+`paper_claim` (`P10-LAYER-THRESHOLD-PARTITION`): the Appendix H guarantees
+assume per-layer thresholds on current functional capacities. Equality belongs
+to slack.
+
+The appendix does not prescribe how its layer-specific thresholds are obtained
+from the main-text global percentile. In the deterministic audit we set
+
+$$
+\tau^{(A)}=2,
+\qquad
+\tau^{(B)}=4.
+$$
+
+These values are an explicit audit instantiation allowed by Definition H.1.
+They are not thresholds reported by the paper and not an inferred conversion
+from the paper's percentile hyperparameter.
+
+### Algorithm 3 global current-capacity partition
+
+Algorithm 3 uses a third sequence:
+
+1. merge redundancies;
+2. compute capacities of the current active neurons;
+3. take one global capacity percentile;
+4. freeze a neuron only if it is active and its current capacity is above that
+   global threshold.
+
+`paper_claim` (`P10-CURRENT-CAPACITY-PARTITION`): Algorithm 3 thresholds current
+functional capacities globally after merging. That differs in both scalar and
+scope from the other two rules.
+
+The pseudocode does not specify a percentile interpolation convention. At the
+declared 50th percentile, the audit uses a float64 median and averages the two
+central values for an even count. That implementation choice is part of our
+fixture, not a paper result.
+
+## One fixture, three different rule outputs
+
+The smallest useful witness has two layers and six active neurons:
+
+$$
+\begin{array}{c|ccc}
+\text{layer A}&A0&A1&A2\\ \hline
+\text{current capacity}&1&2&8
+\end{array}
+\qquad
+\begin{array}{c|ccc}
+\text{layer B}&B0&B1&B2\\ \hline
+\text{current capacity}&3&4&5.
+\end{array}
+$$
+
+The declared encoding trace removes two neurons from each layer and retains
+one terminal survivor.
+
+For layer A:
+
+$$
+J(A0)=\frac{3\cdot1}{10}=0.3,
+\qquad
+J(A1)=\frac{2\cdot2}{8}=0.5.
+$$
+
+For layer B:
+
+$$
+J(B0)=\frac{3\cdot3}{9}=1,
+\qquad
+J(B1)=\frac{2\cdot4}{5}=1.6.
+$$
+
+At percentile 50,
+
+$$
+J_{\mathrm{lock}}
+=\operatorname{median}(0.3,0.5,1,1.6)
+=0.75.
+$$
+
+The trajectory rule therefore calls A0 and A1 slack, and B0 and B1 core. A2
+and B2 have no removal event in the declared trace, so the audit marks them
+unassigned rather than inventing an Eq. 24 value.
+
+The instantiated Definition H.1 rule calls only A2 and B2 core.
+
+Algorithm 3 takes the global current-capacity threshold
+
+$$
+\tau_{\mathrm{global}}
+=\operatorname{median}(1,2,3,4,5,8)
+=3.5,
+$$
+
+and calls A2, B1, and B2 core.
+
+The pairwise disagreement counts are:
+
+$$
+\begin{array}{c|c|l}
+\text{comparison}&\text{disagreements}&\text{neurons}\\ \hline
+\text{trajectory vs. layer threshold}&2&B0,B1\\
+\text{trajectory vs. global current capacity}&1&B0\\
+\text{layer threshold vs. global current capacity}&1&B1.
+\end{array}
+$$
+
+The first two comparisons use the four neurons assigned by the trajectory
+rule. The trajectory rule also leaves two terminal survivors outside its
+observed-event domain.
+
+`verified_fact` (`DEFT-PARTITION-MISMATCH`): the three printed specifications
+threshold different quantities at different scopes. They disagree pairwise on
+the four-neuron common assigned domain, while the trajectory rule leaves two
+terminal survivors unassigned.
+
+This is not a claim that one of the three rule outputs is empirically best. It is a
+reproducibility result: Appendix H's guarantees cannot automatically transfer
+to an inequivalent main-text or Algorithm 3 partition.
+
+## What the structural proof actually protects
+
+Theorem H.2 expands the input to a downstream core neuron into contributions
+from upstream core and upstream slack subsets. Its dynamic argument uses two
+facts:
+
+1. destination-core weights and destination-core trainable parameters are
+   frozen;
+2. upstream-slack to downstream-core weights were set to zero and remain zero.
+
+That proves a narrow statement about the signal entering downstream core.
+
+The deterministic routing fixture makes the boundary visible. Let rows be
+downstream destinations (core, slack) and columns be upstream sources (core,
+slack):
+
+$$
+W_{\mathrm{source}}=
+\begin{bmatrix}
+2&3\\
+5&7
+\end{bmatrix},
+\qquad
+M=
+\begin{bmatrix}
+1&0\\
+1&1
+\end{bmatrix}.
+$$
+
+After initialization,
+
+$$
+W_0=M\odot W_{\mathrm{source}}
+=
+\begin{bmatrix}
+2&0\\
+5&7
+\end{bmatrix}.
+$$
+
+Use raw gradient
+
+$$
+G=
+\begin{bmatrix}
+99&99\\
+-2&-2
+\end{bmatrix}
+$$
+
+and learning rate $\eta=0.5$. Destination elasticity zeroes the first row and
+permits the second row to update:
+
+$$
+W_1=
+\begin{bmatrix}
+2&0\\
+6&8
+\end{bmatrix}.
+$$
+
+Now let the upstream activation vector change from
+
+$$
+h_0=[1,1]
+\quad\text{to}\quad
+h_1=[1,4].
+$$
+
+Before masking, the source core input is 5. Immediately after masking it is 2,
+so the structural initialization shock has magnitude 3. During adaptation,
+the downstream core input remains exactly 2 even though the upstream slack
+activation changes.
+
+The fixture therefore separates two quantities that should never be combined:
+
+- static intervention shock: 3;
+- post-mask dynamic slack-to-core interference: 0.
+
+Theorem H.1 addresses the first with a capacity bound. Theorem H.2 addresses
+the second under its assumptions. Neither number says that all state owned by
+the upstream core operator is immutable.
+
+## A core source can keep a plastic outgoing edge
+
+Equation 2 defines a functional neuron using its complete outgoing vector:
+
+$$
+f_i(x)=g_i(x)\,w_{\mathrm{out},i}.
+$$
+
+In the routing fixture, the upstream core neuron's outgoing vector is the
+first column of the weight matrix. It changes from
+
+$$
+w_{\mathrm{out},c}^{(0)}=[2,5]
+\quad\text{to}\quad
+w_{\mathrm{out},c}^{(1)}=[2,6].
+$$
+
+The core-to-core component stays frozen because its destination is core. The
+core-to-slack component changes because Eq. 29 assigns elasticity by the
+slack destination.
+
+For a core activation with second moment
+$\mathbb E[g_c^2]=1$, the operator capacities are
+
+$$
+\lVert f_c^{(0)}\rVert=\sqrt{29}
+=5.385164807134504,
+$$
+
+$$
+\lVert f_c^{(1)}\rVert=\sqrt{40}
+=6.324555320336759.
+$$
+
+The exact operator-difference norm is 1, and the relative capacity change is
+about 0.174440439.
+
+`counterexample` (`P10-OUTGOING-OPERATOR-DRIFT`): destination-owned gradient
+gating permits a core source neuron's outgoing component into slack to change.
+Because Eq. 2 includes that component, the complete core source operator is
+not immutable.
+
+This does not contradict the narrow routing result. Both are true at once:
+slack cannot enter downstream core through the severed route, while core can
+still feed and adapt through downstream slack.
+
+## Frozen trainables do not freeze BatchNorm state
+
+BatchNorm running mean and variance are buffers. They change during training
+mode through forward-pass state updates, not through the gradient multiplication
+in Eq. 29.
+
+The audit freezes every trainable scalar in a one-channel state machine:
+
+$$
+(w,b,\gamma,\beta)=(1,0,1,0).
+$$
+
+It starts with source buffers
+
+$$
+(\mu_0,v_0)=(0,1)
+$$
+
+and uses old-state momentum $r=0.5$:
+
+$$
+\mu_{t+1}=r\mu_t+(1-r)m_t,
+\qquad
+v_{t+1}=rv_t+(1-r)q_t.
+$$
+
+Two target batches provide declared moments
+
+$$
+(m_1,q_1)=(4,4),
+\qquad
+(m_2,q_2)=(6,9).
+$$
+
+The live buffers become
+
+$$
+(\mu_2,v_2)=(4,5.75).
+$$
+
+On fixed source probes $z=[-1,0,1]$ with
+$\epsilon=10^{-5}$, the source-buffer output is approximately
+
+$$
+[-0.999995,0,0.999995],
+$$
+
+while the target-updated live-buffer output is approximately
+
+$$
+[-2.085142,-1.668114,-1.251085].
+$$
+
+Their root-mean-square difference is 1.7346960857596274. The trainable change
+norm remains exactly zero.
+
+`counterexample` (`P10-BN-BUFFER-DRIFT`): gradient masking alone does not make
+the BatchNorm inference map immutable.
+
+Appendix G.5 confirms the operational importance of this state: its source
+retention protocol explicitly restores source BatchNorm moving statistics
+before source evaluation.
+
+`proposed_repair` (`P10-BN-STATE-REPAIR`): on the declared source probes,
+freezing source buffers during target updates gives zero BatchNorm-output RMSE.
+Explicit frozen or dual-tracked buffer ownership is a proposed policy; that
+local control does not establish target-domain or trained-network performance.
+
+## The complete Eq. 2 immutability claim fails twice
+
+The two counterexamples are independent.
+
+1. A core-to-slack outgoing weight can change because the destination is
+   elastic.
+2. A core BatchNorm buffer can change through target forward passes even when
+   every trainable parameter is fixed.
+
+`verified_fact` (`DEFT-CORE-DRIFT`): Theorem H.2's proof protects the selected
+slack-to-core route, but does not freeze the complete Eq. 2 operator through
+either of these state channels.
+
+The precise correction is therefore:
+
+> The structural mask can make downstream core inputs dynamically independent
+> of upstream slack along the declared parameterized routes. It does not, by
+> itself, make every complete core functional neuron immutable.
+
+That narrower statement preserves the useful part of the theorem without
+assigning it a larger state domain than the proof controls.
+
+## A purged child is not yet a reusable vessel
+
+DEFT also needs a state transition from compression to target adaptation.
+
+The released-capacity narrative says that merging redundant core neurons
+consolidates their feature into one parent and releases the other children as
+plastic target capacity. Figure 4 depicts empty slots. Axiom 3 assigns released
+children full plasticity. Proposition H.4 counts the freed parameter volume.
+
+Algorithm 2, however, says that child $j$ is purged by removing it from the
+layer.
+
+`verified_fact` (`P10-PURGED-RELEASED-CONFLICT`): purging a child from the
+active layer and exposing a reusable fixed-width plastic vessel are different
+states. The paper does not specify
+the transition that recreates or retains the slot, reconnects it, initializes
+it, masks it, and registers it with the optimizer.
+
+This is an under-specification, not a proof that released capacity cannot be
+implemented. The missing state transition can be repaired explicitly.
+
+## Keeping a completely zero slot is not enough
+
+One tempting interpretation is to preserve tensor width but zero every
+parameter belonging to the released child. That interpretation is not printed
+by the paper, so the audit labels it as an independent test rather than a
+paper-literal implementation.
+
+Consider the scalar path
+
+$$
+s=\gamma ux+\beta,
+\qquad
+a=\operatorname{ReLU}(s),
+\qquad
+\hat y=va,
+\qquad
+L=\frac12(\hat y-y)^2.
+$$
+
+Use $x=y=1$ and the common convention
+$\operatorname{ReLU}'(0)=0$. If
+
+$$
+u=\gamma=\beta=v=0,
+$$
+
+then $a=0$, the loss is 0.5, and every gradient is exactly zero. Direct SGD
+leaves the slot at zero forever.
+
+`counterexample` (`P10-DEAD-ZERO-SLOT`): a completely zeroed ReLU vessel is not
+automatically plastic. Elasticity one cannot create a gradient where both
+sides of the path are dead.
+
+The result is scoped to the declared path and derivative convention. Bias,
+normalization, skip routes, or explicit reinitialization can change the result.
+That is precisely why the released-slot transition must be specified.
+
+## A fixed-width repair can wake without an initial contribution
+
+A minimal proposed repair keeps the logical slot but initializes its two sides
+asymmetrically:
+
+$$
+u=1,
+\qquad
+\gamma=1,
+\qquad
+\beta=0,
+\qquad
+v=0.
+$$
+
+At initialization, the slot contributes zero because its outgoing coefficient
+is zero. Its internal activation is live, so
+
+$$
+\frac{\partial L}{\partial v}=-1.
+$$
+
+After one SGD step with learning rate 0.25, $v=0.25$. A second backward pass
+gives
+
+$$
+\frac{\partial L}{\partial v}=-0.75,
+$$
+
+and
+
+$$
+\frac{\partial L}{\partial u}
+=
+\frac{\partial L}{\partial\gamma}
+=
+\frac{\partial L}{\partial\beta}
+=-0.1875.
+$$
+
+`proposed_repair` (`P10-FIXED-WIDTH-REPAIR`): on the declared scalar fixture,
+a live incoming feature plus a zero outgoing coefficient preserves zero initial
+contribution while allowing the slot to wake in two gradient steps.
+
+A complete implementation still has to:
+
+- keep every released-slot route into downstream core hard-masked;
+- allow only slack or target-head destinations to become active;
+- clear stale optimizer state for the reused slot;
+- define BatchNorm affine and buffer initialization;
+- record active/inactive status separately from elasticity;
+- keep tensor shape and parameter ownership consistent across the transition.
+
+Those are proposed implementation rules. They are not results reported by
+HOPE v1.
+
+## Source retention uses restored source state
+
+Appendix G.5 does not evaluate source retention by sending source examples
+through the untouched live target model.
+
+It:
+
+1. grafts the original source classification head back onto the adapted
+   backbone;
+2. masks connections from slack features into the source head;
+3. restores source BatchNorm moving means and variances.
+
+Algorithm 3 similarly constructs a source-evaluation state through
+`MaskSlackDrift` before computing source validation accuracy.
+
+`paper_claim` (`P10-SOURCE-STATE-RESTORATION`): the reported source protocol is
+task-conditional state restoration, not a one-state evaluation of the live
+target-adapted model.
+
+The deterministic audit holds the source head and slack mask fixed and varies
+only the BatchNorm policy:
+
+$$
+\begin{array}{l|c}
+\text{source-evaluation buffer policy}&\text{source-probe RMSE}\\ \hline
+\text{live target-updated buffers}&1.7346960857596274\\
+\text{restore source buffers at evaluation}&0\\
+\text{freeze source buffers during adaptation}&0.
+\end{array}
+$$
+
+The zeroes are exact fixture equalities, not accuracy results. The comparison
+shows why the policy changes what function is evaluated.
+
+Restoration is a legitimate experimental protocol if it is reported as such.
+But it carries task-specific state: a source head, a source mask, and source BN
+buffers. It therefore cannot simultaneously serve as evidence that source
+retention requires no task-specific evaluation state.
+
+Freezing core buffers or maintaining explicitly named source and target buffer
+tracks are possible repairs. Their target-domain consequences require real
+experiments and are not inferred from this fixture.
+
+## What survives, what fails, and what needs repair
+
+The audit supports a more precise DEFT state machine.
+
+What survives:
+
+- `paper_claim`: DEFT proposes capacity-informed stability and plasticity.
+- `verified_fact`: Eq. 28 can permanently sever a declared slack-to-core route.
+- `verified_fact`: with destination-core trainables frozen, changing upstream
+  slack does not dynamically enter the downstream core through that route.
+- `paper_claim`: source evaluation restores source-specific state.
+
+What does not survive as written:
+
+- `verified_fact`: the three printed partition procedures are inequivalent.
+- `counterexample`: frozen trainables do not freeze BatchNorm buffers.
+- `counterexample`: destination gating permits core-to-slack outgoing drift.
+- `verified_fact`: a child purged from the active layer is not yet an executable
+  reusable slot.
+- `counterexample`: a completely zeroed ReLU slot can be gradient-dead.
+
+What remains proposed:
+
+- choose one partition rule and bind the guarantee to it;
+- keep fixed-width logical slots through transfer;
+- initialize released slots with a live incoming side and zero permitted
+  outgoing side;
+- keep slack-to-core routes structurally zero;
+- clear masked optimizer state;
+- freeze or dual-track BatchNorm buffers;
+- report live one-state and restored-state source evaluation separately.
+
+The audit uses no trained network. It does not say how frequently the two
+drift channels dominate, whether the repair improves H-score, or which
+partition gives the best transfer tradeoff. Those are Part 11 and Part 12
+questions.
+
+## The central conclusion
+
+DEFT's most defensible theorem is a routing theorem.
+
+Under its stated structural assumptions, a severed upstream-slack to
+downstream-core edge stays zero, so dynamic slack variation cannot cross that
+edge. That is useful.
+
+But HOPE's Eq. 2 neuron owns more than that protected route. It includes a
+complete outgoing vector, and its inference map includes BatchNorm state.
+Destination elasticity can change core-to-slack outgoing components. Target
+forward passes can change running buffers. The reported source evaluation then
+restores task-specific state when measuring source retention.
+
+The correct boundary is therefore:
+
+> Narrow routing is protected. Complete Eq. 2 operator immutability is not.
+
+Once that distinction is explicit, DEFT becomes implementable in a way that
+can be tested: one partition, one state-transition table, explicit released
+slots, explicit buffer ownership, and separate live-state and restored-state
+evaluation.
+
+{{< include ../../_includes/cite-audit.qmd >}}

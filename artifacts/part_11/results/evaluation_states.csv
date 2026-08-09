@@ -1,0 +1,6 @@
+row_id,metric_or_component,live_target_state,reported_source_evaluation_state,state_differs,paper_reports_transform,paper_reports_live_source_metric,cross_state_hscore_operand,audit_conclusion,evidence_label,claim_id,passed
+target_metric,target test accuracy,live target-adapted model,not_applicable,False,False,False,target,the target operand is evaluated on the target-adapted state,independent_inference,P11-CROSS-STATE-HSCORE,True
+source_head,classification head,target head,original source head grafted back,True,True,False,source,reported source evaluation changes the task head,paper_claim,P10-SOURCE-STATE-RESTORATION,True
+source_head_mask,source-head slack-origin connections,not source-masked,slack-origin connections zeroed,True,True,False,source,reported source evaluation applies a source-specific mask,paper_claim,P10-SOURCE-STATE-RESTORATION,True
+source_bn_buffers,BatchNorm moving mean and variance,target-adapted buffers,original source buffers restored,True,True,False,source,reported source evaluation restores source-specific buffers,paper_claim,P10-SOURCE-STATE-RESTORATION,True
+h_score_operands,H-score,target operand from live target state,source operand from restored source state,True,True,False,both,the score combines operands evaluated under different states,independent_inference,P11-CROSS-STATE-HSCORE,True

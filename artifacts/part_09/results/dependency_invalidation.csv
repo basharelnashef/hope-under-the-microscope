@@ -1,0 +1,10 @@
+case_id,location,quantity,index,before,after,absolute_change,paper_local_update_refreshes,dependency_refreshes,evidence_label,claim_id,passed
+remove_central_channel_1,predecessor,functional_capacity_from_outgoing_norm,0,3.2403703492039297,1.5811388300841895,1.6592315191197402,False,True,counterexample,P09-ADJACENT-INVALIDATION,True
+remove_central_channel_1,predecessor,functional_capacity_from_outgoing_norm,1,2.23606797749979,1.732050807568877,0.5040171699309128,False,True,counterexample,P09-ADJACENT-INVALIDATION,True
+remove_central_channel_1,predecessor,functional_capacity_from_outgoing_norm,2,2.7386127875258306,2.6457513110645903,0.09286147646124032,False,True,counterexample,P09-ADJACENT-INVALIDATION,True
+remove_central_channel_1,successor,preactivation_variance_under_identity_covariance,0,43.0,27.0,16.0,False,True,counterexample,P09-ADJACENT-INVALIDATION,True
+remove_central_channel_1,successor,preactivation_variance_under_identity_covariance,1,29.0,13.0,16.0,False,True,counterexample,P09-ADJACENT-INVALIDATION,True
+remove_central_channel_1,successor,preactivation_variance_under_identity_covariance,2,47.0,38.0,9.0,False,True,counterexample,P09-ADJACENT-INVALIDATION,True
+remove_central_channel_1,successor_pair,incoming_cosine,0-1,-0.651320292556889,-0.3736323588785367,0.27768793367835226,False,True,counterexample,P09-ADJACENT-INVALIDATION,True
+remove_central_channel_1,successor_pair,incoming_cosine,0-2,0.13346521599003874,0.5619514869490164,0.4284862709589777,False,True,counterexample,P09-ADJACENT-INVALIDATION,True
+remove_central_channel_1,successor_pair,incoming_cosine,1-2,0.5688154274122809,0.40492914359926285,0.163886283813018,False,True,counterexample,P09-ADJACENT-INVALIDATION,True

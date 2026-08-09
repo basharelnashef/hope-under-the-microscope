@@ -1,0 +1,589 @@
+{
+  "schema_version": 1,
+  "audit_id": "part11_experimental_evidence_audit",
+  "status": "passed",
+  "passed": true,
+  "claim_ids": [
+    "P11-COMPRESSION-PLOT",
+    "P11-COMPRESSION-EVIDENCE-BOUNDARY",
+    "P11-DENSITY-BUDGET-MISMATCH",
+    "P11-TABLE2-RECORD",
+    "P11-HSCORE-AGGREGATION-GAP",
+    "P11-HSCORE-AGGREGATION",
+    "P11-UNCERTAINTY-UNDEFINED",
+    "P11-CHECKPOINT-RULE-CONFLICT",
+    "P11-SOURCE-DATA-SCOPE",
+    "P11-ABSOLUTE-SOURCE-ACCURACY",
+    "P11-CROSS-STATE-HSCORE",
+    "P11-EVIDENCE-SCOPE",
+    "P11-PROTOCOL-IDENTITY",
+    "P10-SOURCE-STATE-RESTORATION",
+    "EWC-TRUNCATED-GRID"
+  ],
+  "claim_classes": {
+    "P11-COMPRESSION-PLOT": "paper_claim",
+    "P11-COMPRESSION-EVIDENCE-BOUNDARY": "verified_fact",
+    "P11-DENSITY-BUDGET-MISMATCH": "independent_inference",
+    "P11-TABLE2-RECORD": "paper_claim",
+    "P11-HSCORE-AGGREGATION-GAP": "verified_fact",
+    "P11-HSCORE-AGGREGATION": "open_question",
+    "P11-UNCERTAINTY-UNDEFINED": "verified_fact",
+    "P11-CHECKPOINT-RULE-CONFLICT": "verified_fact",
+    "P11-SOURCE-DATA-SCOPE": "independent_inference",
+    "P11-ABSOLUTE-SOURCE-ACCURACY": "verified_fact",
+    "P11-CROSS-STATE-HSCORE": "independent_inference",
+    "P11-EVIDENCE-SCOPE": "independent_inference",
+    "P11-PROTOCOL-IDENTITY": "open_question",
+    "P10-SOURCE-STATE-RESTORATION": "paper_claim",
+    "EWC-TRUNCATED-GRID": "independent_inference"
+  },
+  "paper": {
+    "arxiv_id": "2607.21366",
+    "version": "v1",
+    "pdf_sha256": "8106a86c0c72aee05b0fbcc5e13095edc03fe725538b1bfa5c50c18ea806067b",
+    "anchors": [
+      "Section 11.1, PDF page 20",
+      "Section 11.2 and Table 2, PDF pages 23-24",
+      "Eq. 21, PDF page 18",
+      "Appendix G.5 and Eq. 101, PDF pages 61-62",
+      "Algorithm 3, PDF page 70"
+    ]
+  },
+  "config": {
+    "full_mode": false,
+    "numeric_engine": "Python Decimal with precision 40 for H-score and rounding intervals",
+    "rounding_model": "closed center plus or minus 0.005 bins for displayed two-decimal central values",
+    "table2_records": [
+      [
+        "DEFT",
+        "89.79",
+        "0.84",
+        "52.14",
+        "5.29",
+        "65.82",
+        "3.96"
+      ],
+      [
+        "Head-Only",
+        "36.11",
+        "2.79",
+        "63.13",
+        "4.62",
+        "45.79",
+        "2.05"
+      ],
+      [
+        "Full FT",
+        "94.09",
+        "0.28",
+        "7.52",
+        "1.63",
+        "13.88",
+        "2.84"
+      ],
+      [
+        "EWC",
+        "93.94",
+        "0.22",
+        "6.74",
+        "1.74",
+        "12.54",
+        "2.99"
+      ],
+      [
+        "PEFT",
+        "81.91",
+        "0.49",
+        "5.44",
+        "0.98",
+        "10.18",
+        "1.63"
+      ]
+    ],
+    "aggregation_fixture": {
+      "balanced": [
+        [
+          "task_1",
+          50.0,
+          50.0
+        ],
+        [
+          "task_2",
+          50.0,
+          50.0
+        ]
+      ],
+      "crossed": [
+        [
+          "task_1",
+          90.0,
+          10.0
+        ],
+        [
+          "task_2",
+          10.0,
+          90.0
+        ]
+      ]
+    },
+    "checkpoint_fixture": [
+      [
+        1,
+        80.0,
+        80.0
+      ],
+      [
+        2,
+        90.0,
+        10.0
+      ]
+    ],
+    "density_fixture": {
+      "input_width": 100,
+      "hidden_1_width": 2,
+      "hidden_2_width": 4,
+      "output_width": 10,
+      "scope": "weight-only dense chain without biases or BatchNorm parameters"
+    },
+    "compression_raster": {
+      "pdf_page": 20,
+      "pdf_object": 1088,
+      "width": 2929,
+      "height": 1724,
+      "rgb_pixel_sha256": "615af1aae17cc4edd4c9b258f6b6baa368f6318f8c4306a2fe039f6db17afe78",
+      "smask_pixel_sha256": "f8a655b55823b7c049a97d91589dde7a369c0d4d186448ecf14391e54ffc22e5",
+      "x_tick_left_pixel": 375,
+      "x_tick_left_value": 0.2,
+      "x_tick_right_pixel": 2777,
+      "x_tick_right_value": 1.0,
+      "y_tick_bottom_pixel": 1466,
+      "y_tick_bottom_value": 0.0,
+      "y_tick_top_pixel": 122,
+      "y_tick_top_value": 0.7
+    },
+    "digitization_rule": "map raw saturated-color pixel y-support through calibrated axes; retain vertical traces as intervals",
+    "random_sampling": false
+  },
+  "config_sha256": "16e9c8aab40812ed6a329107969f0874d77d4263d5399380f99110c2aeffd7b2",
+  "method_origins": {
+    "table2_recalculation": {
+      "evidence_label": "verified_fact",
+      "claim_id": "P11-HSCORE-AGGREGATION-GAP",
+      "origin": "Eq. 101 applied to exact displayed Table 2 central values",
+      "scope": "arithmetic on displayed two-decimal means, not task-level reproduction"
+    },
+    "aggregation_fixture": {
+      "evidence_label": "verified_fact",
+      "claim_id": "P11-HSCORE-AGGREGATION-GAP",
+      "origin": "independent exact two-task fixture",
+      "scope": "non-equivalence of two aggregation orders only"
+    },
+    "uncertainty_interpretation_audit": {
+      "evidence_label": "verified_fact",
+      "claim_id": "P11-UNCERTAINTY-UNDEFINED",
+      "origin": "Table 2 caption and complete HOPE v1 experimental protocol",
+      "scope": "definition and inferential support, not a significance calculation"
+    },
+    "source_retention_record": {
+      "evidence_label": "verified_fact",
+      "claim_id": "P11-ABSOLUTE-SOURCE-ACCURACY",
+      "origin": "Table 2 source column and Appendix G.5 final source test evaluation",
+      "scope": "paper-record row only; no normalized retention denominator is reported"
+    },
+    "retention_fixture": {
+      "evidence_label": "independent_inference",
+      "claim_id": "P11-EVIDENCE-SCOPE",
+      "origin": "independent hypothetical denominators applied to the reported DEFT source accuracy",
+      "scope": "hypothetical rows only; values are not paper results and the paper-record row has separate provenance"
+    },
+    "checkpoint_fixture": {
+      "evidence_label": "verified_fact",
+      "claim_id": "P11-CHECKPOINT-RULE-CONFLICT",
+      "origin": "independent two-epoch witness for the two printed selection rules",
+      "scope": "selector non-equivalence only; not the paper training trajectory"
+    },
+    "density_budget_fixture": {
+      "evidence_label": "independent_inference",
+      "claim_id": "P11-DENSITY-BUDGET-MISMATCH",
+      "origin": "independent weight-only dense-chain parameter count",
+      "scope": "axis-objective non-equivalence only; not ResNet-50"
+    },
+    "compression_digitization": {
+      "evidence_label": "independent_inference",
+      "claim_id": "P11-EVIDENCE-SCOPE",
+      "origin": "authenticated embedded raster on HOPE v1 PDF page 20",
+      "scope": "digitized approximation with pixel intervals, not author-reported numeric data"
+    },
+    "missing_experiment_matrix": {
+      "evidence_label": "independent_inference",
+      "claim_id": "P11-EVIDENCE-SCOPE",
+      "origin": "independent proposed experimental matrix",
+      "scope": "questions and matched controls only; no outcomes are claimed"
+    }
+  },
+  "reproduction_scope": {
+    "reproduction_scope": "paper_record_and_deterministic_evidence_semantics_audit",
+    "paper_experiment_reproduced": false,
+    "checkpoint_or_dataset_used": false,
+    "trained_result_generated": false,
+    "random_sampling_used": false,
+    "wall_clock_benchmark_used": false,
+    "includes": [
+      "exact Table 2 transcription and Eq. 101 arithmetic",
+      "conservative two-decimal rounding-bin test",
+      "aggregation-order counterexample",
+      "uncertainty, retention, evaluation-state, and checkpoint-rule semantics",
+      "density-versus-parameter-payoff counterexample",
+      "pixel-provenance-bound compression digitization",
+      "proposed missing-experiment matrix"
+    ],
+    "excludes": [
+      "CIFAR-100, SVHN, or ImageNet execution",
+      "a trained-network reproduction or significance test",
+      "recovery of unreported per-scenario values or uncertainty semantics",
+      "a claim that a different checkpoint rule changes the published ranking",
+      "a claim that parameter-matched compression reverses the plotted ranking",
+      "outcomes for any proposed missing experiment"
+    ],
+    "claim_boundary": "This audit reproduces arithmetic and exposes non-equivalent protocol choices. It does not reproduce either paper experiment or invent missing statistical semantics."
+  },
+  "check_count": 36,
+  "passing_check_count": 36,
+  "checks": {
+    "nonfinite_count": {
+      "value": 0.0,
+      "minimum": 0.0,
+      "maximum": 0.0,
+      "units": "count",
+      "passed": true
+    },
+    "row_failure_count": {
+      "value": 0.0,
+      "minimum": 0.0,
+      "maximum": 0.0,
+      "units": "count",
+      "passed": true
+    },
+    "evidence_class_mismatch_count": {
+      "value": 0.0,
+      "minimum": 0.0,
+      "maximum": 0.0,
+      "units": "count",
+      "passed": true
+    },
+    "table2_method_count": {
+      "value": 5.0,
+      "minimum": 5.0,
+      "maximum": 5.0,
+      "units": "methods",
+      "passed": true
+    },
+    "table2_numeric_mismatch_count": {
+      "value": 0.0,
+      "minimum": 0.0,
+      "maximum": 0.0,
+      "units": "rows",
+      "passed": true
+    },
+    "displayed_harmonic_match_count": {
+      "value": 0.0,
+      "minimum": 0.0,
+      "maximum": 0.0,
+      "units": "methods",
+      "passed": true
+    },
+    "rounding_interval_overlap_count": {
+      "value": 0.0,
+      "minimum": 0.0,
+      "maximum": 0.0,
+      "units": "methods",
+      "passed": true
+    },
+    "aggregation_unresolved_count": {
+      "value": 5.0,
+      "minimum": 5.0,
+      "maximum": 5.0,
+      "units": "methods",
+      "passed": true
+    },
+    "fixture_mean_target_difference": {
+      "value": 0.0,
+      "minimum": 0.0,
+      "maximum": 0.0,
+      "units": "percentage_points",
+      "passed": true
+    },
+    "fixture_mean_source_difference": {
+      "value": 0.0,
+      "minimum": 0.0,
+      "maximum": 0.0,
+      "units": "percentage_points",
+      "passed": true
+    },
+    "balanced_mean_task_h": {
+      "value": 50.0,
+      "minimum": 50.0,
+      "maximum": 50.0,
+      "units": "percentage_points",
+      "passed": true
+    },
+    "crossed_mean_task_h": {
+      "value": 18.0,
+      "minimum": 18.0,
+      "maximum": 18.0,
+      "units": "percentage_points",
+      "passed": true
+    },
+    "taskwise_h_gap": {
+      "value": 32.0,
+      "minimum": 32.0,
+      "maximum": 32.0,
+      "units": "percentage_points",
+      "passed": true
+    },
+    "paper_defined_uncertainty_interpretation_count": {
+      "value": 0.0,
+      "minimum": 0.0,
+      "maximum": 0.0,
+      "units": "interpretations",
+      "passed": true
+    },
+    "uncertainty_inferential_use_allowed_count": {
+      "value": 0.0,
+      "minimum": 0.0,
+      "maximum": 0.0,
+      "units": "interpretations",
+      "passed": true
+    },
+    "reported_significance_test_count": {
+      "value": 0.0,
+      "minimum": 0.0,
+      "maximum": 0.0,
+      "units": "tests",
+      "passed": true
+    },
+    "paper_normalized_retention_value_count": {
+      "value": 0.0,
+      "minimum": 0.0,
+      "maximum": 0.0,
+      "units": "values",
+      "passed": true
+    },
+    "retention_fixture_value_count": {
+      "value": 2.0,
+      "minimum": 2.0,
+      "maximum": 2.0,
+      "units": "values",
+      "passed": true
+    },
+    "retention_fixture_range": {
+      "value": 28.966666666666676,
+      "minimum": 28.966666666666676,
+      "maximum": 28.966666666666676,
+      "units": "percentage_points",
+      "passed": true
+    },
+    "source_restoration_component_count": {
+      "value": 3.0,
+      "minimum": 3.0,
+      "maximum": 3.0,
+      "units": "components",
+      "passed": true
+    },
+    "cross_state_hscore_count": {
+      "value": 1.0,
+      "minimum": 1.0,
+      "maximum": 1.0,
+      "units": "scores",
+      "passed": true
+    },
+    "live_state_source_metric_reported_count": {
+      "value": 0.0,
+      "minimum": 0.0,
+      "maximum": 0.0,
+      "units": "metrics",
+      "passed": true
+    },
+    "target_rule_selected_epoch": {
+      "value": 2.0,
+      "minimum": 2.0,
+      "maximum": 2.0,
+      "units": "epoch",
+      "passed": true
+    },
+    "h_rule_selected_epoch": {
+      "value": 1.0,
+      "minimum": 1.0,
+      "maximum": 1.0,
+      "units": "epoch",
+      "passed": true
+    },
+    "checkpoint_selector_disagreement_count": {
+      "value": 1.0,
+      "minimum": 1.0,
+      "maximum": 1.0,
+      "units": "fixtures",
+      "passed": true
+    },
+    "density_reduction_difference": {
+      "value": 0.0,
+      "minimum": 0.0,
+      "maximum": 0.0,
+      "units": "fraction",
+      "passed": true
+    },
+    "hidden_1_parameter_payoff": {
+      "value": 104.0,
+      "minimum": 104.0,
+      "maximum": 104.0,
+      "units": "parameters",
+      "passed": true
+    },
+    "hidden_2_parameter_payoff": {
+      "value": 12.0,
+      "minimum": 12.0,
+      "maximum": 12.0,
+      "units": "parameters",
+      "passed": true
+    },
+    "parameter_payoff_difference": {
+      "value": 92.0,
+      "minimum": 92.0,
+      "maximum": 92.0,
+      "units": "parameters",
+      "passed": true
+    },
+    "digitization_row_count": {
+      "value": 32.0,
+      "minimum": 32.0,
+      "maximum": 32.0,
+      "units": "rows",
+      "passed": true
+    },
+    "vertical_trace_interval_count": {
+      "value": 2.0,
+      "minimum": 2.0,
+      "maximum": 2.0,
+      "units": "rows",
+      "passed": true
+    },
+    "author_reported_digitized_row_count": {
+      "value": 0.0,
+      "minimum": 0.0,
+      "maximum": 0.0,
+      "units": "rows",
+      "passed": true
+    },
+    "digitization_provenance_failure_count": {
+      "value": 0.0,
+      "minimum": 0.0,
+      "maximum": 0.0,
+      "units": "rows",
+      "passed": true
+    },
+    "missing_experiment_row_count": {
+      "value": 15.0,
+      "minimum": 15.0,
+      "maximum": 15.0,
+      "units": "rows",
+      "passed": true
+    },
+    "paper_reported_missing_experiment_count": {
+      "value": 0.0,
+      "minimum": 0.0,
+      "maximum": 0.0,
+      "units": "rows",
+      "passed": true
+    },
+    "known_missing_experiment_outcome_count": {
+      "value": 0.0,
+      "minimum": 0.0,
+      "maximum": 0.0,
+      "units": "rows",
+      "passed": true
+    }
+  },
+  "table2_recalculation": {
+    "DEFT": {
+      "reported_h": 65.82,
+      "harmonic_of_displayed_means": 65.97126188966392,
+      "rounding_intervals_overlap": false
+    },
+    "Head-Only": {
+      "reported_h": 45.79,
+      "harmonic_of_displayed_means": 45.94164248286981,
+      "rounding_intervals_overlap": false
+    },
+    "Full FT": {
+      "reported_h": 13.88,
+      "harmonic_of_displayed_means": 13.926912705442378,
+      "rounding_intervals_overlap": false
+    },
+    "EWC": {
+      "reported_h": 12.54,
+      "harmonic_of_displayed_means": 12.577584425903854,
+      "rounding_intervals_overlap": false
+    },
+    "PEFT": {
+      "reported_h": 10.18,
+      "harmonic_of_displayed_means": 10.202413279908415,
+      "rounding_intervals_overlap": false
+    }
+  },
+  "aggregation_fixture": {
+    "balanced": {
+      "mean_target": 50.0,
+      "mean_source": 50.0,
+      "harmonic_of_means": 50.0,
+      "mean_of_task_h": 50.0
+    },
+    "crossed": {
+      "mean_target": 50.0,
+      "mean_source": 50.0,
+      "harmonic_of_means": 50.0,
+      "mean_of_task_h": 18.0
+    }
+  },
+  "checkpoint_fixture": {
+    "peak_target_epoch": 2,
+    "peak_h_epoch": 1,
+    "paper_result": false
+  },
+  "density_budget_fixture": {
+    "initial_parameters": 248,
+    "density_reduction": 0.16666666666666666,
+    "payoffs": {
+      "prune_hidden_1": 104,
+      "prune_hidden_2": 12
+    },
+    "paper_result": false
+  },
+  "digitization_provenance": {
+    "pdf_page": 20,
+    "pdf_object": 1088,
+    "width": 2929,
+    "height": 1724,
+    "rgb_pixel_sha256": "615af1aae17cc4edd4c9b258f6b6baa368f6318f8c4306a2fe039f6db17afe78",
+    "smask_pixel_sha256": "f8a655b55823b7c049a97d91589dde7a369c0d4d186448ecf14391e54ffc22e5",
+    "x_tick_left_pixel": 375,
+    "x_tick_left_value": 0.2,
+    "x_tick_right_pixel": 2777,
+    "x_tick_right_value": 1.0,
+    "y_tick_bottom_pixel": 1466,
+    "y_tick_bottom_value": 0.0,
+    "y_tick_top_pixel": 122,
+    "y_tick_top_value": 0.7
+  },
+  "row_counts": {
+    "source_map": 14,
+    "table2_recalculation": 5,
+    "aggregation_fixture": 4,
+    "uncertainty_interpretations": 5,
+    "retention_fixture": 3,
+    "evaluation_states": 5,
+    "checkpoint_fixture": 2,
+    "density_budget_fixture": 2,
+    "compression_digitization": 32,
+    "missing_experiments": 15
+  }
+}

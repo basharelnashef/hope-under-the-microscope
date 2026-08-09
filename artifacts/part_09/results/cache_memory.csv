@@ -1,0 +1,11 @@
+width,pair_entries,cached_scalars_per_pair,float_bytes,raw_scalar_bytes,raw_scalar_mib,includes_index_overhead,evidence_label,claim_id,passed
+8,28,3,8,672,0.000640869140625,False,verified_fact,P09-CACHE-MEMORY,True
+16,120,3,8,2880,0.00274658203125,False,verified_fact,P09-CACHE-MEMORY,True
+32,496,3,8,11904,0.0113525390625,False,verified_fact,P09-CACHE-MEMORY,True
+64,2016,3,8,48384,0.046142578125,False,verified_fact,P09-CACHE-MEMORY,True
+128,8128,3,8,195072,0.18603515625,False,verified_fact,P09-CACHE-MEMORY,True
+256,32640,3,8,783360,0.7470703125,False,verified_fact,P09-CACHE-MEMORY,True
+512,130816,3,8,3139584,2.994140625,False,verified_fact,P09-CACHE-MEMORY,True
+1024,523776,3,8,12570624,11.98828125,False,verified_fact,P09-CACHE-MEMORY,True
+2048,2096128,3,8,50307072,47.9765625,False,verified_fact,P09-CACHE-MEMORY,True
+4096,8386560,3,8,201277440,191.953125,False,verified_fact,P09-CACHE-MEMORY,True

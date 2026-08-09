@@ -1,0 +1,5 @@
+case_id,depth,local_capacity,paper_identity_capacity,post_relu_identity_capacity,residual_function_rms,function_max_abs_difference,paper_proxy,post_relu_proxy,paper_proxy_over_depth1,post_relu_proxy_over_depth1,evidence_label,claim_id,passed
+relu_depth_1,1,0.7071067811865476,1.0,0.7071067811865476,0.7079618256502513,0.0,0.7071067811865476,1.0,1.0,1.0,counterexample,P08-SEQUENTIAL-DEPTH-GAP,True
+relu_depth_2,2,0.7071067811865476,1.0,0.7071067811865476,0.7079618256502513,0.0,1.4142135623730951,2.0,2.0,2.0,counterexample,P08-SEQUENTIAL-DEPTH-GAP,True
+relu_depth_3,3,0.7071067811865476,1.0,0.7071067811865476,0.7079618256502513,0.0,2.121320343559643,3.0,3.0,3.0,counterexample,P08-SEQUENTIAL-DEPTH-GAP,True
+relu_depth_4,4,0.7071067811865476,1.0,0.7071067811865476,0.7079618256502513,0.0,2.8284271247461903,4.0,4.0,4.0,counterexample,P08-SEQUENTIAL-DEPTH-GAP,True

@@ -1,0 +1,450 @@
+---
+title: "Residual-block eviction: topology and a conditional Gaussian stress test"
+description: "Figure 3 places the identity input after a ReLU; conditional Gaussian fixtures show why Eq. 96 can differ without identifying actual ResNet statistics."
+part: 8
+toc: true
+execute:
+  enabled: false
+---
+
+::: {.callout-note appearance="simple"}
+## Code and reproducibility
+
+This page is paired with the immutable `v1.0.0` release.
+
+- [Exact audit package](https://github.com/basharelnashef/hope-under-the-microscope/tree/v1.0.0/experiments/audits/part08_block_eviction)
+- [Focused tests](https://github.com/basharelnashef/hope-under-the-microscope/blob/v1.0.0/experiments/audits/part08_block_eviction/test_run.py)
+- [Artifact checksums](https://github.com/basharelnashef/hope-under-the-microscope/blob/v1.0.0/artifacts/SHA256SUMS)
+- [Evidence: `moment_validation.csv`](https://github.com/basharelnashef/hope-under-the-microscope/blob/v1.0.0/artifacts/part_08/results/moment_validation.csv)
+- [Evidence: `ordering_fixtures.csv`](https://github.com/basharelnashef/hope-under-the-microscope/blob/v1.0.0/artifacts/part_08/results/ordering_fixtures.csv)
+
+From the repository root:
+
+```bash
+python -m unittest discover -s experiments/audits/part08_block_eviction -p 'test_*.py' -v
+```
+
+Scope: The graph argument is bounded to eligible post-activation ResNet V1
+identity shortcuts, not projection shortcuts. The numerical ratios additionally
+assume an explicit Gaussian law for the pre-ReLU coordinate; Figure 3 alone does
+not establish that law or identify its parameters with a visible BatchNorm.
+
+:::
+
+*Part 8 of HOPE Under the Microscope*
+
+> Under an explicit Gaussian pre-activation model, a factor of $\sqrt 2$ can
+> influence which entire residual block gets deleted.
+
+HOPE's block-level idea is excellent in spirit. A residual network offers an
+operation that ordinary channel pruning cannot express cleanly: remove a whole
+residual pathway and let the skip connection carry the representation forward.
+If neuron pruning, neuron merging, and block eviction are all going to compete
+in one optimizer, each action needs a comparable price.
+
+The paper proposes such a price. The price depends on the capacity of the
+identity shortcut. Figure 3 traces that shortcut input to the previous block's
+post-ReLU output, while Eq. 96 inserts an unrectified Gaussian second moment.
+That is a verified topology-versus-model mismatch, but topology alone does not
+determine the actual second moment of a trained ResNet activation.
+
+The size of the mismatch can be stress-tested conditionally. If the previous
+pre-activation coordinate is explicitly modeled as
+$Y\sim\mathcal N(\beta,\gamma^2)$, then at zero shift the unrectified identity
+energy is larger than the post-ReLU energy by exactly $\sqrt 2$. Under that same
+synthetic premise, negative shifts produce an unbounded ratio and an
+equal-payoff fixture can reverse two candidate rankings. These are conditional
+countermodels, not measured corrections for a trained ResNet-50.
+
+There is also a separate issue. The score adds destruction terms from
+sequential internal layers, even though those layers are not additive
+components of the residual function. A ReLU-idempotence witness keeps the
+residual map exactly fixed while the local-layer sum grows with depth. That
+does not make the score useless. It means the score is an
+architecture-dependent heuristic rather than a projection distance determined
+only by the residual function.
+
+## The strongest fair version of the proposal
+
+`paper_claim` | `P08-EVICTION-SCORE`
+
+In the canonical bottleneck drawn in Figure 3, the residual branch computes
+$F(X)$, the skip carries $X$, and the block forms
+
+$$
+Y=X+F(X),
+\qquad
+Z=\operatorname{ReLU}(Y).
+$$
+
+Eviction forces $F(X)$ to zero, leaving the identity mapping. This can free
+the residual branch's parameters without disconnecting the network.
+
+For the two internal layers, HOPE defines
+
+$$
+J_{\mathrm{evict}}
+=
+\frac{
+\sum_{\ell=1}^{2}
+N_{\mathrm{active}}^{(\ell)}E_{\mathrm{active}}^{(\ell)}
+}{E_{\mathrm{identity}}}.
+$$
+
+The numerator charges the active widths and capacities of the two internal
+layers. The denominator is meant to capture the survival capacity supplied by
+the skip connection. Appendix F decomposes that skip into coordinate identity
+operators and prints
+
+$$
+E_{\mathrm{identity}}^{\mathrm{paper}}
+=
+\sum_k\sqrt{\gamma_k^2+\beta_k^2}.
+$$
+
+This is an appealing macro score: a branch becomes cheap to evict as its
+internal capacity shrinks, while a strong identity path prevents the
+connectivity denominator from collapsing.
+
+The problem is not the desire for a survival term. The problem is that the
+actual boundary random variable and its second moment must be identified before
+a BatchNorm-parameter formula can be substituted for them.
+
+## Trace the tensor, not the block label
+
+`verified_fact` | `P08-POST-RELU-BOUNDARY`
+
+Figure 3 shows a post-activation ResNet V1 block. Its last operation is
+
+$$
+Z=\operatorname{ReLU}(Y).
+$$
+
+For two consecutive interior identity blocks in that V1 chain, the previous
+block's $Z$ becomes the next block's $X$. The identity shortcut therefore
+carries a post-ReLU tensor.
+
+That scope matters. This article does not say that every object called a
+"residual block" has the same boundary. A pre-activation V2 block has a
+different graph. A projection shortcut is a learned map, not the coordinate
+identity used in Eq. 95. A stride-changing shortcut changes the spatial
+operator. Those cases need their own derivations.
+
+For the exact graph drawn in Figure 3, however, the interior identity input is
+post-ReLU. This topological fact neither makes the preceding sum Gaussian nor
+shows that Eq. 96's $\beta,\gamma$ parameterize it. If a separate modeling or
+measurement argument establishes
+
+$$
+Y\sim\mathcal N(\beta,\gamma^2),
+$$
+
+then the skip coordinate in that conditional model is
+
+$$
+X=\operatorname{ReLU}(Y),
+$$
+
+not $Y$.
+
+## The two moments in the conditional Gaussian fixture
+
+`independent_inference` | `BLOCK-IDENTITY-MOMENT`
+
+Equation 96 uses the unrectified RMS associated with its stated Gaussian
+approximation,
+
+$$
+R_{\mathrm{pre}}
+=
+\sqrt{\mathbb E[Y^2]}
+=
+\sqrt{\gamma^2+\beta^2}.
+$$
+
+Under the additional conditional model above, the post-ReLU boundary has
+
+$$
+R_{\mathrm{post}}
+=
+\sqrt{\mathbb E[\operatorname{ReLU}(Y)^2]}.
+$$
+
+The paper has already derived this second moment in Eq. 79:
+
+$$
+\mathbb E[\operatorname{ReLU}(Y)^2]
+=
+(\gamma^2+\beta^2)
+\Phi\left(\frac{\beta}{|\gamma|}\right)
++
+\beta|\gamma|
+\phi\left(\frac{\beta}{|\gamma|}\right).
+$$
+
+Part 8 checks that conditional expression independently with deterministic quadrature and
+500,000 seeded Monte Carlo samples. Across the declared validation cases, the
+largest quadrature error is
+$3.55\times10^{-15}$ in second-moment units. The largest seeded Monte Carlo
+error is $0.01301$. The analytic identity, not the random estimate, is the
+decisive result.
+
+## Under the Gaussian fixture, the zero-shift gap is exact
+
+Within the declared synthetic model, set $\beta=0$. Then
+
+$$
+R_{\mathrm{pre}}=|\gamma|,
+\qquad
+R_{\mathrm{post}}=\frac{|\gamma|}{\sqrt 2}.
+$$
+
+So
+
+$$
+\frac{R_{\mathrm{pre}}}{R_{\mathrm{post}}}=\sqrt 2.
+$$
+
+Now hold the eviction numerator and parameter payoff fixed. Because identity
+capacity is in the denominator,
+
+$$
+J_{\mathrm{post}}
+=
+\sqrt 2 J_{\mathrm{paper}}.
+$$
+
+Equivalently,
+
+$$
+\frac{J_{\mathrm{paper}}}{J_{\mathrm{post}}}
+=
+\frac1{\sqrt 2}
+\approx0.7071.
+$$
+
+The paper-literal cost is lower than this conditional-Gaussian comparator by
+
+$$
+1-\frac1{\sqrt2}
+\approx29.289\%
+$$
+
+relative to the conditional post-ReLU candidate cost.
+
+Two qualifiers must remain attached: the exact $\sqrt2$ and 29.289 percent
+figures require both zero shift and the declared Gaussian pre-activation model.
+They are neither measured ResNet corrections nor worst-case bounds.
+
+## Conditional negative shifts make the energy ratio much larger
+
+Write $\beta=-t\gamma$ with $t>0$. The normalized post-ReLU moment is
+
+$$
+(1+t^2)\Phi(-t)-t\phi(t).
+$$
+
+Gaussian-tail expansion gives
+
+$$
+(1+t^2)\Phi(-t)-t\phi(t)
+\sim
+\frac{2\phi(t)}{t^3}.
+$$
+
+Meanwhile, the unrectified moment is $1+t^2$. Therefore the RMS ratio grows
+without bound as $t$ increases.
+
+The frozen sweep is intentionally finite. At
+$\beta/|\gamma|=-4$, it records
+
+$$
+\frac{R_{\mathrm{pre}}}{R_{\mathrm{post}}}
+=
+2345.47.
+$$
+
+That number is a synthetic fixture, not a population estimate. The asymptotic
+proof establishes unbounded behavior inside the Gaussian family. The row only
+makes that conditional scale visible.
+
+The zero-variance boundary is even starker. If $\gamma=0$ and $\beta<0$,
+Eq. 96 assigns identity RMS $|\beta|$, while the deterministic post-ReLU
+coordinate is exactly zero.
+
+## A conditional two-candidate ordering reversal
+
+`counterexample` | `P08-ORDERING-FLIP`
+
+In the same synthetic Gaussian model, suppose two candidate records have equal
+parameter payoff. Candidate A has
+numerator $1$, $\beta=-1$, and $\gamma=1$. Candidate B has numerator
+$0.85$, $\beta=0$, and $\gamma=1$.
+
+Using Eq. 96:
+
+$$
+\operatorname{DR}^{\mathrm{paper}}_A
+=
+0.7071,
+\qquad
+\operatorname{DR}^{\mathrm{paper}}_B
+=
+0.85.
+$$
+
+Lower is better, so the paper moment selects A first.
+
+Using the post-ReLU moment:
+
+$$
+\operatorname{DR}^{\mathrm{post}}_A
+=
+3.6432,
+\qquad
+\operatorname{DR}^{\mathrm{post}}_B
+=
+1.2021.
+$$
+
+Now B comes first.
+
+This establishes a conditional sensitivity result: changing the modeled
+boundary moment can change the action order. It does not prove that either
+candidate occurs in a trained ResNet-50, that Eq. 96's parameters describe an
+actual post-add pre-activation, or that the alternative ranking produces higher
+accuracy.
+
+## A second issue: sequential layers are not additive branch functions
+
+`counterexample` | `P08-SEQUENTIAL-DEPTH-GAP`
+
+Appendix F notices an important difficulty. Sequential layers cannot simply be
+grouped into one additive macro state. Nulling an earlier layer can collapse
+the pathway, but an additive tuple would continue counting later layers.
+
+The implemented score sidesteps that state construction by computing separate
+local-layer bounds and adding them. That produces a usable number, but it does
+not turn the sequential layers into additive components of the residual
+function.
+
+Consider
+
+$$
+h_d(x)
+=
+\underbrace{
+\operatorname{ReLU}\circ\cdots\circ\operatorname{ReLU}
+}_{d\text{ times}}(x).
+$$
+
+ReLU is idempotent, so
+
+$$
+h_d(x)=\operatorname{ReLU}(x)
+$$
+
+for every $d\ge1$. Every depth has the same residual map and the same
+function-space eviction change.
+
+Assign the same local capacity to each charged stage. The Eq. 20-style sum is
+then proportional to $d$. The frozen fixture verifies exact function equality
+for depths one through four, while the proxy at depth four is four times its
+depth-one value.
+
+This does not show that architecture should never matter. Parameter payoff,
+execution cost, and optimization risk can all depend on architecture. It shows
+something narrower and important: the local-layer sum is not a projection
+distance determined only by the residual branch function.
+
+## Where the repair is eligible
+
+`verified_fact` | `P08-IDENTITY-ELIGIBILITY`
+
+The coordinate decomposition in Eq. 95 assumes
+
+$$
+I_k(x)=x_ke_k.
+$$
+
+The Part 8 audit therefore distinguishes five cases:
+
+1. An interior post-activation V1 identity bottleneck with equal shape and
+   stride one is eligible for Eq. 95 and for auditing the post-ReLU boundary.
+   The graph alone does not make the Gaussian closed form eligible.
+2. A learned channel projection is not a coordinate identity.
+3. A stride-changing learned projection also changes spatial sampling.
+4. A V2 identity shortcut satisfies abstract identity algebra, but not the
+   Figure 3 post-ReLU boundary used here.
+5. A sequential block with no skip has no identity survival path.
+
+Only the first case receives the scoped boundary repair below. Whether its
+closed form is Gaussian remains a separate empirical or modeling question.
+
+## The scoped correction
+
+`proposed_repair` | `P08-RELU-MOMENT-REPAIR`
+
+For a graph location proven to be an eligible post-ReLU identity shortcut, the
+primary repair is to use the actual boundary coordinate $X_k$:
+
+$$
+E_{\mathrm{identity}}^{\mathrm{boundary}}
+=
+\sum_k\sqrt{\mathbb E[X_k^2]}.
+$$
+
+That expectation may be measured on a declared calibration distribution or
+derived from a separately validated joint model of the preceding identity and
+residual branches. Only if one additionally establishes
+$X_k=\operatorname{ReLU}(Y_k)$ with
+$Y_k\sim\mathcal N(\beta_k,\gamma_k^2)$ does Eq. 79 give the conditional closed
+form
+
+$$
+E_{\mathrm{identity}}^{\mathrm{conditional\ Gaussian}}
+=
+\sum_k
+\sqrt{
+(\gamma_k^2+\beta_k^2)\Phi(\alpha_k)
++
+\beta_k|\gamma_k|\phi(\alpha_k)
+},
+\qquad
+\alpha_k=\frac{\beta_k}{|\gamma_k|}.
+$$
+
+Within that conditional model, at $\gamma_k=0$ use the deterministic boundary
+$\max(0,\beta_k)$.
+
+The repair must not borrow $\beta_k,\gamma_k$ from a branch BatchNorm without
+showing that they parameterize the post-add pre-activation entering the terminal
+ReLU. It does not repair the sequential-layer sum, derive projection shortcuts,
+validate a Gaussian surrogate in a checkpoint, or connect local cost to final
+accuracy.
+
+## What the evidence establishes
+
+The frozen Part 8 package contains eight outputs and 20 fail-closed checks. It
+establishes:
+
+- the exact Figure 3 boundary for consecutive interior post-activation V1
+  identity blocks;
+- under the explicit synthetic Gaussian premise, the $\sqrt2$ zero-shift
+  identity-energy ratio and the corresponding 29.289 percent cost difference;
+- unbounded negative-shift behavior within that Gaussian family;
+- one deterministic conditional equal-payoff ordering reversal;
+- one exact ReLU-idempotence depth witness;
+- and the ineligibility of projection and stride-changing shortcuts for the
+  coordinate-identity derivation.
+
+It does not establish that Eq. 96's $\beta,\gamma$ describe the actual post-add
+pre-activation of a trained block. It also does not establish trained-network
+prevalence, ResNet-50 compression accuracy, downstream loss, latency, or the
+superiority of a corrected optimizer.
+
+The broader lesson is simple: a macro score is only as sound as the tensor
+chosen at its boundary. Before pricing the deletion of an entire block, trace
+the activation that actually travels through the skip.
+
+{{< include ../../_includes/cite-audit.qmd >}}

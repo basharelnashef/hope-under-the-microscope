@@ -1,0 +1,24 @@
+---
+title: "All 12 parts"
+description: "The complete HOPE Under the Microscope reading and reproducibility map."
+toc: false
+---
+
+Read in order for the full argument, or open the part matching the question you
+care about. Every code link is pinned to `v1.0.0` rather than
+the moving default branch.
+
+| Part | Topic | Detailed page | Code |
+|---:|---|---|---|
+| 1 | A neuron is not a filter | [Read the detailed breakdown](01-neuron-not-filter/index.qmd) | [Code + reproducibility](https://github.com/basharelnashef/hope-under-the-microscope/tree/v1.0.0/experiments/audits/part01_positive_rescaling) |
+| 2 | The closed-form capacity inside HOPE | [Read the detailed breakdown](02-closed-form-capacity/index.qmd) | [Code + reproducibility](https://github.com/basharelnashef/hope-under-the-microscope/tree/v1.0.0/experiments/audits/part02_capacity) |
+| 3 | What data-free actually means | [Read the detailed breakdown](03-data-free-meaning/index.qmd) | [Code + reproducibility](https://github.com/basharelnashef/hope-under-the-microscope/tree/v1.0.0/experiments/audits/part03_data_free) |
+| 4 | When pure maximum entropy is unbounded | [Read the detailed breakdown](04-maximum-entropy/index.qmd) | [Code + reproducibility](https://github.com/basharelnashef/hope-under-the-microscope/tree/v1.0.0/experiments/audits/part04_maximum_entropy) |
+| 5 | When valid pairs do not form a Hilbert space | [Read the detailed breakdown](05-one-hilbert-space/index.qmd) | [Code + reproducibility](https://github.com/basharelnashef/hope-under-the-microscope/tree/v1.0.0/experiments/audits/part05_global_psd) |
+| 6 | What the axioms derive, and what they do not | [Read the detailed breakdown](06-axioms/index.qmd) | [Code + reproducibility](https://github.com/basharelnashef/hope-under-the-microscope/tree/v1.0.0/experiments/audits/part06_axioms) |
+| 7 | The zero-cost merge that removes one copy | [Read the detailed breakdown](07-zero-cost-merge/index.qmd) | [Code + reproducibility](https://github.com/basharelnashef/hope-under-the-microscope/tree/v1.0.0/experiments/audits/part07_merge_semantics) |
+| 8 | Residual-block eviction: topology and a conditional Gaussian stress test | [Read the detailed breakdown](08-residual-eviction/index.qmd) | [Code + reproducibility](https://github.com/basharelnashef/hope-under-the-microscope/tree/v1.0.0/experiments/audits/part08_block_eviction) |
+| 9 | Constant time per candidate is not a constant-time optimizer | [Read the detailed breakdown](09-constant-time/index.qmd) | [Code + reproducibility](https://github.com/basharelnashef/hope-under-the-microscope/tree/v1.0.0/experiments/audits/part09_constant_time) |
+| 10 | DEFT has multiple definitions of core | [Read the detailed breakdown](10-deft-core/index.qmd) | [Code + reproducibility](https://github.com/basharelnashef/hope-under-the-microscope/tree/v1.0.0/experiments/audits/part10_deft_core) |
+| 11 | What the experiments establish | [Read the detailed breakdown](11-experimental-evidence/index.qmd) | [Code + reproducibility](https://github.com/basharelnashef/hope-under-the-microscope/tree/v1.0.0/experiments/audits/part11_experimental_evidence) |
+| 12 | Building a corrected HOPE | [Read the detailed breakdown](12-corrected-hope/index.qmd) | [Code + reproducibility](https://github.com/basharelnashef/hope-under-the-microscope/tree/v1.0.0/experiments/audits/part12_corrected_hope) |

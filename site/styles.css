@@ -1,0 +1,59 @@
+.visual-abstract {
+  display: block;
+  margin: 1.25rem auto 2rem;
+  max-width: 800px;
+  width: min(100%, 800px);
+}
+
+.visual-abstract img,
+img.visual-abstract {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 0.75rem;
+  box-shadow: 0 0.4rem 1.5rem rgba(0, 0, 0, 0.08);
+  height: auto;
+  width: 100%;
+}
+
+.callout-note {
+  margin-bottom: 2rem;
+}
+
+.table {
+  font-size: 0.94rem;
+}
+
+main.content p,
+main.content li {
+  overflow-wrap: anywhere;
+}
+
+main.content :not(pre) > code {
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+
+main.content table {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+main.content mjx-container[display="true"] {
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+main.content span.math.display {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+@media (max-width: 767px) {
+  .table {
+    font-size: 0.84rem;
+  }
+}

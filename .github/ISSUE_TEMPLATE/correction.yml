@@ -1,0 +1,50 @@
+name: Correction or reproducibility problem
+description: Report a mathematical, textual, code, result, or website problem.
+title: "[Correction]: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for helping improve the audit. Do not include credentials, confidential information, or private data in this public form.
+  - type: input
+    id: location
+    attributes:
+      label: Affected location
+      description: Identify the part, file, equation, claim, result, commit, or URL.
+      placeholder: "Part 6, Eq. ..., or site URL"
+    validations:
+      required: true
+  - type: textarea
+    id: observed
+    attributes:
+      label: What did you observe?
+      description: Describe the problem and its consequence.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect?
+      description: Give the corrected statement, behavior, or result when possible.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence or reproduction
+      description: Provide a minimal example, command, output, derivation, or primary source.
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      description: For software problems, include the operating system, Python, and dependency versions.
+      placeholder: "Optional for non-software corrections"
+  - type: checkboxes
+    id: public
+    attributes:
+      label: Public-content check
+      options:
+        - label: This report contains no credentials, confidential employer information, or private data.
+          required: true

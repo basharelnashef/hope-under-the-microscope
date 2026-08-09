@@ -1,0 +1,7 @@
+fixture_id,candidate,numerator,payoff,beta,gamma,paper_identity_rms,post_relu_identity_rms,paper_dr,post_relu_dr,paper_rank,post_relu_rank,expected_flip,evidence_label,claim_id,passed
+negative_shift_flip,A,1.0,1.0,-1.0,1.0,1.4142135623730951,0.27448093439029747,0.7071067811865475,3.6432402936156305,1,2,True,counterexample,P08-ORDERING-FLIP,True
+negative_shift_flip,B,0.85,1.0,0.0,1.0,1.0,0.7071067811865476,0.85,1.2020815280171306,2,1,True,counterexample,P08-ORDERING-FLIP,True
+zero_shift_control,A,1.0,1.0,0.0,1.0,1.0,0.7071067811865476,1.0,1.414213562373095,2,2,False,counterexample,P08-ORDERING-FLIP,True
+zero_shift_control,B,1.1,1.0,0.0,2.0,2.0,1.4142135623730951,0.55,0.7778174593052023,1,1,False,counterexample,P08-ORDERING-FLIP,True
+positive_shift_control,A,1.0,1.0,1.0,1.0,1.4142135623730951,1.3873212377298305,0.7071067811865475,0.7208135886655703,1,1,False,counterexample,P08-ORDERING-FLIP,True
+positive_shift_control,B,1.2,1.0,1.0,1.0,1.4142135623730951,1.3873212377298305,0.8485281374238569,0.8649763063986844,2,2,False,counterexample,P08-ORDERING-FLIP,True

@@ -1,0 +1,6 @@
+state_id,bn_state_origin,buffers_frozen_during_target,task_specific_restore,running_mean,running_variance,probe_values,reference_outputs,observed_outputs,trainable_parameter_change_norm,source_rmse,evidence_label,claim_id,passed
+source_reference,source,False,False,0.0,1.0,-1|0|1,-0.99999500003749975|0|0.99999500003749975,-0.99999500003749975|0|0.99999500003749975,0.0,0.0,paper_claim,P10-SOURCE-STATE-RESTORATION,True
+live_target_state,target_adapted,False,False,4.0,5.75,-1|0|1,-0.99999500003749975|0|0.99999500003749975,-2.0851423274042951|-1.6681138619234359|-1.251085396442577,0.0,1.7346960857596274,counterexample,P10-BN-BUFFER-DRIFT,True
+trainable_freeze_only,target_adapted,False,False,4.0,5.75,-1|0|1,-0.99999500003749975|0|0.99999500003749975,-2.0851423274042951|-1.6681138619234359|-1.251085396442577,0.0,1.7346960857596274,counterexample,P10-BN-BUFFER-DRIFT,True
+restored_source_state,source_restored,False,True,0.0,1.0,-1|0|1,-0.99999500003749975|0|0.99999500003749975,-0.99999500003749975|0|0.99999500003749975,0.0,0.0,paper_claim,P10-SOURCE-STATE-RESTORATION,True
+frozen_buffer_control,source_frozen,True,False,0.0,1.0,-1|0|1,-0.99999500003749975|0|0.99999500003749975,-0.99999500003749975|0|0.99999500003749975,0.0,0.0,proposed_repair,P10-BN-STATE-REPAIR,True

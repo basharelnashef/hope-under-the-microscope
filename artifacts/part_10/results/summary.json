@@ -1,0 +1,572 @@
+{
+  "schema_version": 1,
+  "audit_id": "part10_deft_core_audit",
+  "status": "passed",
+  "passed": true,
+  "claim_ids": [
+    "P10-TRAJECTORY-PARTITION",
+    "P10-LAYER-THRESHOLD-PARTITION",
+    "P10-CURRENT-CAPACITY-PARTITION",
+    "DEFT-PARTITION-MISMATCH",
+    "P10-NARROW-ROUTING-GUARANTEE",
+    "P10-BN-BUFFER-DRIFT",
+    "P10-BN-STATE-REPAIR",
+    "P10-OUTGOING-OPERATOR-DRIFT",
+    "DEFT-CORE-DRIFT",
+    "P10-PURGED-RELEASED-CONFLICT",
+    "P10-DEAD-ZERO-SLOT",
+    "P10-FIXED-WIDTH-REPAIR",
+    "P10-SOURCE-STATE-RESTORATION"
+  ],
+  "claim_classes": {
+    "P10-TRAJECTORY-PARTITION": "paper_claim",
+    "P10-LAYER-THRESHOLD-PARTITION": "paper_claim",
+    "P10-CURRENT-CAPACITY-PARTITION": "paper_claim",
+    "DEFT-PARTITION-MISMATCH": "verified_fact",
+    "P10-NARROW-ROUTING-GUARANTEE": "verified_fact",
+    "P10-BN-BUFFER-DRIFT": "counterexample",
+    "P10-BN-STATE-REPAIR": "proposed_repair",
+    "P10-OUTGOING-OPERATOR-DRIFT": "counterexample",
+    "DEFT-CORE-DRIFT": "verified_fact",
+    "P10-PURGED-RELEASED-CONFLICT": "verified_fact",
+    "P10-DEAD-ZERO-SLOT": "counterexample",
+    "P10-FIXED-WIDTH-REPAIR": "proposed_repair",
+    "P10-SOURCE-STATE-RESTORATION": "paper_claim"
+  },
+  "paper": {
+    "arxiv_id": "2607.21366",
+    "version": "v1",
+    "pdf_sha256": "8106a86c0c72aee05b0fbcc5e13095edc03fe725538b1bfa5c50c18ea806067b",
+    "anchors": [
+      "Section 11.2.2 and Eqs. 24-29, PDF pages 21-23",
+      "Appendix G.5, PDF page 62",
+      "Appendix H and Eqs. 102-118, PDF pages 62-67",
+      "Algorithms 2-3, PDF pages 69-70"
+    ]
+  },
+  "config": {
+    "float_dtype": "float64",
+    "full_mode": false,
+    "random_sampling": false,
+    "torch_used": false,
+    "percentile": 50.0,
+    "percentile_method": "float64 median; midpoint of the two central values for even counts",
+    "partition_fixture": {
+      "A": [
+        {
+          "neuron": "A0",
+          "capacity": 1.0,
+          "N": 3.0,
+          "E_b": 10.0,
+          "step": 1
+        },
+        {
+          "neuron": "A1",
+          "capacity": 2.0,
+          "N": 2.0,
+          "E_b": 8.0,
+          "step": 2
+        },
+        {
+          "neuron": "A2",
+          "capacity": 8.0,
+          "N": null,
+          "E_b": null,
+          "step": null
+        }
+      ],
+      "B": [
+        {
+          "neuron": "B0",
+          "capacity": 3.0,
+          "N": 3.0,
+          "E_b": 9.0,
+          "step": 3
+        },
+        {
+          "neuron": "B1",
+          "capacity": 4.0,
+          "N": 2.0,
+          "E_b": 5.0,
+          "step": 4
+        },
+        {
+          "neuron": "B2",
+          "capacity": 5.0,
+          "N": null,
+          "E_b": null,
+          "step": null
+        }
+      ]
+    },
+    "partition_thresholds": {
+      "trajectory_cost_global": 0.75,
+      "definition_h1_per_layer": {
+        "A": 2.0,
+        "B": 4.0
+      },
+      "algorithm3_current_capacity_global": 3.5,
+      "global_threshold_derivation": "float64 median of the declared fixture values"
+    },
+    "routing_fixture": {
+      "source_weights": [
+        [
+          2.0,
+          3.0
+        ],
+        [
+          5.0,
+          7.0
+        ]
+      ],
+      "structural_mask": [
+        [
+          1.0,
+          0.0
+        ],
+        [
+          1.0,
+          1.0
+        ]
+      ],
+      "raw_gradient": [
+        [
+          99.0,
+          99.0
+        ],
+        [
+          -2.0,
+          -2.0
+        ]
+      ],
+      "destination_elasticity": [
+        0.0,
+        1.0
+      ],
+      "learning_rate": 0.5,
+      "source_activation": [
+        1.0,
+        1.0
+      ],
+      "target_activation": [
+        1.0,
+        4.0
+      ]
+    },
+    "batchnorm_fixture": {
+      "update_rate": 0.5,
+      "epsilon": 1e-05,
+      "initial_mean": 0.0,
+      "initial_variance": 1.0,
+      "target_batches": [
+        [
+          2.0,
+          6.0
+        ],
+        [
+          3.0,
+          9.0
+        ]
+      ],
+      "source_probes": [
+        -1.0,
+        0.0,
+        1.0
+      ],
+      "variance_convention": "population variance"
+    },
+    "released_slot_fixture": {
+      "input": 1.0,
+      "target": 1.0,
+      "learning_rate": 0.25,
+      "initial_state": {
+        "u": 1.0,
+        "gamma": 1.0,
+        "beta": 0.0,
+        "v": 0.0
+      },
+      "loss": "half squared error",
+      "relu_derivative_at_zero": 0.0
+    }
+  },
+  "config_sha256": "416ed3686b9959e01a8bc89a24042ab1680133cfcaefb9440f83160858004e66",
+  "method_origins": {
+    "trajectory_prune_cost_partition": {
+      "evidence_label": "paper_claim",
+      "claim_id": "P10-TRAJECTORY-PARTITION",
+      "origin": "HOPE v1 Eqs. 24-27 on PDF pages 21-22",
+      "scope": "global percentile of recorded trajectory pruning costs"
+    },
+    "per_layer_capacity_partition": {
+      "evidence_label": "paper_claim",
+      "claim_id": "P10-LAYER-THRESHOLD-PARTITION",
+      "origin": "HOPE v1 Definition H.1 and Eqs. 103-104 on PDF page 63",
+      "scope": "declared per-layer capacity thresholds"
+    },
+    "global_current_capacity_partition": {
+      "evidence_label": "paper_claim",
+      "claim_id": "P10-CURRENT-CAPACITY-PARTITION",
+      "origin": "HOPE v1 Algorithm 3 lines 1-9 on PDF page 70",
+      "scope": "global current-capacity percentile after merging"
+    },
+    "destination_elasticity_routing": {
+      "evidence_label": "verified_fact",
+      "claim_id": "P10-NARROW-ROUTING-GUARANTEE",
+      "origin": "independent execution of Eqs. 28-29 on a fixed 2 by 2 routing matrix",
+      "scope": "parameterized feed-forward edges in the declared fixture"
+    },
+    "batchnorm_state_counterexample": {
+      "evidence_label": "counterexample",
+      "claim_id": "P10-BN-BUFFER-DRIFT",
+      "origin": "independent NumPy training-mode running-state fixture",
+      "scope": "fixed trainable parameters and one BatchNorm channel"
+    },
+    "batchnorm_state_repair": {
+      "evidence_label": "proposed_repair",
+      "claim_id": "P10-BN-STATE-REPAIR",
+      "origin": "independent frozen-buffer control on the declared source probes",
+      "scope": "source BN-output RMSE only; no target-domain or trained-network claim"
+    },
+    "complete_operator_counterexample": {
+      "evidence_label": "counterexample",
+      "claim_id": "P10-OUTGOING-OPERATOR-DRIFT",
+      "origin": "independent destination-gated outgoing-vector fixture",
+      "scope": "paper Eq. 2 complete operator with a core-to-slack route"
+    },
+    "fixed_width_released_slot": {
+      "evidence_label": "proposed_repair",
+      "claim_id": "P10-FIXED-WIDTH-REPAIR",
+      "origin": "independent fixed-width reinitialization control",
+      "scope": "one scalar ReLU slot with zero initial outgoing contribution"
+    }
+  },
+  "reproduction_scope": {
+    "reproduction_scope": "independent_deft_state_semantics_audit",
+    "paper_experiment_reproduced": false,
+    "checkpoint_or_dataset_used": false,
+    "random_sampling_used": false,
+    "torch_used": false,
+    "wall_clock_benchmark_used": false,
+    "includes": [
+      "source map for Section 11.2.2, Appendix G.5, Appendix H, and Algorithms 2-3",
+      "three separately named paper partition rules on one fixed spectrum",
+      "structural-mask and destination-elasticity routing transition",
+      "BatchNorm running-buffer drift with frozen trainable parameters",
+      "complete core-operator drift through a core-to-slack outgoing edge",
+      "purged-versus-released lifecycle comparison",
+      "dead zero-slot gradient and fixed-width proposed-repair control",
+      "live, restored, and buffer-frozen source-state controls"
+    ],
+    "excludes": [
+      "the paper CIFAR-100 to SVHN DEFT training protocol",
+      "dataset, checkpoint, trained-network prevalence, or optimizer convergence",
+      "trained-network final logits, end-task loss, accuracy, wall-clock, or resource claims",
+      "a complete corrected DEFT implementation",
+      "Parts 11 and 12"
+    ],
+    "claim_boundary": "This audit makes specification conflicts and local state transitions executable. It does not reproduce the paper's DEFT experiment or estimate downstream performance."
+  },
+  "check_count": 26,
+  "passing_check_count": 26,
+  "checks": {
+    "nonfinite_count": {
+      "value": 0.0,
+      "minimum": 0.0,
+      "maximum": 0.0,
+      "units": "count",
+      "passed": true
+    },
+    "row_failure_count": {
+      "value": 0.0,
+      "minimum": 0.0,
+      "maximum": 0.0,
+      "units": "count",
+      "passed": true
+    },
+    "evidence_class_mismatch_count": {
+      "value": 0.0,
+      "minimum": 0.0,
+      "maximum": 0.0,
+      "units": "count",
+      "passed": true
+    },
+    "trajectory_threshold": {
+      "value": 0.75,
+      "minimum": 0.75,
+      "maximum": 0.75,
+      "units": "cost",
+      "passed": true
+    },
+    "global_capacity_threshold": {
+      "value": 3.5,
+      "minimum": 3.5,
+      "maximum": 3.5,
+      "units": "capacity",
+      "passed": true
+    },
+    "trajectory_unassigned_count": {
+      "value": 2.0,
+      "minimum": 2.0,
+      "maximum": 2.0,
+      "units": "neurons",
+      "passed": true
+    },
+    "trajectory_vs_layer_disagreement_count": {
+      "value": 2.0,
+      "minimum": 2.0,
+      "maximum": 2.0,
+      "units": "neurons",
+      "passed": true
+    },
+    "trajectory_vs_global_disagreement_count": {
+      "value": 1.0,
+      "minimum": 1.0,
+      "maximum": 1.0,
+      "units": "neurons",
+      "passed": true
+    },
+    "layer_vs_global_disagreement_count": {
+      "value": 1.0,
+      "minimum": 1.0,
+      "maximum": 1.0,
+      "units": "neurons",
+      "passed": true
+    },
+    "partition_signature_count": {
+      "value": 3.0,
+      "minimum": 3.0,
+      "maximum": 3.0,
+      "units": "signatures",
+      "passed": true
+    },
+    "masked_slack_to_core_weight": {
+      "value": 0.0,
+      "minimum": 0.0,
+      "maximum": 0.0,
+      "units": "weight",
+      "passed": true
+    },
+    "core_dynamic_drift": {
+      "value": 0.0,
+      "minimum": 0.0,
+      "maximum": 0.0,
+      "units": "activation",
+      "passed": true
+    },
+    "initialization_shock": {
+      "value": 3.0,
+      "minimum": 3.0,
+      "maximum": 3.0,
+      "units": "activation",
+      "passed": true
+    },
+    "core_to_slack_weight_change": {
+      "value": 1.0,
+      "minimum": 1.0,
+      "maximum": 1.0,
+      "units": "weight",
+      "passed": true
+    },
+    "operator_drift_norm": {
+      "value": 1.0,
+      "minimum": 1.0,
+      "maximum": 1.0,
+      "units": "l2",
+      "passed": true
+    },
+    "relative_capacity_change": {
+      "value": 0.17444043902940712,
+      "minimum": 0.17444043902940712,
+      "maximum": 0.17444043902940712,
+      "units": "fraction",
+      "passed": true
+    },
+    "trainable_parameter_change_norm": {
+      "value": 0.0,
+      "minimum": 0.0,
+      "maximum": 0.0,
+      "units": "l2",
+      "passed": true
+    },
+    "final_running_mean": {
+      "value": 4.0,
+      "minimum": 4.0,
+      "maximum": 4.0,
+      "units": "value",
+      "passed": true
+    },
+    "final_running_variance": {
+      "value": 5.75,
+      "minimum": 5.75,
+      "maximum": 5.75,
+      "units": "value",
+      "passed": true
+    },
+    "live_source_rmse": {
+      "value": 1.7346960857596274,
+      "minimum": 1.7346960857596274,
+      "maximum": 1.7346960857596274,
+      "units": "rmse",
+      "passed": true
+    },
+    "zero_slot_gradient_norm": {
+      "value": 0.0,
+      "minimum": 0.0,
+      "maximum": 0.0,
+      "units": "l2",
+      "passed": true
+    },
+    "repair_initial_output": {
+      "value": 0.0,
+      "minimum": 0.0,
+      "maximum": 0.0,
+      "units": "output",
+      "passed": true
+    },
+    "repair_first_outgoing_gradient_magnitude": {
+      "value": 1.0,
+      "minimum": 1.0,
+      "maximum": 1.0,
+      "units": "absolute",
+      "passed": true
+    },
+    "repair_second_internal_gradient_min": {
+      "value": 0.1875,
+      "minimum": 0.1875,
+      "maximum": 0.1875,
+      "units": "absolute",
+      "passed": true
+    },
+    "restored_source_rmse": {
+      "value": 0.0,
+      "minimum": 0.0,
+      "maximum": 0.0,
+      "units": "rmse",
+      "passed": true
+    },
+    "frozen_source_rmse": {
+      "value": 0.0,
+      "minimum": 0.0,
+      "maximum": 0.0,
+      "units": "rmse",
+      "passed": true
+    }
+  },
+  "partition_fixture": {
+    "trajectory_formula": "J=N*c/E_b",
+    "trajectory_costs": {
+      "A0": 0.3,
+      "A1": 0.5,
+      "A2": null,
+      "B0": 1.0,
+      "B1": 1.6,
+      "B2": null
+    },
+    "trajectory_threshold": 0.75,
+    "layer_thresholds": {
+      "A": 2.0,
+      "B": 4.0
+    },
+    "global_capacity_threshold": 3.5,
+    "assignments": {
+      "eq24_27_trajectory_cost": {
+        "A0": "slack",
+        "A1": "slack",
+        "A2": "unassigned",
+        "B0": "core",
+        "B1": "core",
+        "B2": "unassigned"
+      },
+      "definition_h1_layer_capacity": {
+        "A0": "slack",
+        "A1": "slack",
+        "A2": "core",
+        "B0": "slack",
+        "B1": "slack",
+        "B2": "core"
+      },
+      "algorithm3_global_capacity": {
+        "A0": "slack",
+        "A1": "slack",
+        "A2": "core",
+        "B0": "slack",
+        "B1": "core",
+        "B2": "core"
+      }
+    }
+  },
+  "routing_fixture": {
+    "source_weights": [
+      [
+        2.0,
+        3.0
+      ],
+      [
+        5.0,
+        7.0
+      ]
+    ],
+    "masked_weights": [
+      [
+        2.0,
+        0.0
+      ],
+      [
+        5.0,
+        7.0
+      ]
+    ],
+    "updated_weights": [
+      [
+        2.0,
+        0.0
+      ],
+      [
+        6.0,
+        8.0
+      ]
+    ],
+    "source_activation": [
+      1.0,
+      1.0
+    ],
+    "target_activation": [
+      1.0,
+      4.0
+    ],
+    "slack_to_core_weight_after": 0.0,
+    "core_to_slack_weight_after": 6.0,
+    "initialization_shock": 3.0,
+    "core_dynamic_drift": 0.0,
+    "operator_drift_norm": 1.0,
+    "relative_capacity_change": 0.17444043902940712
+  },
+  "bn_fixture": {
+    "source_probes": [
+      -1.0,
+      0.0,
+      1.0
+    ],
+    "final_running_mean": 4.0,
+    "final_running_variance": 5.75,
+    "trainable_parameter_change_norm": 0.0,
+    "live_source_rmse": 1.7346960857596274
+  },
+  "released_slot_fixture": {
+    "dead_slot_gradient_norm": 0.0,
+    "repair_initial_output": 0.0,
+    "repair_first_outgoing_gradient": -1.0,
+    "repair_outgoing_after_first_step": 0.25,
+    "repair_second_internal_gradient_min": 0.1875
+  },
+  "row_counts": {
+    "source_map": 14,
+    "partition_assignments": 18,
+    "partition_disagreements": 3,
+    "routing_transitions": 4,
+    "bn_buffer_drift": 4,
+    "operator_drift": 1,
+    "released_slot_gradients": 4,
+    "source_state_controls": 5
+  }
+}

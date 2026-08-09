@@ -1,0 +1,13 @@
+case_id,p,partition_count,base_norm,capacity_before,capacity_after,analytic_factor,formula_error,expected_invariant,observed_invariant,evidence_label,claim_id,passed
+lp_p0.5_m1,0.5,1,5.0,5.000000000000001,5.000000000000001,1.0,8.881784197001252e-16,True,True,verified_fact,P06-LP-PARTITION-RESULT,True
+lp_p0.5_m2,0.5,2,5.0,5.000000000000001,10.000000000000002,2.0,1.7763568394002505e-15,False,False,verified_fact,P06-LP-PARTITION-RESULT,True
+lp_p0.5_m3,0.5,3,5.0,5.000000000000001,15.000000000000002,3.0,1.7763568394002505e-15,False,False,verified_fact,P06-LP-PARTITION-RESULT,True
+lp_p0.5_m5,0.5,5,5.0,5.000000000000001,25.0,5.0,0.0,False,False,verified_fact,P06-LP-PARTITION-RESULT,True
+lp_p1_m1,1.0,1,5.0,5.0,5.0,1.0,0.0,True,True,verified_fact,P06-LP-PARTITION-RESULT,True
+lp_p1_m2,1.0,2,5.0,5.0,5.0,1.0,0.0,True,True,verified_fact,P06-LP-PARTITION-RESULT,True
+lp_p1_m3,1.0,3,5.0,5.0,5.0,1.0,0.0,True,True,verified_fact,P06-LP-PARTITION-RESULT,True
+lp_p1_m5,1.0,5,5.0,5.0,5.0,1.0,0.0,True,True,verified_fact,P06-LP-PARTITION-RESULT,True
+lp_p2_m1,2.0,1,5.0,5.0,5.0,1.0,0.0,True,True,verified_fact,P06-LP-PARTITION-RESULT,True
+lp_p2_m2,2.0,2,5.0,5.0,3.5355339059327378,0.7071067811865476,0.0,False,False,verified_fact,P06-LP-PARTITION-RESULT,True
+lp_p2_m3,2.0,3,5.0,5.0,2.886751345948129,0.5773502691896257,4.440892098500626e-16,False,False,verified_fact,P06-LP-PARTITION-RESULT,True
+lp_p2_m5,2.0,5,5.0,5.0,2.23606797749979,0.4472135954999579,0.0,False,False,verified_fact,P06-LP-PARTITION-RESULT,True
